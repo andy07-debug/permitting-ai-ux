@@ -575,6 +575,13 @@ input,textarea{font:inherit;color:inherit}
 .doc{background:#E6EAF0;padding:22px 26px}
 .doc-inner{background:#fff;max-width:880px;margin:0 auto;padding:34px 50px 40px;box-shadow:0 10px 30px rgba(14,26,51,.18);font-family:"Source Serif 4",Georgia,"Times New Roman",serif}
 .doc .sum,.doc .match{display:none}
+.ctab{width:100%;border-collapse:collapse;font-family:inherit;font-size:14px;color:#1C2433;margin-bottom:6px}
+.ctab th{font-family:Inter,system-ui,sans-serif;font-size:11px;letter-spacing:.04em;text-transform:uppercase;text-align:left;border-top:2px solid #1C2433;border-bottom:1px solid #1C2433;padding:6px 8px;color:#1C2433}
+.ctab td{border-bottom:1px solid #C9D1DE;padding:7px 8px;vertical-align:top;line-height:1.45}
+.ctab tr.soft td,.ctab tr.soft{background:#FFF9DB}
+.gtab{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px}
+.gtab td,.gtab th{border-bottom:1px solid #D7DCE6;padding:4px 6px;text-align:left;vertical-align:top}
+.gtab th{font-family:Inter,sans-serif;font-size:9.5px;letter-spacing:.04em}
 .doc .runhead{display:flex;justify-content:space-between;font-family:Inter,system-ui,sans-serif;font-size:10.5px;letter-spacing:.08em;color:#6B7487;border-bottom:1px solid #C9D1DE;padding-bottom:6px;margin-bottom:16px;font-weight:600}
 .doc .src{font-family:inherit;letter-spacing:.04em;color:#1C2433;font-weight:700;font-size:13px}
 .doc h2{font-family:inherit;font-size:20px;text-transform:uppercase;letter-spacing:.03em}
@@ -743,7 +750,7 @@ ol.ans > li{margin-bottom:10px}
       <div class="cnote">Permitting AI suggests. The reviewer decides.</div>
     </div>
     <div class="dd" id="dd-proj"><h6>Projects</h6>
-      <div class="it" data-act="row" data-id="BLD-2026-04817"><span class="ic"><svg><use href="#i-doc"/></svg></span><div><b>BLD-2026-04817</b><small>Two-storey rear addition · 212 Linden Avenue</small></div></div>
+      <div class="it" data-act="row" data-id="BLD-2026-04817"><span class="ic"><svg><use href="#i-doc"/></svg></span><div><b>BLD-2026-04817</b><small>Backyard cottage (ADU) · 212 Linden Avenue</small></div></div>
       <div class="it" data-act="row" data-id="ROW-2026-00418"><span class="ic w"><svg><use href="#i-doc"/></svg></span><div><b>ROW-2026-00418</b><small>Sidewalk café seating · 31 Market Square</small></div></div>
       <div class="it" data-act="row" data-id="ZON-2026-01192"><span class="ic"><svg><use href="#i-doc"/></svg></span><div><b>ZON-2026-01192</b><small>Rear setback variance · 88 Harbor Street</small></div></div>
     </div>
@@ -820,15 +827,15 @@ ol.ans > li{margin-bottom:10px}
   <section class="screen" id="s-permit">
     <div class="p-head">
       <div class="p-title">
-        <h1>Two-storey rear addition, single-family home</h1>
+        <h1>Detached ADU, two-bedroom backyard cottage</h1>
         <span class="pill blue" id="status-pill"><span class="dot"></span>In review</span>
         <span class="pill grey num" id="day-pill">Day 2 in review</span>
       </div>
       <div class="p-meta">
-        <span>Type <b>Building · Residential</b></span>
+        <span>Type <b>Building · New ADU</b></span>
         <span>Address <b>212 Linden Avenue</b></span>
         <span>Submitted <b class="num">Nov 10, 2026</b></span>
-        <span>Plan set <b>6 sheets</b></span>
+        <span>Plan <b>Pre-approved standard plan</b></span>
         <span>Code <b>IRC 2018</b></span>
       </div>
       <div class="p-actions" id="p-actions"></div>
@@ -838,11 +845,11 @@ ol.ans > li{margin-bottom:10px}
       <div class="card work-l">
         <div class="tabs" id="tabs">
           <div class="tab on" data-act="sheet" data-s="APP" id="tab-app"><svg class="bk" style="width:15px;height:15px"><use href="#i-doc"/></svg>Permit application</div>
-          <div class="tab" data-act="sheet" data-s="A-101"><span class="tag">A-101</span>Site plan</div>
-          <div class="tab" data-act="sheet" data-s="A-102" id="tab-plan"><span class="tag">A-102</span>Second floor plan<span class="rev" id="rev-tag" style="display:none">Rev 1</span></div>
+          <div class="tab" data-act="sheet" data-s="A-101" id="tab-plan"><span class="tag">A-101</span>Site plan<span class="rev" id="rev-tag" style="display:none">Rev 1</span></div>
+          <div class="tab" data-act="sheet" data-s="A-102"><span class="tag">A-102</span>Floor plan</div>
           <div class="tab" data-act="sheet" data-s="A-201"><span class="tag">A-201</span>Elevations</div>
-          <div class="tab" data-act="sheet" data-s="S-101"><span class="tag">S-101</span>Framing</div>
-          <div class="tab code" data-act="sheet" data-s="code" id="tab-code" style="display:none"><svg class="bk"><use href="#i-book"/></svg>Source · IRC 2018 R310</div>
+          <div class="tab" data-act="sheet" data-s="A-301"><span class="tag">A-301</span>Wall section</div>
+          <div class="tab code" data-act="sheet" data-s="code" id="tab-code" style="display:none"><svg class="bk"><use href="#i-book"/></svg>Source · IRC 2018 R302.1</div>
           <div class="tab-tools"><div class="zm"><button data-act="zoom" data-z="-1">−</button><span id="zlbl">100%</span><button data-act="zoom" data-z="1">+</button></div><button class="fit" data-act="zoom" data-z="0">Fit</button></div>
         </div>
 
@@ -854,35 +861,36 @@ ol.ans > li{margin-bottom:10px}
             <div class="appstamp" id="app-stamp">IN REVIEW<small>Plan review · Building</small></div>
             <span class="fsec">1 · PROPERTY</span>
             <div class="frow"><div class="ff two"><small>Address</small><span>212 Linden Avenue</span></div><div class="ff"><small>Parcel ID</small><span>14-208-033</span></div>
-              <div class="ff"><small>Zoning district</small><span>R-1 single-family</span></div><div class="ff"><small>Lot area</small><span>5,500 sq ft</span></div><div class="ff"><small>Existing use</small><span>Single-family home</span></div></div>
+              <div class="ff"><small>Zoning district</small><span>R-1 single-family</span></div><div class="ff"><small>Lot size</small><span>50 × 120 ft (6,000 sq ft)</span></div><div class="ff"><small>Existing use</small><span>Single-family home</span></div></div>
             <span class="fsec">2 · APPLICANT</span>
             <div class="frow"><div class="ff"><small>Applying as</small><span>Property owner</span></div><div class="ff"><small>Contractor licence</small><span>RC-48213</span></div><div class="ff"><small>Phone</small><span>(555) 010-4427</span></div></div>
             <span class="fsec">3 · PROPOSED WORK</span>
-            <div class="cbx"><span><i>✓</i>Addition</span><span><i></i>Alteration</span><span><i></i>New building</span><span><i></i>Demolition</span><span><i></i>Repair</span></div>
-            <div class="frow"><div class="ff wide"><small>Description of work</small><span>Two-storey rear addition: two bedrooms, one bathroom, laundry and hall on the new second floor.</span></div>
-              <div class="ff"><small>Occupancy</small><span>R-3</span></div><div class="ff"><small>Floor area added</small><span>880 sq ft</span></div><div class="ff"><small>Valuation</small><span>$186,000</span></div>
-              <div class="ff"><small>Bedrooms added</small><span>2</span></div><div class="ff"><small>Code edition</small><span>IRC 2018</span></div><div class="ff"><small>Sprinklered</small><span>No</span></div></div>
+            <div class="cbx"><span><i></i>Addition</span><span><i></i>Alteration</span><span><i>✓</i>New building (ADU)</span><span><i></i>Demolition</span><span><i></i>Repair</span></div>
+            <div class="frow"><div class="ff wide"><small>Description of work</small><span>New detached two-bedroom accessory dwelling unit in the rear yard, built from a pre-approved standard plan.</span></div>
+              <div class="ff"><small>Occupancy</small><span>R-3</span></div><div class="ff"><small>Floor area</small><span>695 sq ft</span></div><div class="ff"><small>Valuation</small><span>$165,000</span></div>
+              <div class="ff"><small>Bedrooms</small><span>2</span></div><div class="ff"><small>Code edition</small><span>IRC 2018</span></div><div class="ff"><small>Standard plan</small><span>Yes, no changes</span></div></div>
             <span class="fsec">4 · ATTACHED DOCUMENTS</span>
-            <div class="att"><div><i>✓</i>Plan set, 6 sheets (A-101 site plan · A-102 floor plan and window schedule · A-201 elevations · S-101 framing)</div><div><i>✓</i>Structural engineer’s letter</div><div><i>✓</i>Energy compliance form</div></div>
+            <div class="att"><div><i>✓</i>Site plan A-101 (site-specific: placement on this lot)</div><div><i>✓</i>Standard plan set: A-102 floor plan · A-201 elevations · A-301 wall section</div><div><i>✓</i>Utility connection letter</div></div>
             <div class="sig"><div><b>J. Ellis</b>Signature of applicant</div><div><b style="font-family:'JetBrains Mono',monospace;font-style:normal;font-size:13px;padding-top:6px">11 / 10 / 2026</b>Date</div></div>
           </div></div>
         </div>
-        <div class="view" id="view-A-102">
+        <div class="view" id="view-A-101">
           <div class="sheet"><div class="frame"><svg id="plan" viewBox="0 0 1132 470" preserveAspectRatio="xMidYMid meet"></svg></div></div>
           <div class="sched">
-            <h3>Window schedule · Sheet A-102 <span class="pill ok" id="sched-rev" style="display:none;height:22px;font-size:11.5px">Rev 1</span></h3>
+            <h3>Site data · Sheet A-101 <span class="pill ok" id="sched-rev" style="display:none;height:22px;font-size:11.5px">Rev 1</span></h3>
             <table>
-              <tr><th>Mark</th><th>Room</th><th>Type</th><th>Rough opening</th><th>Net clear (W × H)</th><th>Net clear area</th><th>Sill height</th></tr>
-              <tr><td><b>W1</b></td><td>Hall</td><td>Fixed</td><td class="num">4'-0" × 3'-0"</td><td>—</td><td>—</td><td class="num">36 in</td></tr>
-              <tr><td><b>W2</b></td><td>Bath 2</td><td>Awning</td><td class="num">2'-0" × 1'-6"</td><td>—</td><td>—</td><td class="num">60 in</td></tr>
+              <tr><th>Measurement</th><th>On the site plan</th><th>Requirement</th></tr>
               <tr id="sched-w3"></tr>
-              <tr><td><b>W4</b></td><td>Bedroom 4</td><td>Casement</td><td class="num">2'-8" × 4'-6"</td><td class="num">28 × 46 in</td><td class="num">8.9 sq ft</td><td class="num">36 in</td></tr>
+              <tr><td>Cottage to rear lot line</td><td class="num">10'-0"</td><td>5'-0" or more</td></tr>
+              <tr id="sched-north"></tr>
+              <tr><td>Cottage to main house</td><td class="num">19'-10"</td><td>6'-0" or more</td></tr>
+              <tr><td>Lot coverage</td><td class="num">34%</td><td>40% or less</td></tr>
             </table>
           </div>
         </div>
-        <div class="view" id="view-A-101"><div class="sheet only"><div class="frame"><svg id="sv-a101" viewBox="0 0 1132 600" preserveAspectRatio="xMidYMid meet"></svg></div></div></div>
+        <div class="view" id="view-A-102"><div class="sheet only"><div class="frame"><svg id="sv-a102" viewBox="0 0 1132 600" preserveAspectRatio="xMidYMid meet"></svg></div></div></div>
         <div class="view" id="view-A-201"><div class="sheet only"><div class="frame"><svg id="sv-a201" viewBox="0 0 1132 600" preserveAspectRatio="xMidYMid meet"></svg></div></div></div>
-        <div class="view" id="view-S-101"><div class="sheet only"><div class="frame"><svg id="sv-s101" viewBox="0 0 1132 600" preserveAspectRatio="xMidYMid meet"></svg></div></div></div>
+        <div class="view" id="view-A-301"><div class="sheet only"><div class="frame"><svg id="sv-a301" viewBox="0 0 1132 600" preserveAspectRatio="xMidYMid meet"></svg></div></div></div>
 
         <div class="view" id="view-code">
           <div class="code-wrap">
@@ -893,21 +901,20 @@ ol.ans > li{margin-bottom:10px}
             </div>
             <div class="doc"><div class="doc-inner" id="doc-inner">
               <div class="runhead"><span>2018 INTERNATIONAL RESIDENTIAL CODE</span><span>CHAPTER 3 · BUILDING PLANNING</span></div>
-              <div class="sum">
-                <h4><svg width="15" height="15"><use href="#i-spark"/></svg>Section summary</h4>
-                <p>Every sleeping room needs one operable escape opening. Above the grade floor it must give at least <b>5.7 sq ft</b> of net clear opening, at least 24 in high and 20 in wide, with a sill no higher than 44 in.</p>
-              </div>
-              <div class="src">Section R310</div>
-              <h2>Emergency escape and rescue openings</h2>
-              <p class="sec" id="sec-r3101"><b>R310.1 Required.</b> Basements, habitable attics and every sleeping room shall have at least one operable emergency escape and rescue opening, opening directly onto a public way or onto a yard or court that leads to one.</p>
-              <p class="sec"><b>R310.2 Openings.</b> Emergency escape and rescue openings shall meet the minimum dimensions in Sections R310.2.1 through R310.2.4.</p>
-              <p class="sec" id="code-hl"><b>R310.2.1 Minimum opening area.</b> <mark>Emergency escape and rescue openings shall have a net clear opening of not less than 5.7 square feet (0.530 m²).</mark> The net clear opening shall be reached by normal operation of the opening from the inside. The net clear height shall be not less than 24 inches and the net clear width not less than 20 inches. <i>Exception:</i> grade-floor or below-grade openings may have a net clear opening of not less than 5 square feet.</p>
-              <div class="match" id="match">
-                <div class="m-score"><h5><svg width="15" height="15" style="color:var(--blue)"><use href="#i-spark"/></svg>Code match</h5><div class="score num">99.0%<small>matching score</small></div><div class="bar"><i></i></div></div>
-                <dl><dt>Section</dt><dd>R310.2.1 Minimum opening area</dd><dt>Matched to</dt><dd>Bedroom 3 · Window W3 · Sheet A-102</dd></dl>
-              </div>
-              <p class="sec" id="sec-r3102"><b>R310.2.2 Window sill height.</b> Where a window is provided as the emergency escape and rescue opening, its sill shall be not more than 44 inches above the floor.</p>
-              <p class="sec"><b>R310.2.3 Window wells.</b> The horizontal area of a window well shall be not less than 9 square feet, with a horizontal projection and width of not less than 36 inches.</p>
+              <div class="src">Section R302</div>
+              <h2>Fire-resistant construction</h2>
+              <p class="sec" id="sec-r3101"><b>R302.1 Exterior walls.</b> Construction, projections, openings and penetrations of exterior walls of dwellings and accessory buildings shall comply with Table R302.1(1). Dwellings equipped throughout with an automatic sprinkler system shall comply with Table R302.1(2).</p>
+              <p class="sec" style="text-align:left;margin-bottom:8px"><b>TABLE R302.1(1) EXTERIOR WALLS</b></p>
+              <table class="ctab" id="code-hl">
+                <tr><th>Exterior wall element</th><th></th><th>Minimum fire-resistance rating</th><th>Minimum fire separation distance</th></tr>
+                <tr class="hlrow"><td rowspan="2">Walls</td><td><mark>Fire-resistance rated</mark></td><td><mark>1 hour, tested in accordance with ASTM E 119, UL 263 or Section R302.1.1, with exposure from both sides</mark></td><td><mark>&lt; 5 feet</mark></td></tr>
+                <tr><td>Not fire-resistance rated</td><td>0 hours</td><td>≥ 5 feet</td></tr>
+                <tr><td rowspan="3">Openings in walls</td><td>Not allowed</td><td>N/A</td><td>&lt; 3 feet</td></tr>
+                <tr id="sec-r3102"><td>25% maximum of wall area</td><td>0 hours</td><td>3 feet</td></tr>
+                <tr><td>Unlimited</td><td>0 hours</td><td>5 feet</td></tr>
+                <tr><td>Penetrations</td><td>All</td><td>Comply with Section R302.4</td><td>&lt; 3 feet</td></tr>
+              </table>
+              <p class="sec" style="margin-top:14px"><b>FIRE SEPARATION DISTANCE (Section R202).</b> The distance measured from the building face to the closest interior lot line, to the centerline of a street, alley or public way, or to an imaginary line between two buildings on the lot.</p>
             </div><div class="fade"></div></div>
           </div>
         </div>
@@ -938,7 +945,7 @@ ol.ans > li{margin-bottom:10px}
 /* ======================= data ======================= */
 const TYPES={Building:'#3289FF',Zoning:'#8B5CF6',Utilities:'#0EA5A4','Right-of-way':'#F59E0B',Traffic:'#EF4444'};
 const QUEUE=[
- {id:'BLD-2026-04817',type:'Building',project:'Two-storey rear addition, single-family home',addr:'212 Linden Avenue',sub:'Nov 10',day:2,pre:'warn',preT:'1 item to review',x:560,y:300,main:true},
+ {id:'BLD-2026-04817',type:'Building',project:'Backyard cottage (ADU), two bedrooms',addr:'212 Linden Avenue',sub:'Nov 10',day:2,pre:'warn',preT:'1 item to review',x:560,y:300,main:true},
  {id:'ZON-2026-01192',type:'Zoning',project:'Rear setback variance',addr:'88 Harbor Street',sub:'Nov 9',day:3,pre:'ok',x:1180,y:620,sum:'The requested rear setback is 18 ft against the 25 ft minimum. The application includes a hardship statement and neighbour notices. Ready for the board packet.'},
  {id:'UTL-2026-00731',type:'Utilities',project:'New water service connection',addr:'1450 Ridge Road',sub:'Nov 11',day:1,pre:'ok',x:1500,y:210,sum:'A 1-inch service with a meter pit at the property line. Main tap and backflow device match the utility standard details.'},
  {id:'ROW-2026-00418',type:'Right-of-way',project:'Sidewalk café seating',addr:'31 Market Square',sub:'Nov 8',day:4,pre:'warn',preT:'2 items to review',x:930,y:470,sum:'Two items: the plan shows a 5 ft clear path where 6 ft is required, and the insurance certificate is missing.'},
@@ -976,7 +983,7 @@ function svgL(x1,y1,x2,y2,w,c,dash){return `<line x1="${x1}" y1="${y1}" x2="${x2
 function titleBlock(tx,ty,h,title,num,rev,notes){
   let g=`<rect x="${tx}" y="${ty}" width="220" height="${h}" fill="#FAFBFD" stroke="#C9D1DE" stroke-width="1.2"/>`;
   const tl=y=>g+=svgL(tx,y,tx+220,y,1,'#D7DCE6');
-  g+=svgT(tx+16,ty+26,'PROJECT',10.5,700,'#8A94A7','start','letter-spacing="1"')+svgT(tx+16,ty+46,'Rear addition',15,700,INK,'start')+svgT(tx+16,ty+65,'212 Linden Avenue',12.5,500,'#5D677C','start'); tl(ty+82);
+  g+=svgT(tx+16,ty+26,'PROJECT',10.5,700,'#8A94A7','start','letter-spacing="1"')+svgT(tx+16,ty+46,'Backyard cottage (ADU)',15,700,INK,'start')+svgT(tx+16,ty+65,'212 Linden Avenue',12.5,500,'#5D677C','start'); tl(ty+82);
   g+=svgT(tx+16,ty+104,'SHEET TITLE',10.5,700,'#8A94A7','start','letter-spacing="1"')+svgT(tx+16,ty+125,title,15,700,INK,'start'); tl(ty+144);
   g+=svgT(tx+16,ty+166,'SCALE',10.5,700,'#8A94A7','start','letter-spacing="1"')+svgT(tx+16,ty+186,'1/4" = 1\'-0"',13,600,INK,'start');
   g+=svgT(tx+120,ty+166,rev?'REVISION':'DATE',10.5,700,'#8A94A7','start','letter-spacing="1"')+svgT(tx+120,ty+186,rev?'Rev 1 · 11.12':'11.08.2026',13,600,rev?'#138A4E':INK,'start'); tl(ty+204);
@@ -984,103 +991,110 @@ function titleBlock(tx,ty,h,title,num,rev,notes){
   g+=svgT(tx+16,ty+h-66,'SHEET',10.5,700,'#8A94A7','start','letter-spacing="1"')+svgT(tx+110,ty+h-16,num,50,800,INK,'middle','letter-spacing="-1"');
   return g;
 }
-function drawPlan(rev){
-  const S=16.5, OX=96, OY=78, X=f=>OX+f*S, Y=f=>OY+f*S;
+function drawPlan(rev){ // A-101 site plan (site-specific sheet)
+  const k=5.4, OX=150, OY=92, X=f=>OX+f*k, Y=f=>OY+f*k, d=rev?5:3.5;
+  const cx0=79.83, cx1=110, cy1=50-d, cy0=cy1-24.17;
   let g=''; const L=(...a)=>g+=svgL(...a), T=(...a)=>g+=svgT(...a);
   g+=`<rect x="10" y="10" width="1112" height="450" fill="#fff" stroke="#C9D1DE" stroke-width="1.5"/>`;
-  for(let i=0;i<=40;i+=2) L(X(i),Y(0),X(i),Y(22),.5,'#EEF1F6');
-  for(let j=0;j<=22;j+=2) L(X(0),Y(j),X(40),Y(j),.5,'#EEF1F6');
-  g+=`<rect id="bed3fill" x="${X(0)}" y="${Y(0)}" width="${14*S}" height="${12*S}" fill="#3289FF" opacity="0"/>`;
-  g+=`<rect x="${X(0)}" y="${Y(0)}" width="${40*S}" height="${22*S}" fill="none" stroke="${INK}" stroke-width="9"/>`;
-  L(X(14),Y(0),X(14),Y(12)); L(X(22),Y(0),X(22),Y(8)); L(X(26),Y(0),X(26),Y(12));
-  L(X(14),Y(8),X(26),Y(8)); L(X(0),Y(12),X(14),Y(12)); L(X(26),Y(12),X(40),Y(12));
-  L(X(9),Y(16),X(17),Y(16)); L(X(9),Y(16),X(9),Y(22)); L(X(17),Y(16),X(17),Y(22));
-  L(X(17),Y(16),X(40),Y(16),1.6,THIN,'7 5'); L(X(0),Y(16),X(9),Y(16),1.6,THIN,'7 5');
-  const door=(x0,y,w,dir)=>{ g+=`<rect x="${X(x0)}" y="${Y(y)-4}" width="${w*S}" height="8" fill="#fff"/>`; const hx=X(x0),hy=Y(y),ly=hy+dir*w*S; L(hx,hy,hx,ly,2,THIN);
-    g+=`<path d="M${hx} ${ly} A ${w*S} ${w*S} 0 0 ${dir<0?1:0} ${X(x0+w)} ${hy}" fill="none" stroke="${THIN}" stroke-width="1.2" stroke-dasharray="3 3"/>`; };
-  door(10.5,12,2.75,-1); door(15,8,2.5,-1); door(27,12,2.75,-1); door(12,16,2.5,1);
-  g+=`<rect x="${X(22.6)}" y="${Y(8)-4}" width="${2.8*S}" height="8" fill="#fff"/>`; L(X(22.6),Y(8)-6,X(25.4),Y(8)-6,1.4,THIN,'4 3');
-  g+=`<g id="w3hl" opacity="0"><rect id="w3hlr" x="${X(4.2)-10}" y="${Y(0)-58}" width="${2.75*S+20}" height="78" rx="10" fill="#FFE68A" opacity=".75" stroke="#E0A800" stroke-width="2"/></g>`;
-  const win=(x0,w,tag,id)=>{
-    g+=`<g ${id?`id="${id}"`:''}><rect x="${X(x0)}" y="${Y(0)-6}" width="${w*S}" height="12" fill="#fff"/>`;
-    [-4,0,4].forEach(d=>g+=`<line x1="${X(x0)}" y1="${Y(0)+d}" x2="${X(x0+w)}" y2="${Y(0)+d}" stroke="${INK}" stroke-width="1.4"/>`);
-    g+=`<line x1="${X(x0)}" y1="${Y(0)-6}" x2="${X(x0)}" y2="${Y(0)+6}" stroke="${INK}" stroke-width="2"/><line x1="${X(x0+w)}" y1="${Y(0)-6}" x2="${X(x0+w)}" y2="${Y(0)+6}" stroke="${INK}" stroke-width="2"/>`;
-    const cx=X(x0+w/2); g+=`<line x1="${cx}" y1="${Y(0)-8}" x2="${cx}" y2="${Y(0)-22}" stroke="${THIN}" stroke-width="1"/><circle cx="${cx}" cy="${Y(0)-36}" r="14" fill="#fff" stroke="${INK}" stroke-width="1.6"/>`;
-    g+=svgT(cx,Y(0)-31.5,tag,12.5,700,INK)+'</g>';
-  };
-  win(4.5,rev?2.33:2.17,'W3','w3'); win(17,2,'W2'); win(31,2.67,'W4');
-  if(rev){ const cx=X(5.7)+28, cy=Y(0)-44; g+=`<path d="M${cx} ${cy-11} L${cx+11} ${cy+8} L${cx-11} ${cy+8} Z" fill="#E6F6EE" stroke="#138A4E" stroke-width="1.6"/>`+svgT(cx,cy+5,'1',11,800,'#138A4E'); }
-  g+=`<rect x="${X(30)}" y="${Y(22)-6}" width="${4*S}" height="12" fill="#fff"/>`; [-4,0,4].forEach(d=>L(X(30),Y(22)+d,X(34),Y(22)+d,1.4,INK));
-  g+=`<rect x="${X(14.5)}" y="${Y(0.5)}" width="${5*S}" height="${2.5*S}" rx="6" fill="none" stroke="${THIN}" stroke-width="1.3"/>`;
-  g+=`<rect x="${X(20.2)}" y="${Y(0.6)}" width="${1.4*S}" height="${2.8*S}" rx="4" fill="none" stroke="${THIN}" stroke-width="1.3"/>`;
-  g+=`<ellipse cx="${X(20.9)}" cy="${Y(5.9)}" rx="${.65*S}" ry="${.9*S}" fill="none" stroke="${THIN}" stroke-width="1.3"/>`;
-  for(let i=0;i<10;i++){const x=X(.6+i*.84);L(x,Y(16.6),x,Y(20.2),1.1,THIN);}
-  g+=`<path d="M${X(7.6)} ${Y(18.4)} H ${X(1.2)} m 8 -6 l -8 6 8 6" fill="none" stroke="${THIN}" stroke-width="1.4"/>`;
-  L(X(17.6),Y(16.6),X(39.4),Y(21.4),1,'#9AA5B8','6 5'); L(X(17.6),Y(21.4),X(39.4),Y(16.6),1,'#9AA5B8','6 5');
-  [[2.2,2.2],[37.8,2.2],[6,14]].forEach(([x,y])=>{g+=`<circle cx="${X(x)}" cy="${Y(y)}" r="10" fill="#fff" stroke="${THIN}" stroke-width="1.2"/>`+svgT(X(x),Y(y)+3.5,'SA',8.5,700,THIN);});
-  const room=(x,y,n,d)=>{T(X(x),Y(y),n,14,700,INK,'middle','letter-spacing="1.2"'); if(d)T(X(x),Y(y)+19,d,12,500,'#5D677C');};
-  room(7,6.6,'BEDROOM 3',`14'-0" × 12'-0"`); room(33,6.6,'BEDROOM 4',`14'-0" × 12'-0"`);
-  room(17.6,4.7,'BATH 2'); room(24,4.6,'CL.'); room(21,13.4,'HALL');
-  T(X(4.6),Y(21.3),'STAIR · DN',12,700,INK,'middle','letter-spacing="1"');
-  room(13,19.6,'LAUNDRY'); room(28.5,19.6,'OPEN TO BELOW');
-  L(X(0),26,X(40),26,1,THIN); L(X(0),20,X(0),32,1,THIN); L(X(40),20,X(40),32,1,THIN);
-  g+=`<rect x="${X(20)-34}" y="18" width="68" height="16" fill="#fff"/>`; T(X(20),30.5,`40'-0"`,12,600,THIN);
-  L(52,Y(0),52,Y(22),1,THIN); L(46,Y(0),58,Y(0),1,THIN); L(46,Y(22),58,Y(22),1,THIN);
-  g+=`<rect x="44" y="${Y(11)-30}" width="16" height="60" fill="#fff"/>`; T(56,Y(11)+4,`22'-0"`,12,600,THIN,'middle',`transform="rotate(-90 52 ${Y(11)})"`);
-  g+=titleBlock(890,22,426,'Second floor plan','A-102',rev,['1. Verify all dimensions on site.','2. Smoke alarm in each bedroom.','3. Window sizes per schedule.']);
+  g+=`<defs><pattern id="hatchA" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="9" stroke="#3289FF" stroke-width="2" opacity=".5"/></pattern></defs>`;
+  g+=`<rect x="70" y="${Y(0)}" width="${OX-80}" height="${50*k}" fill="#EEF1F6"/>`+svgT(105,Y(25),'LINDEN AVENUE',12.5,700,'#5D677C','middle',`letter-spacing="2" transform="rotate(-90 105 ${Y(25)})"`);
+  g+=`<rect x="${X(0)}" y="${Y(0)}" width="${120*k}" height="${50*k}" fill="#F7FBF4" stroke="${INK}" stroke-width="2" stroke-dasharray="16 6 3 6"/>`;
+  T(X(60),Y(0)-8,'NORTH SIDE LOT LINE',10.5,700,'#5D677C','middle','letter-spacing="1"');
+  T(X(30),Y(50)+16,'SOUTH SIDE LOT LINE',10.5,700,'#C81E2A','middle','letter-spacing="1"');
+  T(X(120)+16,Y(25),'REAR LOT LINE',10.5,700,'#5D677C','middle',`letter-spacing="1" transform="rotate(90 ${X(120)+16} ${Y(25)})"`);
+  g+=`<rect x="${X(20)}" y="${Y(8)}" width="${40*k}" height="${34*k}" fill="#E9EDF3" stroke="${INK}" stroke-width="2.5"/>`;
+  T(X(40),Y(25),'EXISTING HOUSE',12,700,INK,'middle','letter-spacing="1"'); T(X(40),Y(25)+16,'1 storey',11,500,'#5D677C');
+  g+=`<rect id="bed3fill" x="${X(cx0)}" y="${Y(cy0)}" width="${30.17*k}" height="${24.17*k}" fill="#3289FF" opacity="0"/>`;
+  g+=`<rect x="${X(cx0)}" y="${Y(cy0)}" width="${30.17*k}" height="${24.17*k}" fill="url(#hatchA)" stroke="#1A6FE8" stroke-width="3"/>`;
+  g+=`<rect x="${X(cx0+4)}" y="${Y(cy0+7.5)}" width="${22.17*k}" height="${9*k}" fill="#fff" opacity=".92" rx="5"/>`;
+  T(X(cx0+15.08),Y(cy0+11.2),'NEW ADU · 695 SQ FT',12,800,'#1A6FE8','middle','letter-spacing=".5"');
+  T(X(cx0+15.08),Y(cy0+11.2)+15,'Standard plan · 2 bed / 1 bath',10.5,600,'#4A556B');
+  T(X(cx0+15.08),Y(cy1)-8,'SOUTH WALL · TYPE W1',9.5,700,'#1A6FE8','middle','letter-spacing=".5"');
+  // dimension: south wall to lot line (the one the review is about)
+  const dx=X(cx0+5), dc=rev?'#138A4E':'#C81E2A';
+  g+=`<g id="w3hl" opacity="0"><rect id="w3hlr" x="${dx-14}" y="${Y(cy1)-6}" width="${X(cx1)-dx+20}" height="${Y(50)-Y(cy1)+46}" rx="8" fill="#FFE68A" opacity=".55" stroke="#E0A800" stroke-width="2"/></g>`;
+  L(dx,Y(cy1),dx,Y(50),1.6,dc); L(dx-6,Y(cy1),dx+6,Y(cy1),1.6,dc); L(dx-6,Y(50),dx+6,Y(50),1.6,dc);
+  g+=`<rect x="${dx-4}" y="${Y(50)+8}" width="${rev?172:184}" height="24" rx="5" fill="#fff" stroke="${dc}" stroke-width="1.5"/>`;
+  T(dx+6,Y(50)+25,rev?`5'-0" TO LOT LINE`:`3'-6" TO LOT LINE`,13,800,dc,'start','letter-spacing=".3"');
+  if(rev){ const tx=dx+190, ty=Y(50)+20; g+=`<path d="M${tx} ${ty-10} L${tx+10} ${ty+7} L${tx-10} ${ty+7} Z" fill="#E6F6EE" stroke="#138A4E" stroke-width="1.6"/>`+svgT(tx,ty+4,'1',10,800,'#138A4E'); }
+  // other dimensions
+  const ry=Y(cy0+6); L(X(cx1),ry,X(120),ry,1,THIN); T(X(115),ry-6,`10'-0"`,11,600,THIN);
+  const hy=Y(cy0+16); L(X(60),hy,X(cx0),hy,1,THIN); T(X((60+cx0)/2),hy-6,`19'-10"`,11,600,THIN);
+  const nx=X(cx0+24); L(nx,Y(0),nx,Y(cy0),1,THIN); T(nx+6,Y(cy0/2)+4,rev?`20'-10"`:`22'-4"`,11,600,THIN,'start');
+  L(X(0),Y(50)+50,X(70),Y(50)+50,1,THIN); g+=`<rect x="${X(35)-30}" y="${Y(50)+42}" width="60" height="16" fill="#fff"/>`; T(X(35),Y(50)+54,`120'-0" LOT`,11,600,THIN);
+  g+=`<g transform="translate(${X(6)},${Y(50)+30})"><circle r="15" fill="none" stroke="${THIN}" stroke-width="1.3"/><path d="M0 -12 L5 4 L0 0 L-5 4Z" fill="${INK}"/>${svgT(0,-19,'N',10,800,INK)}</g>`;
+  g+=titleBlock(890,22,426,'Site plan','A-101',rev,['1. Lot 50\' × 120\' (6,000 sq ft).','2. Lot coverage 34% (40% max).','3. Utilities from main house.']);
   document.getElementById('plan').innerHTML=g;
 }
 function drawSheets(){
+  // A-102 floor plan: the pre-approved standard plan, redrawn (30'-2" × 24'-2", 2 bed / 1 bath)
+  const S=15.5, OX=150, OY=95, X=f=>OX+f*S, Y=f=>OY+f*S, W=30.17, H=24.17;
   let g=`<rect x="10" y="10" width="1112" height="580" fill="#fff" stroke="#C9D1DE" stroke-width="1.5"/>`;
-  const k=6.2, lx=170, ly=110;
-  g+=`<defs><pattern id="hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="10" stroke="#3289FF" stroke-width="2" opacity=".55"/></pattern></defs>`;
-  g+=`<rect x="70" y="60" width="70" height="460" fill="#EEF1F6"/>`+svgT(105,290,'LINDEN AVENUE',13,700,'#5D677C','middle','letter-spacing="2" transform="rotate(-90 105 290)"');
-  g+=`<rect x="${lx}" y="${ly}" width="${110*k}" height="${50*k}" fill="#F7FBF4" stroke="${INK}" stroke-width="2" stroke-dasharray="14 6 3 6"/>`;
-  const hx=lx+20*k, hy=ly+5*k;
-  g+=`<rect x="${hx}" y="${hy}" width="${40*k}" height="${40*k}" fill="#E9EDF3" stroke="${INK}" stroke-width="3"/>`+svgT(hx+20*k,hy+20*k,'EXISTING HOUSE',13,700,INK,'middle','letter-spacing="1"')+svgT(hx+20*k,hy+20*k+18,'2 storeys',12,500,'#5D677C');
-  g+=`<rect x="${hx+40*k}" y="${hy}" width="${22*k}" height="${40*k}" fill="url(#hatch)" stroke="#1A6FE8" stroke-width="3"/>`+`<rect x="${hx+40*k+14}" y="${hy+20*k-26}" width="${22*k-28}" height="46" fill="#fff" opacity=".9" rx="6"/>`+svgT(hx+51*k,hy+20*k-6,'NEW',13,800,'#1A6FE8','middle','letter-spacing="1"')+svgT(hx+51*k,hy+20*k+12,'ADDITION',13,800,'#1A6FE8','middle','letter-spacing="1"');
-  const rs=lx+110*k-25*k; g+=svgL(rs,ly,rs,ly+50*k,1.5,'#C81E2A','8 6')+svgT(rs+8,ly+20,'REAR SETBACK LINE',11,700,'#C81E2A','start','letter-spacing=".5"');
-  g+=svgL(hx+62*k,ly+50*k+28,rs,ly+50*k+28,1,THIN)+svgT((hx+62*k+rs)/2,ly+50*k+44,`3'-0" clear`,12,600,THIN);
-  g+=svgL(rs,ly+50*k+60,lx+110*k,ly+50*k+60,1,THIN)+svgT((rs+lx+110*k)/2,ly+50*k+76,`25'-0" min. rear yard`,12,600,THIN);
-  g+=svgL(lx,ly-24,lx+110*k,ly-24,1,THIN)+`<rect x="${lx+55*k-40}" y="${ly-32}" width="80" height="16" fill="#fff"/>`+svgT(lx+55*k,ly-20,`110'-0"`,12,600,THIN);
-  g+=`<g transform="translate(830,520)"><circle r="22" fill="none" stroke="${THIN}" stroke-width="1.4"/><path d="M0 -18 L7 6 L0 1 L-7 6Z" fill="${INK}"/>${svgT(0,-28,'N',12,800,INK)}</g>`;
-  g+=titleBlock(890,22,556,'Site plan','A-101',false,['1. Lot area 5,500 sq ft.','2. Lot coverage 34% (40% max).','3. No change to driveway.']);
-  document.getElementById('sv-a101').innerHTML=g;
+  const L=(...a)=>g+=svgL(...a), T=(...a)=>g+=svgT(...a);
+  g+=`<rect x="${X(0)}" y="${Y(0)}" width="${W*S}" height="${H*S}" fill="#C9CED6" stroke="${INK}" stroke-width="2"/>`;
+  g+=`<rect x="${X(.55)}" y="${Y(.55)}" width="${(W-1.1)*S}" height="${(H-1.1)*S}" fill="#fff" stroke="${INK}" stroke-width="1.5"/>`;
+  const wall=(x1,y1,x2,y2)=>L(X(x1),Y(y1),X(x2),Y(y2),5,'#4A5262');
+  wall(12.4,6.6,12.4,19.2); wall(12.4,6.6,18.6,6.6); wall(18.6,.55,18.6,23.6); wall(18.6,12.08,W-.55,12.08); wall(12.4,12.6,18.6,12.6); wall(12.4,15.4,18.6,15.4); wall(15.2,15.4,15.2,19.2); wall(12.4,19.2,18.6,19.2);
+  // openings: entry doors (A chosen, B/C options), windows
+  const gap=(x1,y1,x2,y2)=>g+=`<line x1="${X(x1)}" y1="${Y(y1)}" x2="${X(x2)}" y2="${Y(y2)}" stroke="#fff" stroke-width="10"/>`;
+  const win=(x1,y1,x2,y2)=>{ gap(x1,y1,x2,y2); g+=`<line x1="${X(x1)}" y1="${Y(y1)}" x2="${X(x2)}" y2="${Y(y2)}" stroke="${INK}" stroke-width="1.2"/>`; const o=y1===y2?[0,3]:[3,0]; g+=`<line x1="${X(x1)+o[0]}" y1="${Y(y1)+o[1]}" x2="${X(x2)+o[0]}" y2="${Y(y2)+o[1]}" stroke="${INK}" stroke-width="1.2"/><line x1="${X(x1)-o[0]}" y1="${Y(y1)-o[1]}" x2="${X(x2)-o[0]}" y2="${Y(y2)-o[1]}" stroke="${INK}" stroke-width="1.2"/>`; };
+  win(.28,4,.28,7.4); win(.28,15.6,.28,19); win(W-.28,4,W-.28,9.5); win(W-.28,14.6,W-.28,20.1); win(22.5,.28,26.5,.28); win(22.5,H-.28,26.5,H-.28);
+  gap(13.6,H-.28,16.6,H-.28); g+=`<path d="M${X(13.6)} ${Y(H-.55)} L${X(13.6)} ${Y(H-3.55)} A ${3*S} ${3*S} 0 0 1 ${X(16.6)} ${Y(H-.55)}" fill="none" stroke="${THIN}" stroke-width="1.3"/>`;
+  T(X(15.1),Y(H)+16,'ENTRY DOOR · OPTION A',9.5,700,THIN);
+  g+=`<path d="M${X(13.6)} ${Y(.55)} A ${3*S} ${3*S} 0 0 0 ${X(16.6)} ${Y(3.55)}" fill="none" stroke="#9AA5B8" stroke-width="1" stroke-dasharray="4 3"/>`; T(X(15.1),Y(0)-8,'OPTION C',9,600,'#8A94A7');
+  g+=`<path d="M${X(.55)} ${Y(10)} A ${3*S} ${3*S} 0 0 1 ${X(3.55)} ${Y(13)}" fill="none" stroke="#9AA5B8" stroke-width="1" stroke-dasharray="4 3"/>`; T(X(0)-30,Y(11.6),'OPT. B',9,600,'#8A94A7');
+  // fixtures
+  g+=`<rect x="${X(9.6)}" y="${Y(7.2)}" width="${2.4*S}" height="${9.6*S}" fill="none" stroke="${THIN}" stroke-width="1.1"/>`; T(X(10.8),Y(9.2),'RANGE',8.5,600,'#5D677C'); T(X(10.8),Y(12),'DW',8.5,600,'#5D677C'); T(X(10.8),Y(14.6),'SINK',8.5,600,'#5D677C');
+  g+=`<rect x="${X(9.6)}" y="${Y(17.2)}" width="${2.4*S}" height="${2.6*S}" fill="none" stroke="${THIN}" stroke-width="1.1"/>`; T(X(10.8),Y(18.7),'REF',8.5,600,'#5D677C');
+  g+=`<rect x="${X(12.9)}" y="${Y(12.9)}" width="${5.2*S}" height="${2.2*S}" fill="none" stroke="${THIN}" stroke-width="1.1"/>`; L(X(12.9),Y(12.9),X(18.1),Y(15.1),.8,'#9AA5B8'); L(X(18.1),Y(12.9),X(12.9),Y(15.1),.8,'#9AA5B8');
+  g+=`<circle cx="${X(13.8)}" cy="${Y(17.3)}" r="${1*S}" fill="none" stroke="${THIN}" stroke-width="1.1"/>`; T(X(13.8),Y(17.3)+3,'WH',8.5,700,'#5D677C');
+  g+=`<ellipse cx="${X(17.3)}" cy="${Y(10.9)}" rx="${.7*S}" ry="${.9*S}" fill="none" stroke="${THIN}" stroke-width="1.1"/>`;
+  g+=`<rect x="${X(15.4)}" y="${Y(7.2)}" width="${2.6*S}" height="${1.8*S}" rx="3" fill="none" stroke="${THIN}" stroke-width="1.1"/>`;
+  g+=`<rect x="${X(18.9)}" y="${Y(4.2)}" width="${1.6*S}" height="${7.4*S}" fill="none" stroke="${THIN}" stroke-width="1" stroke-dasharray="3 2"/>`; g+=`<rect x="${X(18.9)}" y="${Y(12.5)}" width="${1.6*S}" height="${7.4*S}" fill="none" stroke="${THIN}" stroke-width="1" stroke-dasharray="3 2"/>`;
+  [[24,3],[24,15.2]].forEach(([bx,by])=>g+=`<rect x="${X(bx)}" y="${Y(by)}" width="${4.4*S}" height="${5*S}" fill="none" stroke="#9AA5B8" stroke-width="1"/>`);
+  const room=(x,y,n)=>T(X(x),Y(y),n,12.5,700,INK,'middle','letter-spacing="1"');
+  room(5.6,4.4,'LIVING'); room(6.2,11.6,'KITCHEN'); room(4.6,19.6,'DINE'); room(14.6,9.9,'BATH'); room(25.4,10.4,'BED'); room(25.4,22.6,'BED');
+  [[2.6,2.4],[22.2,2.4],[22.2,13.8]].forEach(([x,y])=>{ g+=`<circle cx="${X(x)}" cy="${Y(y)}" r="9" fill="#fff" stroke="${THIN}" stroke-width="1.1"/>`+svgT(X(x),Y(y)+3,'SA',8,700,THIN); });
+  L(X(0),Y(0)-26,X(W),Y(0)-26,1,THIN); g+=`<rect x="${X(W/2)-28}" y="${Y(0)-34}" width="56" height="16" fill="#fff"/>`; T(X(W/2),Y(0)-22,`30'-2"`,11,600,THIN);
+  L(X(0)-56,Y(0),X(0)-56,Y(H),1,THIN); T(X(0)-62,Y(H/2),`24'-2"`,11,600,THIN,'middle',`transform="rotate(-90 ${X(0)-62} ${Y(H/2)})"`);
+  L(X(W)+24,Y(0),X(W)+24,Y(H),1,THIN); L(X(W)+18,Y(12.08),X(W)+30,Y(12.08),1,THIN); T(X(W)+38,Y(6),`12'-1"`,10.5,600,THIN,'start'); T(X(W)+38,Y(18),`12'-1"`,10.5,600,THIN,'start');
+  T(X(W/2),Y(H)+48,'FLOOR PLAN · STANDARD PLAN, NO CHANGES',13.5,800,INK,'middle','letter-spacing="1.2"');
+  g+=titleBlock(890,22,556,'Floor plan','A-102',false,['1. Pre-approved standard plan.','2. Smoke alarm in each bedroom.','3. Entry door option A.']);
+  document.getElementById('sv-a102').innerHTML=g;
 
-  const s=13, ex=150, gy=470;
+  // A-201 elevations
+  const s2=11, gy=440;
   g=`<rect x="10" y="10" width="1112" height="580" fill="#fff" stroke="#C9D1DE" stroke-width="1.5"/>`;
-  g+=`<defs><pattern id="gr" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#9AA5B8" stroke-width="1.2"/></pattern></defs>`;
-  g+=svgL(60,gy,860,gy,3,INK)+`<rect x="60" y="${gy}" width="800" height="16" fill="url(#gr)"/>`;
-  const W=40*s, top=gy-19*s;
-  g+=`<rect x="${ex}" y="${top}" width="${W}" height="${19*s}" fill="#FBFCFE" stroke="${INK}" stroke-width="3"/>`;
-  g+=`<path d="M${ex-16} ${top} L${ex+W/2} ${top-8*s} L${ex+W+16} ${top}" fill="none" stroke="${INK}" stroke-width="3"/>`;
-  for(let i=1;i<38;i++) g+=svgL(ex,top+i*6.5,ex+W,top+i*6.5,.4,'#E3E7EF');
-  g+=svgL(ex,gy-10*s,ex+W,gy-10*s,1,'#9AA5B8','6 5');
-  const wnd=(fx,fw,sill,h,tag,hl)=>{const x=ex+fx*s, y=gy-(10+sill)*s-h*s; g+=`<rect x="${x}" y="${y}" width="${fw*s}" height="${h*s}" fill="#EAF3FF" stroke="${hl?'#E0A800':INK}" stroke-width="${hl?3:2}"/>`+svgL(x,y+h*s/2,x+fw*s,y+h*s/2,1.5,INK);
-    if(tag) g+=`<circle cx="${x+fw*s/2}" cy="${y-24}" r="13" fill="#fff" stroke="${INK}" stroke-width="1.5"/>`+svgT(x+fw*s/2,y-19.5,tag,12,700,INK);};
-  wnd(4.5,2.17,3.33,4.2,'W3',true); wnd(17,2,5,1.5,'W2'); wnd(31,2.67,3,4.5,'W4');
-  g+=`<rect x="${ex+8*s}" y="${gy-7*s}" width="${3*s}" height="${7*s}" fill="#fff" stroke="${INK}" stroke-width="2"/>`;
-  g+=`<rect x="${ex+20*s}" y="${gy-6.5*s}" width="${8*s}" height="${5*s}" fill="#EAF3FF" stroke="${INK}" stroke-width="2"/>`;
-  g+=svgL(ex+W+30,gy-10*s,ex+W+60,gy-10*s,1,THIN)+svgT(ex+W+64,gy-10*s+4,`2ND FLOOR 10'-0"`,11,700,THIN,'start');
-  g+=svgL(ex+W+30,top,ex+W+60,top,1,THIN)+svgT(ex+W+64,top+4,`WALL 19'-0"`,11,700,THIN,'start');
-  const sx=ex-24; g+=svgL(sx,gy-10*s,sx,gy-(10+3.33)*s,1.2,'#A86200')+svgT(sx-6,gy-11.4*s,`SILL 40"`,11,700,'#A86200','end');
-  g+=svgT(ex+W/2,gy+46,'REAR ELEVATION',15,800,INK,'middle','letter-spacing="1.5"')+svgT(ex+W/2,gy+66,'Scale 1/4" = 1\'-0"',12,500,'#5D677C');
-  g+=titleBlock(890,22,556,'Elevations','A-201',false,['1. Siding to match existing.','2. Roof pitch 6:12.','3. Window tags per A-102.']);
+  g+=`<defs><pattern id="gr2" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#9AA5B8" stroke-width="1.2"/></pattern></defs>`;
+  const ex=60, fw=30.17*s2, wallH=9*s2;
+  g+=svgL(40,gy,ex+fw+30,gy,3,INK)+`<rect x="40" y="${gy}" width="${fw+50}" height="14" fill="url(#gr2)"/>`;
+  g+=`<rect x="${ex}" y="${gy-wallH}" width="${fw}" height="${wallH}" fill="#FBFCFE" stroke="${INK}" stroke-width="2.5"/>`;
+  g+=`<path d="M${ex-10} ${gy-wallH} L${ex+fw+10} ${gy-wallH} L${ex+fw+10} ${gy-wallH-6} L${ex+fw-20} ${gy-wallH-6*s2} L${ex+20} ${gy-wallH-6*s2} L${ex-10} ${gy-wallH-6}Z" fill="#F1F3F7" stroke="${INK}" stroke-width="2"/>`;
+  g+=`<rect x="${ex+13.6*s2}" y="${gy-7*s2}" width="${3*s2}" height="${7*s2}" fill="#fff" stroke="${INK}" stroke-width="2"/>`;
+  g+=`<rect x="${ex+22.5*s2}" y="${gy-7*s2}" width="${4*s2}" height="${4*s2}" fill="#EAF3FF" stroke="${INK}" stroke-width="2"/>`+svgL(ex+24.5*s2,gy-7*s2,ex+24.5*s2,gy-3*s2,1.4,INK);
+  g+=svgT(ex+fw/2,gy+40,'SOUTH ELEVATION · FACES THE SIDE LOT LINE',12.5,800,INK,'middle','letter-spacing="1"')+svgT(ex+fw/2,gy+58,'Openings: 1 door + 1 window ≈ 14% of wall area',11,600,'#A86200');
+  const ex2=520, sw=24.17*s2;
+  g+=svgL(500,gy,ex2+sw+30,gy,3,INK)+`<rect x="500" y="${gy}" width="${sw+50}" height="14" fill="url(#gr2)"/>`;
+  g+=`<rect x="${ex2}" y="${gy-wallH}" width="${sw}" height="${wallH}" fill="#FBFCFE" stroke="${INK}" stroke-width="2.5"/>`;
+  g+=`<path d="M${ex2-12} ${gy-wallH} L${ex2+sw/2} ${gy-15.5*s2} L${ex2+sw+12} ${gy-wallH}" fill="none" stroke="${INK}" stroke-width="2.5"/>`;
+  [[3,4.5],[16.5,4.5]].forEach(([x,w])=>g+=`<rect x="${ex2+x*s2}" y="${gy-7*s2}" width="${w*s2}" height="${4*s2}" fill="#EAF3FF" stroke="${INK}" stroke-width="2"/>`);
+  g+=svgL(ex2+sw+34,gy,ex2+sw+34,gy-15.5*s2,1,THIN)+svgT(ex2+sw+50,gy-7.75*s2,`15'-6" TO PEAK`,10.5,700,THIN,'middle',`transform="rotate(-90 ${ex2+sw+50} ${gy-7.75*s2})"`);
+  g+=svgT(ex2+sw/2,gy+40,'EAST ELEVATION',12.5,800,INK,'middle','letter-spacing="1"');
+  g+=titleBlock(890,22,556,'Elevations','A-201',false,['1. Stucco finish, all sides.','2. Roof pitch 4:12.','3. Standard plan, no changes.']);
   document.getElementById('sv-a201').innerHTML=g;
 
-  const S=16.5, OX=96, OY=110, X=f=>OX+f*S, Y=f=>OY+f*S;
+  // A-301 wall section: wall type W1, all exterior walls
   g=`<rect x="10" y="10" width="1112" height="580" fill="#fff" stroke="#C9D1DE" stroke-width="1.5"/>`;
-  g+=`<rect x="${X(0)}" y="${Y(0)}" width="${40*S}" height="${22*S}" fill="none" stroke="${INK}" stroke-width="6"/>`;
-  for(let f=1.333;f<40;f+=1.333) g+=svgL(X(f),Y(0),X(f),Y(22),1,'#7C879C');
-  g+=svgL(X(0),Y(12),X(40),Y(12),5,'#1A6FE8','16 8');
-  g+=`<rect x="${X(12.5)}" y="${Y(12)-14}" width="${15*S}" height="24" fill="#fff"/>`+svgT(X(20),Y(12)+4,'(2) 1¾ × 11⅞ LVL BEAM',12.5,800,'#1A6FE8');
-  [[7.5,5],[33.5,5],[27.5,18]].forEach(([x,y])=>g+=`<rect x="${X(x)-80}" y="${Y(y)-14}" width="160" height="24" fill="#fff"/>`+svgT(X(x),Y(y)+4,'2×10 @ 16" O.C.',12.5,700,INK));
-  [[4.5,'2×8 HEADER'],[31,'2×10 HEADER']].forEach(([f,t])=>g+=svgL(X(f-.5),Y(0)+10,X(f+3),Y(0)+10,4,'#A86200')+svgT(X(f+1.2),Y(0)-10,t,11,700,'#A86200'));
-  g+=svgT(X(20),Y(22)+40,'SECOND FLOOR FRAMING PLAN',15,800,INK,'middle','letter-spacing="1.5"');
-  g+=titleBlock(890,22,556,'Framing plan','S-101',false,['1. Lumber SPF No. 2 or better.','2. Joist hangers at the beam.','3. Engineer letter attached.']);
-  document.getElementById('sv-s101').innerHTML=g;
+  g+=svgT(60,60,'WALL TYPE W1 · EXTERIOR WALL · ALL SIDES',15,800,INK,'start','letter-spacing="1"');
+  const wx=120, wy=110, wh=330;
+  const layers=[['#E9E4D8',18,'7/8" cement stucco'],['#D8C9A8',10,'7/16" OSB sheathing'],['#F2E3C2',96,'2×6 studs @ 24" o.c. with R-21 insulation'],['#EDEFF3',14,'1/2" gypsum board, regular']];
+  let lx=wx; layers.forEach(([c,w,t],i)=>{ g+=`<rect x="${lx}" y="${wy}" width="${w}" height="${wh}" fill="${c}" stroke="${INK}" stroke-width="1.4"/>`; const my=wy+40+i*72; g+=svgL(lx+w/2,my,430,my,1,THIN)+`<circle cx="${lx+w/2}" cy="${my}" r="2.5" fill="${THIN}"/>`+svgT(440,my+4,t,12.5,600,INK,'start'); lx+=w; });
+  for(let yy=wy+20;yy<wy+wh;yy+=26) g+=svgL(wx+28,yy,wx+124,yy+14,.8,'#C9A86A');
+  g+=svgT(wx-8,wy-12,'EXTERIOR',10,700,'#5D677C','start')+svgT(lx-46,wy-12,'INTERIOR',10,700,'#5D677C','start');
+  g+=`<g id="ratehl"><rect x="430" y="400" width="400" height="58" rx="8" fill="#FDECEE" stroke="#F5C2C7" stroke-width="1.5"/>`+svgT(446,424,'FIRE-RESISTANCE RATING: NONE',13,800,'#C81E2A','start','letter-spacing=".5"')+svgT(446,444,'Not detailed as a rated assembly (not tested both sides)',11.5,600,'#7A2730','start')+'</g>';
+  g+=titleBlock(890,22,556,'Wall section','A-301',false,['1. Standard plan wall type.','2. Applies to all four walls.','3. U-factor per energy form.']);
+  document.getElementById('sv-a301').innerHTML=g;
 }
-
 /* ======================= helpers ======================= */
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const stage=$('#stage'), msgs=$('#msgs'), cursor=$('#cursor');
@@ -1116,9 +1130,9 @@ function hideCursor(){cursor.classList.remove('on');}
 let toastTimer; function toast(t){ $('#toast-t').textContent=t; $('#toast').classList.add('on'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>$('#toast').classList.remove('on'),2600); }
 
 /* ======================= state ======================= */
-const S0=()=>({genie:false,rev:0,day:2,status:'review',issued:false,filter:'All',appFilter:'All',zoom:1,sheet:'A-102',range:'week',code:'irc',assigned:{},t:0});
+const S0=()=>({genie:false,rev:0,day:2,status:'review',issued:false,filter:'All',appFilter:'All',zoom:1,sheet:'APP',range:'week',code:'irc',assigned:{},t:0});
 let st=S0();
-const QUESTION='Does the new bedroom meet the emergency escape requirements?';
+const QUESTION='Is the new cottage far enough from the side lot line?';
 const now=t=>`<div class="time">${t}</div>`;
 function clock(){ st.t++; return st.day>=3?`10:${String(Math.min(59,10+st.t)).padStart(2,'0')} AM`:`9:${Math.min(59,42+st.t)} AM`; }
 
@@ -1139,12 +1153,12 @@ function renderSugg(){ const box=$('#sugg'), atBottom=msgs.scrollHeight-msgs.scr
   let s=[];
   if(cur<=0) s=[['main','Open BLD-2026-04817'],['due','Which permits are due this week?'],['flagged','What did the pre-check flag?']];
   else if(cur===1) s=[['main',QUESTION],['summary','Summarise this application'],['smoke','Are the smoke alarms in the right places?']];
-  else if(cur>=4&&cur<=5) s=[['sizes','Show window sizes that would comply'],['rooms','Check the other sleeping rooms']];
-  else if(cur===6) s=[['main','Show suggested next steps'],['sizes','Show window sizes that would comply']];
+  else if(cur>=4&&cur<=5) s=[['sizes','Show the two ways to fix it'],['house','Check the distance to the main house']];
+  else if(cur===6) s=[['main','Show suggested next steps'],['sizes','Show the two ways to fix it']];
   else if(cur===8) s=[['smoke','Are the smoke alarms in the right places?']];
   else if(cur===9) s=[['main','Skip ahead to the resubmission'],['next9','What happens next?']];
   else if(cur===10) s=[['main','What changed in the resubmission?'],['summary','Summarise this application']];
-  else if(cur===11) s=[['main','Approve this permit'],['checklist','Show all 23 checks']];
+  else if(cur===11) s=[['main','Approve this permit'],['checklist','Show all 18 checks']];
   else if(cur>=13) s=[['recap','Summarise this review'],['due','Which permits are due this week?']];
   box.innerHTML=s.map(([k,t])=>`<span class="sg" ${k==='main'?'id="sg-main"':''} data-act="sugg" data-k="${k}">${t}</span>`).join(''); if(atBottom) msgs.scrollTop=msgs.scrollHeight; }
 function closeAll(){ $$('.dd').forEach(d=>d.classList.remove('on')); closeDrawer(); $('#mpop').classList.remove('on'); }
@@ -1198,7 +1212,7 @@ function renderCodes(){
   const c=CODES.find(x=>x.k===st.code);
   $('#c-detail').innerHTML=`<div style="font-size:12.5px;color:var(--ink3);font-weight:600;letter-spacing:.4px;text-transform:uppercase">${c.s}</div><h2>${c.t}</h2><p>${c.d}</p>
     <div class="secs">${c.secs.map(s=>`<div>${s}</div>`).join('')}</div>
-    <div style="margin-top:22px;display:flex;gap:10px">${c.open?`<button class="btn pri" data-act="open-r310">${ico('i-book')}Open R310 in BLD-2026-04817</button>`:''}<button class="btn out" data-act="code-ask" data-k="${c.k}">${ico('i-spark')}Which open permits use this?</button></div><div id="c-ans" style="margin-top:16px"></div>`;
+    <div style="margin-top:22px;display:flex;gap:10px">${c.open?`<button class="btn pri" data-act="open-r310">${ico('i-book')}Open R302.1 in BLD-2026-04817</button>`:''}<button class="btn out" data-act="code-ask" data-k="${c.k}">${ico('i-spark')}Which open permits use this?</button></div><div id="c-ans" style="margin-top:16px"></div>`;
 }
 
 /* ======================= drawer / modal ======================= */
@@ -1216,11 +1230,14 @@ function openDrawer(id){
 function closeDrawer(){ $('#drawer').classList.remove('on'); $('#scrim').classList.remove('on'); }
 function openGenie(){ st.genie=true; modal(`<div class="gh2"><h3>Permit Genie</h3><button data-act="close-genie" aria-label="Close">${ico('i-close')}</button></div>
   <div class="why">Why is this section relevant? <b>(Matching score: 99.0%)</b></div>
-  <ol><li>Section R310.2.1 sets the minimum net clear opening for an emergency escape opening above the grade floor: 5.7 sq ft.</li><li>Bedroom 3 is a sleeping room on the second floor, and its only window, W3, is the escape opening this section measures.</li><li>W3 provides 4.8 sq ft, so this is the section that decides the answer.</li></ol>
-  <div class="gpage"><div class="ph"><span>2018 INTERNATIONAL RESIDENTIAL CODE</span><span>CHAPTER 3 · BUILDING PLANNING</span></div><h4>SECTION R310 · EMERGENCY ESCAPE AND RESCUE OPENINGS</h4>
-    <b>R310.2 Emergency escape and rescue openings.</b> Emergency escape and rescue openings shall meet the minimum dimensions in Sections R310.2.1 through R310.2.4.<br>
-    <b>R310.2.1 Minimum opening area.</b> <mark>Emergency escape and rescue openings shall have a net clear opening of not less than 5.7 square feet (0.530 m²).</mark> The net clear opening shall be reached by normal operation of the opening from the inside. The net clear height shall be not less than 24 inches and the net clear width not less than 20 inches.<br>
-    <b>R310.2.2 Window sill height.</b> Where a window is provided as the emergency escape and rescue opening, its sill shall be not more than 44 inches above the floor.</div>
+  <ol><li>Table R302.1(1) sets the rule for exterior walls by their distance to the lot line: less than 5 feet requires a 1-hour fire-resistance rating, tested from both sides.</li><li>The cottage’s south wall is 3'-6" from the side lot line on sheet A-101, and wall type W1 on A-301 is not rated.</li><li>That makes this the row of the table that decides the answer.</li></ol>
+  <div class="gpage"><div class="ph"><span>2018 INTERNATIONAL RESIDENTIAL CODE</span><span>CHAPTER 3 · BUILDING PLANNING</span></div><h4>SECTION R302 · FIRE-RESISTANT CONSTRUCTION</h4>
+    <b>R302.1 Exterior walls.</b> Construction, projections, openings and penetrations of exterior walls of dwellings and accessory buildings shall comply with Table R302.1(1).
+    <table class="gtab" style="font-size:13.5px"><tr><th>EXTERIOR WALL ELEMENT</th><th>MINIMUM FIRE-RESISTANCE RATING</th><th>MINIMUM FIRE SEPARATION DISTANCE</th></tr>
+      <tr><td>Walls · fire-resistance rated</td><td><mark>1 hour, tested in accordance with ASTM E 119, UL 263 or Section R302.1.1, with exposure from both sides</mark></td><td><mark>&lt; 5 feet</mark></td></tr>
+      <tr><td>Walls · not fire-resistance rated</td><td>0 hours</td><td>≥ 5 feet</td></tr>
+      <tr><td>Openings in walls</td><td>Not allowed</td><td>&lt; 3 feet</td></tr>
+      <tr><td>Openings in walls</td><td>25% maximum of wall area</td><td>3 feet</td></tr></table></div>
   <div class="mf"><button class="btn out" data-act="close-genie">Close</button><button class="btn pri" id="genie-open" data-act="genie-doc">${ico('i-book')}Open the full source document</button></div>`,'genie'); }
 function modal(html,wide){ $('#modal').className='modal'+(wide==='genie'?' genie':wide?' cert':''); $('#modal').innerHTML=html; $('#modal-bg').classList.add('on'); }
 function closeModal(){ $('#modal-bg').classList.remove('on'); }
@@ -1230,18 +1247,19 @@ function openPermit(){ show('permit'); }
 function setSheet(s){ st.sheet=s; if(s==='APP') st.zoom=st.zoom; $$('#tabs .tab').forEach(t=>t.classList.toggle('on',t.dataset.s===s));
   $$('.work-l .view').forEach(v=>v.classList.toggle('on',v.id==='view-'+s)); applyZoom(); }
 function applyZoom(){ $$('.sheet svg').forEach(sv=>sv.style.transform=`scale(${st.zoom})`); $('#zlbl').textContent=Math.round(st.zoom*100)+'%'; }
-function showCode(sec){ $('#tab-code').style.display='flex'; setSheet('code'); $$('.doc .sec').forEach(p=>p.classList.remove('soft'));
-  $('#doc-inner').style.transform=''; $$('#toc a').forEach(a=>a.classList.toggle('on',a.dataset.r==='R310'));
-  if(sec==='r3101') $('#sec-r3101').classList.add('soft'); if(sec==='r3102'){ $('#sec-r3102').classList.add('soft'); $('#doc-inner').style.transform='translateY(-240px)'; } }
+function showCode(sec){ $('#tab-code').style.display='flex'; setSheet('code'); $$('.doc .sec,.ctab tr').forEach(p=>p.classList.remove('soft'));
+  $('#doc-inner').style.transform=''; $$('#toc a').forEach(a=>a.classList.toggle('on',a.dataset.r==='R302'));
+  if(sec==='r3101') $('#sec-r3101').classList.add('soft'); if(sec==='r3102'){ $('#sec-r3102').classList.add('soft'); } }
 function markW3(mode){ const on=!!mode; $('#w3hl').setAttribute('opacity',on?1:0); const r=$('#w3hlr');
   if(r){ r.setAttribute('fill',mode==='ok'?'#C8EED8':'#FFE68A'); r.setAttribute('stroke',mode==='ok'?'#138A4E':'#E0A800'); }
-  $('#bed3fill').setAttribute('opacity',on?.07:0); $('#bed3fill').setAttribute('fill',mode==='ok'?'#138A4E':'#3289FF');
+  $('#bed3fill').setAttribute('opacity',on?.12:0); $('#bed3fill').setAttribute('fill',mode==='ok'?'#138A4E':'#3289FF');
   $('#sched-w3').classList.toggle('hl',mode==='gap'); $('#sched-w3').classList.toggle('okrow',mode==='ok'); }
 function schedW3(){ $('#sched-w3').innerHTML=st.rev?
-  `<td><b>W3</b></td><td>Bedroom 3</td><td>Casement</td><td class="num">2'-4" × 3'-4"</td><td class="num">24 × 36 in</td><td class="num"><b>6.0 sq ft</b></td><td class="num">40 in</td>`:
-  `<td><b>W3</b></td><td>Bedroom 3</td><td>Double-hung</td><td class="num">2'-2" × 5'-6"</td><td class="num">22 × 31.4 in</td><td class="num"><b>4.8 sq ft</b></td><td class="num">40 in</td>`;
+  `<td><b>Cottage south wall to side lot line</b></td><td class="num"><b>5'-0"</b></td><td>5'-0" or more, or a 1-hour rated wall</td>`:
+  `<td><b>Cottage south wall to side lot line</b></td><td class="num"><b>3'-6"</b> · wall not rated</td><td>5'-0" or more, or a 1-hour rated wall</td>`;
+  $('#sched-north').innerHTML=`<td>Cottage to north side lot line</td><td class="num">${st.rev?`20'-10"`:`22'-4"`}</td><td>5'-0" or more</td>`;
   $('#sched-rev').style.display=st.rev?'inline-flex':'none'; $('#rev-tag').style.display=st.rev?'inline':'none'; }
-function appStamp(s){ const el=$('#app-stamp'); if(!el) return; const m={review:['','IN REVIEW','Plan review · Building'],corr:['','CORRECTIONS','Round 1 · sent to applicant'],resub:['blue','RESUBMITTED','Round 2 · sheet A-102 Rev 1'],ok:['blue','IN REVIEW','All checks passed'],issued:['ok','APPROVED','Permit BP-2026-04817']}[s]; el.className='appstamp '+m[0]; el.innerHTML=m[1]+'<small>'+m[2]+'</small>'; }
+function appStamp(s){ const el=$('#app-stamp'); if(!el) return; const m={review:['','IN REVIEW','Plan review · Building'],corr:['','CORRECTIONS','Round 1 · sent to applicant'],resub:['blue','RESUBMITTED','Round 2 · site plan A-101 Rev 1'],ok:['blue','IN REVIEW','All checks passed'],issued:['ok','APPROVED','Permit BP-2026-04817']}[s]; el.className='appstamp '+m[0]; el.innerHTML=m[1]+'<small>'+m[2]+'</small>'; }
 function setStatus(s){ st.status=s; appStamp(s); $('#rev-today').textContent=s==='issued'?'4 / 12':'3 / 12'; const m={review:['blue','In review'],corr:['warn','Corrections requested'],resub:['blue','Resubmitted · Round 2'],ok:['ok','All checks passed'],issued:['ok','Approved · permit issued']}[s];
   const p=$('#status-pill'); p.className='pill '+m[0]; p.innerHTML='<span class="dot"></span>'+m[1];
   $('#day-pill').textContent=s==='issued'?'Completed in 3 days':`Day ${st.day} in review`;
@@ -1255,10 +1273,10 @@ const STEPS=[
     if(ANIM){const row=$('#row-04817'); if(row){await point(row); row.classList.add('focus'); await sleep(350);} guard(t);}
     show('permit'); setSheet('APP'); hideCursor();
     add(`<div class="divider">Opened BLD-2026-04817</div>`);
-    const w=add(`<div class="msg">${AV}<div class="body"><p>This is a building permit application for a <b>two-storey rear addition</b> at 212 Linden Avenue, with a 6-sheet plan set. I’ve read the application and every sheet. Ask me anything about this permit.</p>${now('9:40 AM')}</div></div>`); await scrollChat(w);
+    const w=add(`<div class="msg">${AV}<div class="body"><p>This is a building permit application for a <b>two-bedroom backyard cottage (ADU)</b> at 212 Linden Avenue, built from a pre-approved standard plan. The design is already approved, so I’ve checked the site-specific sheets: where it sits on this lot. Ask me anything about this permit.</p>${now('9:40 AM')}</div></div>`); await scrollChat(w);
  }},
  {id:'ask',label:'Question typed',run:async t=>{
-    const box=$('#cbox'), cin=$('#cin'); const typed=cin.value.trim(); const q=(typed&&/bedroom|escape|egress|window/i.test(typed))?typed:QUESTION;
+    const box=$('#cbox'), cin=$('#cin'); const typed=cin.value.trim(); const q=(typed&&/lot line|setback|distance|cottage|fire|far enough/i.test(typed))?typed:QUESTION;
     if(ANIM && !typed){ await point(box); hideCursor(); box.classList.add('focus');
       for(let i=1;i<=QUESTION.length;i++){guard(t); cin.value=QUESTION.slice(0,i); await sleep(34+(QUESTION[i-1]===' '?26:0));}
       await sleep(300); await point($('#send')); await sleep(120); guard(t); }
@@ -1266,51 +1284,52 @@ const STEPS=[
     const u=add(`<div class="msg user"><div><div class="bubble">${q.replace(/</g,'&lt;')}</div>${now('9:41 AM')}</div></div>`); await scrollChat(u);
  }},
  {id:'working',label:'Decision-making steps',run:async t=>{ await work(t,[
-      ['Read the permit application · <b>addition, 2 new bedrooms</b>','Form B-1, section 3: two-storey rear addition, occupancy R-3, IRC 2018.'],
-      ['Extracted facts from the plan set · <b>6 sheets, 14 facts</b>','Bedroom 3 is a sleeping room (A-102). Window W3: double-hung, net clear 22 × 31.4 in, sill 40 in.'],
-      ['Retrieved applicable code sections · <b>R310.1, R310.2.1, R310.2.2</b>','Emergency escape and rescue openings, IRC 2018, Chapter 3.'],
-      ['Compared each fact with its requirement · <b>4 checks, 1 gap</b>','Opening area 4.8 sq ft vs 5.7 required (gap). Height, width and sill pass.'],
-      ['Section analysis complete · <b>top matches identified</b>','Best match: R310.2.1 Minimum opening area.']],'4.6'); }},
+      ['Read the permit application · <b>new ADU, standard plan</b>','Form B-1, section 3: detached two-bedroom ADU, 695 sq ft, occupancy R-3, IRC 2018, pre-approved standard plan with no changes.'],
+      ['Extracted facts from the site sheets · <b>5 sheets, 12 facts</b>','A-101: south wall 3\'-6" from the side lot line. A-301: wall type W1, not fire-rated. A-201: south wall has 1 door and 1 window.'],
+      ['Retrieved applicable code sections · <b>R302.1, Table R302.1(1)</b>','Exterior walls and fire separation distance, IRC 2018, Chapter 3.'],
+      ['Compared each fact with its requirement · <b>5 checks, 1 gap</b>','South wall at 3\'-6" needs a 1-hour rated wall (gap). Openings ≈14% of the wall, 25% allowed. Rear and north distances pass.'],
+      ['Section analysis complete · <b>top matches identified</b>','Best match: Table R302.1(1), exterior walls less than 5 feet from the lot line.']],'4.6'); }},
  {id:'answer',label:'Answer appears',run:async t=>{
     const a=add(`<div class="msg" id="answer">${AV}<div class="body">
-      <p class="lead"><b>Not yet.</b> Here’s how the new bedroom compares with the emergency escape requirements:</p>
+      <p class="lead"><b>Not as drawn.</b> Here’s how the cottage’s position compares with the fire separation rules:</p>
       <ol class="ans">
-        <li><b>Bedroom 3 needs an escape opening.</b> Sheet A-102 labels it a sleeping room.</li>
-        <li><b>Window W3 is too small.</b> It gives <b>4.8 sq ft</b> of net clear opening, and the code asks for at least <b>5.7 sq ft</b>.
+        <li><b>The south wall is 3'-6" from the side lot line.</b> That distance is the wall’s fire separation distance.</li>
+        <li><b>A wall that close has to be fire-rated.</b> Under 5 ft it needs a 1-hour fire-resistance rating, and the wall section shows a standard wall.
           <table class="checks"><tr><th>Requirement</th><th>On the plan</th><th>Code</th><th></th></tr>
-            <tr class="fail"><td>Net clear opening</td><td class="num">4.8 sq ft</td><td class="num">at least 5.7 sq ft</td><td>${cross}</td></tr>
-            <tr><td>Clear height</td><td class="num">31.4 in</td><td class="num">at least 24 in</td><td>${tick}</td></tr>
-            <tr><td>Clear width</td><td class="num">22 in</td><td class="num">at least 20 in</td><td>${tick}</td></tr>
-            <tr><td>Sill height</td><td class="num">40 in</td><td class="num">at most 44 in</td><td>${tick}</td></tr></table>
+            <tr class="fail"><td>South wall to lot line</td><td class="num">3'-6", not rated</td><td class="num">5'-0", or 1-hour rated</td><td>${cross}</td></tr>
+            <tr><td>Openings, south wall</td><td class="num">≈14% of wall</td><td class="num">at most 25%</td><td>${tick}</td></tr>
+            <tr><td>Rear lot line</td><td class="num">10'-0"</td><td class="num">5'-0" or more</td><td>${tick}</td></tr>
+            <tr><td>North lot line</td><td class="num">22'-4"</td><td class="num">5'-0" or more</td><td>${tick}</td></tr></table>
           <a class="source" role="button" id="src" data-act="source">Source ${ico('i-chev')}</a>
           <div class="xp" id="xp"><div class="cdcard">
             <div class="cdh">${ico('i-cpu')}Cognitive Decisioning<span class="strength">Decision Strength: 97%</span></div>
             <div class="cdsec"><div class="rh"><span class="ic2">${ico('i-bulb')}</span><div><b>Reasoning</b><small>Why is this suggested?</small></div></div>
-              <ol><li>Every sleeping room needs at least one operable emergency escape and rescue opening, and the plan labels Bedroom 3 as a sleeping room. <span class="seclink" data-act="cite" data-c="r3101">Section R310.1${ico('i-chev')}</span></li>
-                <li>An escape opening above the grade floor needs a net clear opening of at least 5.7 sq ft. The window schedule on sheet A-102 gives W3 22 × 31.4 in, which is 4.8 sq ft. <span class="seclink" id="lnk-code" data-act="citation">Section R310.2.1${ico('i-chev')}</span>
+              <ol><li>The site plan places the cottage’s south wall 3'-6" from the side lot line. Fire separation distance is measured from the wall to the closest interior lot line. <span class="seclink" data-act="cite" data-c="r3101">Section R302.1${ico('i-chev')}</span></li>
+                <li>Table R302.1(1) requires an exterior wall less than 5 feet from the lot line to have a 1-hour fire-resistance rating, tested from both sides. Wall type W1 on sheet A-301 has no rating. <span class="seclink" id="lnk-code" data-act="citation">Table R302.1(1)${ico('i-chev')}</span>
                   <div class="vcite" id="vcite">
                     <div class="vc"><div class="vch">IRC Section Summary</div><small>Details</small>
-                      <div class="vt">Section R310.2.1 — Minimum opening area</div>
-                      <ul><li><b>Code:</b> International Residential Code, 2018</li><li><b>Chapter:</b> 3 — Building planning</li><li><b>Section:</b> R310 — Emergency escape and rescue openings</li><li><b>Selected point:</b> minimum net clear opening</li></ul>
+                      <div class="vt">Section R302.1 — Exterior walls</div>
+                      <ul><li><b>Code:</b> International Residential Code, 2018</li><li><b>Chapter:</b> 3 — Building planning</li><li><b>Section:</b> R302 — Fire-resistant construction</li><li><b>Selected point:</b> Table R302.1(1), walls less than 5 feet</li></ul>
                       <div class="vt">Why this answers your question:</div>
-                      <p>Your question, <mark>“Does the new bedroom meet the emergency escape requirements?”</mark>, is answered by this excerpt because it sets <mark>the smallest opening an escape window may have</mark>, and W3 falls below it.</p></div>
-                    <div class="vc"><div class="vch link" id="genie-btn" data-act="genie">IRC 2018 — Section R310.2.1 ${ico('i-ext')}</div>
-                      <div class="pagethumb"><div class="ph">2018 INTERNATIONAL RESIDENTIAL CODE · CHAPTER 3</div><b>R310.2 Emergency escape and rescue openings.</b> Emergency escape and rescue openings shall meet the minimum dimensions in Sections R310.2.1 through R310.2.4.<br><b>R310.2.1 Minimum opening area.</b> <mark>Emergency escape and rescue openings shall have a net clear opening of not less than 5.7 square feet (0.530 m²).</mark> The net clear opening shall be reached by normal operation of the opening from the inside. The net clear height shall be not less than 24 inches and the net clear width not less than 20 inches.</div></div>
+                      <p>Your question, <mark>“Is the new cottage far enough from the side lot line?”</mark>, is answered by this excerpt because it sets <mark>the distance at which an exterior wall must be fire-rated</mark>, and the cottage’s south wall falls inside it.</p></div>
+                    <div class="vc"><div class="vch link" id="genie-btn" data-act="genie">IRC 2018 — Table R302.1(1) ${ico('i-ext')}</div>
+                      <div class="pagethumb"><div class="ph">2018 INTERNATIONAL RESIDENTIAL CODE · CHAPTER 3</div><b>R302.1 Exterior walls.</b> Construction, projections, openings and penetrations of exterior walls of dwellings and accessory buildings shall comply with Table R302.1(1).
+                        <table class="gtab"><tr><th>ELEMENT</th><th>RATING</th><th>DISTANCE</th></tr><tr><td>Walls</td><td><mark>1 hour, exposure from both sides</mark></td><td><mark>&lt; 5 feet</mark></td></tr><tr><td>Walls</td><td>0 hours</td><td>≥ 5 feet</td></tr><tr><td>Openings</td><td>25% max. of wall area</td><td>3 feet</td></tr></table></div></div>
                   </div></li>
-                <li>Height (31.4 in), width (22 in) and sill height (40 in) meet R310.2.1 and R310.2.2, so the area is the only problem. <span class="seclink" data-act="cite" data-c="r3102">Section R310.2.2${ico('i-chev')}</span></li></ol></div>
+                <li>Openings between 3 and 5 feet from the lot line are limited to 25% of the wall. The door and window use about 14%, so they can stay. <span class="seclink" data-act="cite" data-c="r3102">Table R302.1(1)${ico('i-chev')}</span></li></ol></div>
             <div class="cdsec gapsec"><div class="rh"><span class="ic2" style="background:#FDECEE;color:var(--bad)">${ico('i-alert')}</span><div><b>Gap</b><small>What’s missing or unclear</small></div></div>
-              <p><b>W3 is 0.9 sq ft short</b> of the minimum net clear opening. A larger unit or a casement window would close the gap.</p>
-              <div class="gap" style="background:none;border:0;padding:0;margin-top:8px"><div class="gfix" style="margin-top:0"><span data-act="free" data-q="sizes">Fix: larger double-hung unit</span><span data-act="free" data-q="sizes">Fix: casement, 24 × 36 in clear or more</span></div></div></div>
+              <p><b>The south wall is 1'-6" too close</b> to be built as a standard wall. Move the cottage to 5'-0" from the lot line, or detail a 1-hour rated wall.</p>
+              <div class="gap" style="background:none;border:0;padding:0;margin-top:8px"><div class="gfix" style="margin-top:0"><span data-act="free" data-q="sizes">Fix: move the cottage to 5'-0"</span><span data-act="free" data-q="sizes">Fix: 1-hour rated south wall</span></div></div></div>
             <div class="cdfoot"><span class="badge">${ico('i-cpu')}Cognitive Decisioning AI</span><span class="strength">Decision Strength: 97%</span></div>
           </div></div></li>
-        <li><b>Everything else about W3 passes:</b> clear height, clear width and sill height.</li>
+        <li><b>Everything else about the placement passes:</b> rear and north distances, and the openings in the south wall.</li>
       </ol>${now('9:41 AM')}</div></div>`);
     await scrollChat(a,'top');
  }},
  {id:'reasoning',label:'Reasoning and gap',run:async t=>{
     const src=$('#src'); if(ANIM){await point(src); await sleep(120); guard(t);}
     src.classList.add('open'); document.body.classList.add('chat-wide'); const xp=$('#xp'); xp.classList.add('on'); if(ANIM){xp.classList.remove('rise');void xp.offsetWidth;xp.classList.add('rise');}
-    setSheet('A-102'); markW3('gap'); hideCursor(); await sleep(560); await scrollChat(xp,'top');
+    setSheet('A-101'); markW3('gap'); hideCursor(); await sleep(560); await scrollChat(xp,'top');
  }},
  {id:'citation',label:'Visual citation',run:async t=>{
     const l=$('#lnk-code'); if(ANIM){await point(l); await sleep(120); guard(t);} hideCursor();
@@ -1320,8 +1339,8 @@ const STEPS=[
  {id:'next',label:'Permit Genie + next steps',run:async t=>{
     if(ANIM&&!st.genie){ const g=$('#genie-btn'); await point(g); await sleep(120); guard(t); hideCursor(); openGenie(); await sleep(2800); guard(t); }
     closeModal(); showCode();
-    const n=add(`<div class="msg" id="nextmsg">${AV}<div class="body next"><h6>Suggested next steps</h6><p style="margin:0 0 10px">Would you like to fix this with the applicant, or look further into the plan first?</p>
-      <div class="nchips"><span class="nchip" id="chip-draft" data-act="draft">Draft a correction notice</span><span class="nchip" data-act="free" data-q="sizes">Show window sizes that would comply</span><span class="nchip" data-act="free" data-q="rooms">Check the other sleeping rooms</span><span class="nchip" data-act="free" data-q="smoke">Review smoke alarm locations</span></div></div></div>`);
+    const n=add(`<div class="msg" id="nextmsg">${AV}<div class="body next"><h6>Suggested next steps</h6><p style="margin:0 0 10px">Would you like to send this back to the applicant, or look further into the site plan first?</p>
+      <div class="nchips"><span class="nchip" id="chip-draft" data-act="draft">Draft a correction notice</span><span class="nchip" data-act="free" data-q="sizes">Show the two ways to fix it</span><span class="nchip" data-act="free" data-q="rooms">Check the bedroom escape windows</span><span class="nchip" data-act="free" data-q="house">Check the distance to the main house</span></div></div></div>`);
     await scrollChat(n);
  }},
  {id:'decision',label:'Reviewer picks a step',run:async t=>{
@@ -1330,7 +1349,7 @@ const STEPS=[
     await sleep(500); guard(t);
     const d=add(`<div class="msg" id="draft">${AV}<div class="body"><p>Here’s a draft for you to check. Nothing goes to the applicant until you approve it.</p>
       <div class="notice"><div class="nh">Correction notice · BLD-2026-04817 <span class="pill warn" id="draft-pill">Draft</span></div>
-        <div class="nb"><div class="it">1. Sheet A-102 · Window W3, Bedroom 3</div><div id="notice-text">Provide an emergency escape and rescue opening with a net clear opening of at least 5.7 sq ft (IRC R310.2.1). W3 as shown provides 4.8 sq ft. Revise the window schedule and resubmit sheet A-102.</div></div>
+        <div class="nb"><div class="it">1. Sheet A-101 · South wall, fire separation distance</div><div id="notice-text">The cottage’s south wall is 3'-6" from the side lot line. Exterior walls less than 5 feet from a lot line must have a 1-hour fire-resistance rating, tested from both sides (IRC R302.1, Table R302.1(1)). Move the cottage to at least 5'-0" from the lot line, or detail a 1-hour rated south wall on A-301, and resubmit.</div></div>
         <div class="nf"><span class="ed" id="edited"></span><button class="btn out" id="edit-btn" data-act="edit">Edit</button><button class="btn pri" id="approve" data-act="send-notice">Approve and send</button></div></div>${now('9:42 AM')}</div></div>`);
     await scrollChat(d);
  }},
@@ -1351,26 +1370,26 @@ const STEPS=[
     st.day=3; setStatus('resub'); $('#bell').classList.remove('has');
     add(`<div class="divider">Next day · Nov 12, 10:05 AM</div>`);
     const m=add(`<div class="msg" id="resubmsg">${AV}<div class="body"><div class="sysc"><div class="sh">${ico('i-doc')}Resubmission received · Round 2</div>
-      <p>The applicant uploaded a revised sheet A-102 (Rev 1). The window schedule changed.</p>
-      <div class="sb"><button class="btn pri sm" id="chk-changed" data-act="recheck">${ico('i-spark')}Check what changed</button><button class="btn out sm" data-act="cite" data-c="sheet-rev">Open sheet A-102 Rev 1</button></div></div>${now('10:05 AM')}</div></div>`);
-    st.rev=1; drawPlan(1); schedW3(); setSheet('A-102'); markW3(false);
+      <p>The applicant uploaded a revised site plan, A-101 Rev 1. The cottage has moved on the lot.</p>
+      <div class="sb"><button class="btn pri sm" id="chk-changed" data-act="recheck">${ico('i-spark')}Check what changed</button><button class="btn out sm" data-act="cite" data-c="sheet-rev">Open site plan A-101 Rev 1</button></div></div>${now('10:05 AM')}</div></div>`);
+    st.rev=1; drawPlan(1); schedW3(); setSheet('A-101'); markW3(false);
     await scrollChat(m);
  }},
  {id:'recheck',label:'AI re-checks the plan',run:async t=>{
     const b=$('#chk-changed'); if(ANIM&&b){await point(b); await sleep(120); guard(t);} hideCursor();
     if(b) b.disabled=true;
     const u=add(`<div class="msg user"><div><div class="bubble">What changed in the resubmission?</div>${now('10:06 AM')}</div></div>`); await scrollChat(u); await sleep(400); guard(t);
-    await work(t,['Compared Rev 0 and Rev 1 · <b>1 sheet changed</b>','Re-checked W3 · <b>R310.2.1, R310.2.2</b>','Ran every check on the plan set · <b>23 of 23 passed</b>'],'3.1');
-    setSheet('A-102'); markW3('ok');
+    await work(t,['Compared Rev 0 and Rev 1 · <b>1 sheet changed</b>','Re-checked the south wall · <b>R302.1, Table R302.1(1)</b>','Ran every site check · <b>18 of 18 passed</b>'],'3.1');
+    setSheet('A-101'); markW3('ok');
     const a=add(`<div class="msg" id="recheckmsg">${AV}<div class="body">
-      <p class="lead"><b>It now meets the code.</b> W3 was changed from a double-hung window to a casement.</p>
+      <p class="lead"><b>It now meets the code.</b> The cottage moved 1'-6" north, so its south wall is 5'-0" from the side lot line and doesn’t need a fire rating.</p>
       <table class="checks"><tr><th>Requirement</th><th>Rev 1</th><th>Code</th><th></th></tr>
-        <tr class="pass"><td>Net clear opening</td><td class="num">6.0 sq ft</td><td class="num">at least 5.7 sq ft</td><td>${tick}</td></tr>
-        <tr><td>Clear height</td><td class="num">36 in</td><td class="num">at least 24 in</td><td>${tick}</td></tr>
-        <tr><td>Clear width</td><td class="num">24 in</td><td class="num">at least 20 in</td><td>${tick}</td></tr>
-        <tr><td>Sill height</td><td class="num">40 in</td><td class="num">at most 44 in</td><td>${tick}</td></tr></table>
-      <div class="allok"><div class="gh">${icoS('i-check',18)}All checks passed · 23 of 23</div><p>No open gaps on this plan set. The correction from Round 1 is resolved.</p></div>
-      <div class="nchips" style="margin-top:14px"><span class="nchip go okc" id="chip-approve" data-act="approve">${ico('i-check')}Approve permit</span><span class="nchip" data-act="free" data-q="checklist">Show all 23 checks</span></div>
+        <tr class="pass"><td>South wall to lot line</td><td class="num">5'-0"</td><td class="num">5'-0" or more</td><td>${tick}</td></tr>
+        <tr><td>Openings, south wall</td><td class="num">≈14% of wall</td><td class="num">unlimited at 5'-0"</td><td>${tick}</td></tr>
+        <tr><td>North lot line</td><td class="num">20'-10"</td><td class="num">5'-0" or more</td><td>${tick}</td></tr>
+        <tr><td>Main house</td><td class="num">19'-10"</td><td class="num">6'-0" or more</td><td>${tick}</td></tr></table>
+      <div class="allok"><div class="gh">${icoS('i-check',18)}All checks passed · 18 of 18</div><p>No open gaps on this permit. The correction from Round 1 is resolved.</p></div>
+      <div class="nchips" style="margin-top:14px"><span class="nchip go okc" id="chip-approve" data-act="approve">${ico('i-check')}Approve permit</span><span class="nchip" data-act="free" data-q="checklist">Show all 18 checks</span></div>
       ${now('10:06 AM')}</div></div>`);
     setStatus('ok'); await scrollChat(a,'top');
  }},
@@ -1378,8 +1397,8 @@ const STEPS=[
     const c=$('#chip-approve'); if(ANIM&&c){await point(c); await sleep(120); guard(t);} hideCursor();
     modal(`<div class="mh"><span class="ic" style="background:var(--ok-soft);color:var(--ok)">${ico('i-check')}</span><h3>Approve BLD-2026-04817?</h3></div>
       <div class="mb">This issues the building permit and notifies the applicant.
-        <div class="rows"><div><span>Code checks</span><b style="color:var(--ok)">23 of 23 passed</b></div><div><span>Corrections</span><b>1 of 1 resolved</b></div><div><span>Time in review</span><b>3 days</b></div><div><span>Condition</span><b>Final inspection before occupancy</b></div></div>
-        <label>Reviewer note</label><textarea id="rev-note">Approved after the Round 1 correction to window W3 (Bedroom 3). Final inspection required.</textarea></div>
+        <div class="rows"><div><span>Code checks</span><b style="color:var(--ok)">18 of 18 passed</b></div><div><span>Corrections</span><b>1 of 1 resolved</b></div><div><span>Time in review</span><b>3 days</b></div><div><span>Condition</span><b>Final inspection before occupancy</b></div></div>
+        <label>Reviewer note</label><textarea id="rev-note">Approved after the Round 1 correction: cottage moved to 5'-0" from the south side lot line (A-101 Rev 1). Final inspection required.</textarea></div>
       <div class="mf"><button class="btn out" data-act="close-modal">Cancel</button><button class="btn okb" id="m-approve" data-act="issue">${ico('i-check')}Approve and issue permit</button></div>`);
  }},
  {id:'issued',label:'Permit issued',run:async t=>{
@@ -1405,17 +1424,18 @@ async function work(t,steps,secs){
 
 /* ======================= side questions ======================= */
 const FREE={
- summary:{q:'Summarise this application',a:()=>`<p>A two-storey rear addition to a single-family home at 212 Linden Avenue. The new second floor adds <b>two bedrooms, a bathroom, a laundry and a hall</b>, about 880 sq ft.</p><ul><li>6 sheets: site plan, floor plan, elevations, framing and two detail sheets.</li><li>Lot coverage goes to 34% against a 40% maximum.</li><li>${st.rev?'All 23 checks now pass.':'The pre-check flagged <b>1 item</b> on sheet A-102.'}</li></ul>`},
- changed:{q:'What changed since the last submission?',a:()=>st.rev?`<p>Rev 1 changes one item on sheet A-102: <b>W3 is now a casement window, 24 × 36 in clear (6.0 sq ft)</b>, in place of the double-hung window at 4.8 sq ft. Nothing else changed.</p>`:`<p>This is the <b>first submission</b>, so there’s nothing to compare yet. I’ll show the differences if the applicant sends a revision.</p>`},
- smoke:{q:'Are the smoke alarms in the right places?',a:()=>`<p><b>Yes.</b> Sheet A-102 shows smoke alarms in Bedroom 3, Bedroom 4 and the hall outside them, marked SA on the plan. That is what R314.3 asks for, and general note 2 repeats it.</p>`},
- sizes:{q:'Show window sizes that would comply',a:()=>`<p>Any of these would give W3 enough opening with the same 40 in sill:</p><table class="mini"><tr><th>Window</th><th>Net clear (W × H)</th><th>Area</th><th></th></tr><tr><td>Casement</td><td class="num">24 × 36 in</td><td class="num">6.0 sq ft</td><td class="r">${tick}</td></tr><tr><td>Double-hung, wider</td><td class="num">32 × 26 in</td><td class="num">5.8 sq ft</td><td class="r">${tick}</td></tr><tr><td>Slider</td><td class="num">40 × 24 in</td><td class="num">6.7 sq ft</td><td class="r">${tick}</td></tr></table>`},
- rooms:{q:'Check the other sleeping rooms',a:()=>`<p><b>Bedroom 4 passes.</b> W4 is a casement with 28 × 46 in clear, which is 8.9 sq ft, and a 36 in sill. There are no other sleeping rooms on this sheet.</p>`},
- checklist:{q:'Show all 23 checks',a:()=>`<table class="mini"><tr><th>Check</th><th class="r">Passed</th></tr>${[['Emergency escape openings',4],['Smoke alarms',3],['Stair geometry',4],['Guards',2],['Ceiling height',3],['Minimum room areas',3],['Safety glazing',2],['Ventilation',2]].map(r=>`<tr><td>${r[0]}</td><td class="r num">${r[1]} of ${r[1]} ${tick}</td></tr>`).join('')}</table>`},
- due:{q:'Which permits are due this week?',a:()=>`<p><b>6 permits are due this week.</b> Two have items to review: <span class="lnk" data-act="row" data-id="BLD-2026-04817">BLD-2026-04817</span> ${st.issued?'(now approved and issued)':'(a bedroom window below the escape-opening minimum)'} and <span class="lnk" data-act="row" data-id="ROW-2026-00418">ROW-2026-00418</span> (the sidewalk clear path and a missing insurance certificate). The other four are ready for review.</p>`},
- flagged:{q:'What did the pre-check flag?',a:()=>`<ul><li><span class="lnk" data-act="row" data-id="BLD-2026-04817">BLD-2026-04817</span> · the Bedroom 3 window is below the 5.7 sq ft escape-opening minimum.</li><li><span class="lnk" data-act="row" data-id="ROW-2026-00418">ROW-2026-00418</span> · a 5 ft clear path where 6 ft is required, and no insurance certificate.</li></ul><p>The other 40 are ready for review.</p>`},
- next9:{q:'What happens next?',a:()=>`<p>The applicant gets the correction notice by email. When they upload a revised sheet, I’ll compare it with the original and re-run every check before you open it.</p>`},
- recap:{q:'Summarise this review',a:()=>`<ul><li><b>Nov 10</b> · submitted. The pre-check flagged window W3.</li><li><b>Nov 11</b> · correction notice sent (Round 1).</li><li><b>Nov 12</b> · sheet A-102 Rev 1 received. 23 of 23 checks passed.</li><li><b>Nov 12</b> · approved. Permit BP-2026-04817 issued.</li></ul><p>Total time in review: <b>3 days</b>.</p>`},
+ summary:{q:'Summarise this application',a:()=>`<p>A new detached <b>two-bedroom backyard cottage (ADU)</b>, 695 sq ft, at 212 Linden Avenue, built from a pre-approved standard plan with no changes.</p><ul><li>5 sheets: site plan, floor plan, elevations and wall section, plus the application.</li><li>Lot coverage goes to 34% against a 40% maximum.</li><li>${st.rev?'All 18 site checks now pass.':'The pre-check flagged <b>1 item</b> on the site plan, sheet A-101.'}</li></ul>`},
+ changed:{q:'What changed since the last submission?',a:()=>st.rev?`<p>Rev 1 changes one sheet, A-101: the cottage moved <b>1'-6" north</b>, so its south wall is now 5'-0" from the side lot line instead of 3'-6". Nothing else changed.</p>`:`<p>This is the <b>first submission</b>, so there’s nothing to compare yet. I’ll show the differences if the applicant sends a revision.</p>`},
+ smoke:{q:'Are the smoke alarms in the right places?',a:()=>`<p><b>Yes.</b> Sheet A-102 shows a smoke alarm in each bedroom and in the living area, marked SA, which is what R314.3 asks for.</p>`},
+ sizes:{q:'Show the two ways to fix it',a:()=>`<p>Either change closes the gap:</p><table class="mini"><tr><th>Option</th><th>What changes</th><th></th></tr><tr><td>Move the cottage north</td><td>South wall 5'-0" from the lot line, no rating needed</td><td class="r">${tick}</td></tr><tr><td>Rate the south wall</td><td>1-hour assembly tested from both sides, detailed on A-301</td><td class="r">${tick}</td></tr></table><p style="margin-top:8px">Moving it is usually simpler, because the standard plan stays unchanged.</p>`},
+ rooms:{q:'Check the bedroom escape windows',a:()=>`<p><b>Both bedrooms are covered.</b> Each bedroom has an escape window on the standard plan, which was checked when the plan was pre-approved. Placing it on this lot doesn’t change that.</p>`},
+ house:{q:'Check the distance to the main house',a:()=>`<p><b>Passes.</b> The cottage is 19'-10" from the main house on sheet A-101. Measured to the imaginary line between the two buildings, each wall is more than 5 feet away, so neither needs a fire rating.</p>`},
+ checklist:{q:'Show all 18 checks',a:()=>`<table class="mini"><tr><th>Check</th><th class="r">Passed</th></tr>${[['Fire separation distance',4],['Openings in exterior walls',2],['Setbacks',3],['Distance between buildings',1],['Lot coverage',1],['Height',1],['Smoke alarms',2],['Utility connections',2],['Access and address',1],['Drainage',1]].map(r=>`<tr><td>${r[0]}</td><td class="r num">${r[1]} of ${r[1]} ${tick}</td></tr>`).join('')}</table>`},
  corr0:{q:'Request corrections',a:()=>`<p>I haven’t found anything to correct yet. Ask me about the plan first, for example <span class="lnk" data-act="ask-main">“${QUESTION}”</span></p>`},
+ due:{q:'Which permits are due this week?',a:()=>`<p><b>6 permits are due this week.</b> Two have items to review: <span class="lnk" data-act="row" data-id="BLD-2026-04817">BLD-2026-04817</span> ${st.issued?'(now approved and issued)':'(a new backyard cottage that sits too close to the side lot line)'} and <span class="lnk" data-act="row" data-id="ROW-2026-00418">ROW-2026-00418</span> (the sidewalk clear path and a missing insurance certificate). The other four are ready for review.</p>`},
+ flagged:{q:'What did the pre-check flag?',a:()=>`<ul><li><span class="lnk" data-act="row" data-id="BLD-2026-04817">BLD-2026-04817</span> · the new cottage’s south wall is 3'-6" from the side lot line and isn’t fire-rated.</li><li><span class="lnk" data-act="row" data-id="ROW-2026-00418">ROW-2026-00418</span> · a 5 ft clear path where 6 ft is required, and no insurance certificate.</li></ul><p>The other 40 are ready for review.</p>`},
+ next9:{q:'What happens next?',a:()=>`<p>The applicant gets the correction notice by email. When they upload a revised sheet, I’ll compare it with the original and re-run every check before you open it.</p>`},
+ recap:{q:'Summarise this review',a:()=>`<ul><li><b>Nov 10</b> · submitted. The pre-check flagged the cottage’s distance to the side lot line.</li><li><b>Nov 11</b> · correction notice sent (Round 1).</li><li><b>Nov 12</b> · site plan A-101 Rev 1 received. 18 of 18 checks passed.</li><li><b>Nov 12</b> · approved. Permit BP-2026-04817 issued.</li></ul><p>Total time in review: <b>3 days</b>.</p>`},
 };
 let freeBusy=false;
 async function freeQA(key,custom){
@@ -1458,17 +1478,17 @@ async function queueAsk(){ if(qBusy||$('#q-answer').classList.contains('on')) re
   ph.classList.add('typed'); for(let i=1;i<=q.length;i++){ ph.textContent=q.slice(0,i); await realSleep(20); }
   await realSleep(300);
   $('#q-answer').innerHTML=`<button class="x" data-act="q-close">${icoS('i-close',16)}</button>
-    <p><b>6 permits are due this week.</b> Two have items to review: <span class="lnk" data-act="row" data-id="BLD-2026-04817">BLD-2026-04817</span> has one (a bedroom window below the escape-opening minimum) and <span class="lnk" data-act="row" data-id="ROW-2026-00418">ROW-2026-00418</span> has two (the sidewalk clear path and a missing insurance certificate). The other four are ready for review.</p>
+    <p><b>6 permits are due this week.</b> Two have items to review: <span class="lnk" data-act="row" data-id="BLD-2026-04817">BLD-2026-04817</span> has one (the new cottage sits too close to the side lot line) and <span class="lnk" data-act="row" data-id="ROW-2026-00418">ROW-2026-00418</span> has two (the sidewalk clear path and a missing insurance certificate). The other four are ready for review.</p>
     <div class="lst"><button class="btn pri sm" data-act="row" data-id="BLD-2026-04817">Open BLD-2026-04817</button><button class="btn out sm" data-act="row" data-id="ROW-2026-00418">Preview ROW-2026-00418</button></div>`;
   qAnswer(true); qBusy=false; }
 
 /* ======================= search / bell ======================= */
 function renderSearch(q){ q=(q||'').toLowerCase();
-  const items=[...QUEUE.map(r=>({t:r.id,s:`${r.project} · ${r.addr}`,act:`data-act="row" data-id="${r.id}"`})),{t:'IRC 2018 · R310',s:'Emergency escape and rescue openings',act:'data-act="open-r310"'},{t:'Code library',s:'All adopted codes',act:'data-act="nav" data-to="codes"'}]
+  const items=[...QUEUE.map(r=>({t:r.id,s:`${r.project} · ${r.addr}`,act:`data-act="row" data-id="${r.id}"`})),{t:'IRC 2018 · R302.1',s:'Exterior walls and fire separation distance',act:'data-act="open-r310"'},{t:'Code library',s:'All adopted codes',act:'data-act="nav" data-to="codes"'}]
     .filter(x=>!q||(x.t+' '+x.s).toLowerCase().includes(q)).slice(0,6);
   $('#sres').innerHTML=items.length?items.map(x=>`<div class="it" ${x.act}><span class="ic"><svg><use href="#i-doc"/></svg></span><div><b>${x.t}</b><small>${x.s}</small></div></div>`).join(''):`<div class="it" style="cursor:default;color:var(--ink3)">No matches</div>`; }
 function renderBell(){ const it=[];
-  if(cur===9) it.push(`<div class="it" data-act="skip"><span class="ic"><svg><use href="#i-doc"/></svg></span><div><b>Applicant resubmitted BLD-2026-04817</b><small>Revised sheet A-102 · Round 2 · just now</small></div></div>`);
+  if(cur===9) it.push(`<div class="it" data-act="skip"><span class="ic"><svg><use href="#i-doc"/></svg></span><div><b>Applicant resubmitted BLD-2026-04817</b><small>Revised site plan A-101 · Round 2 · just now</small></div></div>`);
   if(st.issued) it.push(`<div class="it" data-act="row" data-id="BLD-2026-04817"><span class="ic g"><svg><use href="#i-check"/></svg></span><div><b>Permit BP-2026-04817 issued</b><small>Applicant notified · final inspection pending</small></div></div>`);
   it.push(`<div class="it" data-act="nav" data-to="queue"><span class="ic w"><svg><use href="#i-clock"/></svg></span><div><b>6 permits are due this week</b><small>2 have items to review</small></div></div>`);
   it.push(`<div class="it" data-act="nav" data-to="dash"><span class="ic g"><svg><use href="#i-spark"/></svg></span><div><b>AI pre-check finished</b><small>All 42 new applications checked overnight</small></div></div>`);
@@ -1504,14 +1524,14 @@ document.addEventListener('click',async e=>{
     case 'code-ask': { const map={irc:['BLD-2026-04817','BLD-2026-04809','BLD-2026-04795'],ibc:[],zon:['ZON-2026-01192','ZON-2026-01188'],row:['ROW-2026-00418','ROW-2026-00421'],mutcd:['TRF-2026-00266','ROW-2026-00421']}[el.dataset.k];
       $('#c-ans').innerHTML=`<div class="sysc"><div class="sh">${ico('i-spark')}${map.length?map.length+' open permit'+(map.length===1?'':'s')+' use this code':'No open permits use this code'}</div><div class="sb" style="flex-wrap:wrap">${map.map(id=>`<button class="btn out sm" data-act="row" data-id="${id}">${id}</button>`).join('')||'<p>Nothing in the queue right now.</p>'}</div></div>`; break; }
     case 'open-r310': closeAll(); openPermit(); showCode(); break;
-    case 'toc': $$('#toc a').forEach(x=>x.classList.toggle('on',x===el)); if(el.dataset.r!=='R310'){ toast(el.textContent+' · not needed for this permit'); } break;
-    case 'sheet': if(el.dataset.s==='code') showCode(); else setSheet(el.dataset.s); if(el.dataset.s==='A-102'&&cur>=5) markW3(st.rev?(cur>=11?'ok':false):'gap'); break;
+    case 'toc': $$('#toc a').forEach(x=>x.classList.toggle('on',x===el)); if(el.dataset.r!=='R302'){ toast(el.textContent+' · not needed for this permit'); } break;
+    case 'sheet': if(el.dataset.s==='code') showCode(); else setSheet(el.dataset.s); if(el.dataset.s==='A-101'&&cur>=5) markW3(st.rev?(cur>=11?'ok':false):'gap'); break;
     case 'zoom': { const z=+el.dataset.z; st.zoom=z===0?1:Math.min(2,Math.max(.6,+(st.zoom+z*.2).toFixed(1))); applyZoom(); break; }
     case 'send': { const v=$('#cin').value.trim();
-      if(cur===1&&(!v||/bedroom|escape|egress|window/i.test(v))){ await advanceTo('answer'); }
+      if(cur===1&&(!v||/lot line|setback|distance|cottage|fire|far enough/i.test(v))){ await advanceTo('answer'); }
       else if(cur===10&&/chang|resubmi/i.test(v)){ $('#cin').value=''; await advanceTo('recheck'); }
       else if(cur===11&&/approve/i.test(v)){ $('#cin').value=''; await advanceTo('approve'); }
-      else if(v){ $('#cin').value=''; const key=/smoke/i.test(v)?'smoke':/summar/i.test(v)?'summary':/chang/i.test(v)?'changed':/size|comply/i.test(v)?'sizes':/check/i.test(v)&&cur>=11?'checklist':null; freeQA(key,v); }
+      else if(v){ $('#cin').value=''; const key=/smoke/i.test(v)?'smoke':/summar/i.test(v)?'summary':/chang/i.test(v)?'changed':/fix|comply/i.test(v)?'sizes':/house/i.test(v)?'house':/check/i.test(v)&&cur>=11?'checklist':null; freeQA(key,v); }
       else $('#cin').focus();
       break; }
     case 'free': freeQA(el.dataset.q); break;
@@ -1537,7 +1557,7 @@ document.addEventListener('click',async e=>{
       if(c==='r3021'){ showCode(); }
       else if(c==='r3101') showCode('r3101');
       else if(c==='r3102') showCode('r3102');
-      else { setSheet('A-102'); markW3(st.rev?'ok':'gap'); } break; }
+      else { setSheet('A-101'); markW3(st.rev?'ok':'gap'); } break; }
     case 'draft': if(cur===7) await advanceTo('decision'); else toast('The correction notice is already drafted'); break;
     case 'edit': { const nt=$('#notice-text'); const on=nt.isContentEditable; nt.contentEditable=!on; el.textContent=on?'Edit':'Save'; if(on){ $('#edited').textContent='Edited by you'; toast('Correction notice updated'); } else nt.focus(); break; }
     case 'send-notice': if(cur===8){ const nt=$('#notice-text'); if(nt.isContentEditable){ nt.contentEditable=false; $('#edit-btn').textContent='Edit'; } await advanceTo('sent'); } break;
@@ -1548,8 +1568,8 @@ document.addEventListener('click',async e=>{
     case 'close-modal': closeModal(); updateHint(); break;
     case 'back-queue': if(cur===13) await advanceTo('done'); else show('queue'); break;
     case 'view-permit': modal(`<div class="cb"><div class="ct"><div><h2>Building permit</h2><small class="num">BP-2026-04817 · Issued Nov 12, 2026</small></div><div class="seal">APPROVED<br>SAMPLE<br>PERMIT</div></div>
-        <div class="grid"><div><span>Project</span><b>Two-storey rear addition, single-family home</b></div><div><span>Address</span><b>212 Linden Avenue</b></div><div><span>Work type</span><b>Building · Residential · Addition</b></div><div><span>Code</span><b>IRC 2018</b></div><div><span>Approved plan set</span><b>6 sheets · A-102 Rev 1</b></div><div><span>Valid until</span><b>May 11, 2027</b></div></div>
-        <div class="cond"><b>Conditions.</b> Keep the approved plans on site. Final inspection is required before the new rooms are used. Window W3 must be installed as shown on A-102 Rev 1.</div></div>
+        <div class="grid"><div><span>Project</span><b>Detached ADU, two-bedroom backyard cottage</b></div><div><span>Address</span><b>212 Linden Avenue</b></div><div><span>Work type</span><b>Building · Residential · New ADU</b></div><div><span>Code</span><b>IRC 2018</b></div><div><span>Approved plan set</span><b>5 sheets · A-101 Rev 1</b></div><div><span>Valid until</span><b>May 11, 2027</b></div></div>
+        <div class="cond"><b>Conditions.</b> Keep the approved plans on site. The cottage must sit at least 5'-0" from the south side lot line, as shown on A-101 Rev 1. Final inspection is required before the cottage is occupied.</div></div>
         <div class="mf"><button class="btn out" data-act="resend">Resend to applicant</button><button class="btn pri" data-act="close-modal">Close</button></div>`,true); break;
     case 'resend': toast('Permit resent to the applicant'); break;
     case 'req-corr':
@@ -1563,11 +1583,11 @@ document.addEventListener('click',async e=>{
       if(cur===11) await advanceTo('approve');
       else if(cur>=12) toast('This permit is already approved');
       else modal(`<div class="mh"><span class="ic" style="background:var(--warn-soft);color:var(--warn)">${ico('i-alert')}</span><h3>Not ready to approve</h3></div>
-        <div class="mb">${cur<4?'Permitting AI hasn’t been asked to check this plan yet. Ask about the plan first, so nothing is missed.':cur<9?'This plan has <b>1 open gap</b>: window W3 in Bedroom 3 is 0.9 sq ft short of the minimum escape opening (R310.2.1).':'A correction notice is with the applicant. Wait for the resubmission, then approve.'}</div>
+        <div class="mb">${cur<4?'Permitting AI hasn’t been asked to check this plan yet. Ask about the plan first, so nothing is missed.':cur<9?'This plan has <b>1 open gap</b>: the cottage’s south wall is 3\'-6" from the side lot line and is not fire-rated (R302.1).':'A correction notice is with the applicant. Wait for the resubmission, then approve.'}</div>
         <div class="mf"><button class="btn out" data-act="close-modal">Close</button>${cur>=4&&cur<9?'<button class="btn pri" data-act="show-gap">Show me the gap</button>':cur>=9&&cur<11?'<button class="btn pri" data-act="skip-modal">Skip ahead to the resubmission</button>':''}</div>`);
       break;
     case 'skip-modal': closeModal(); if(cur===9) await advanceTo('resubmit'); else if(cur===10) await advanceTo('recheck'); break;
-    case 'show-gap': closeModal(); if(cur===4) await advanceTo('reasoning'); else { $('#src').classList.add('open'); $('#xp').classList.add('on'); scrollChat($('.gap')); setSheet('A-102'); markW3('gap'); } break;
+    case 'show-gap': closeModal(); if(cur===4) await advanceTo('reasoning'); else { $('#src').classList.add('open'); $('#xp').classList.add('on'); scrollChat($('.gapsec')); setSheet('A-101'); markW3('gap'); } break;
   }
 });
 $('#modal-bg').addEventListener('click',async e=>{ if(e.target.id==='modal-bg'&&cur!==12){ closeModal(); updateHint(); if(cur===6) await advanceTo('next'); } });
