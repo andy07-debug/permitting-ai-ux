@@ -1214,7 +1214,7 @@ function openDrawer(id){
   $('#drawer').classList.add('on'); $('#scrim').classList.add('on');
 }
 function closeDrawer(){ $('#drawer').classList.remove('on'); $('#scrim').classList.remove('on'); }
-function openGenie(){ st.genie=true; modal(`<div class="gh2"><h3>Code Genie</h3><button data-act="close-genie" aria-label="Close">${ico('i-close')}</button></div>
+function openGenie(){ st.genie=true; modal(`<div class="gh2"><h3>Permit Genie</h3><button data-act="close-genie" aria-label="Close">${ico('i-close')}</button></div>
   <div class="why">Why is this section relevant? <b>(Matching score: 99.0%)</b></div>
   <ol><li>Section R310.2.1 sets the minimum net clear opening for an emergency escape opening above the grade floor: 5.7 sq ft.</li><li>Bedroom 3 is a sleeping room on the second floor, and its only window, W3, is the escape opening this section measures.</li><li>W3 provides 4.8 sq ft, so this is the section that decides the answer.</li></ol>
   <div class="gpage"><div class="ph"><span>2018 INTERNATIONAL RESIDENTIAL CODE</span><span>CHAPTER 3 · BUILDING PLANNING</span></div><h4>SECTION R310 · EMERGENCY ESCAPE AND RESCUE OPENINGS</h4>
@@ -1317,7 +1317,7 @@ const STEPS=[
     l.classList.add('open'); const v=$('#vcite'); v.classList.add('on'); if(ANIM){v.classList.remove('rise');void v.offsetWidth;v.classList.add('rise');}
     showCode(); await scrollChat(v,'top');
  }},
- {id:'next',label:'Code Genie + next steps',run:async t=>{
+ {id:'next',label:'Permit Genie + next steps',run:async t=>{
     if(ANIM&&!st.genie){ const g=$('#genie-btn'); await point(g); await sleep(120); guard(t); hideCursor(); openGenie(); await sleep(2800); guard(t); }
     closeModal(); showCode();
     const n=add(`<div class="msg" id="nextmsg">${AV}<div class="body next"><h6>Suggested next steps</h6><p style="margin:0 0 10px">Would you like to fix this with the applicant, or look further into the plan first?</p>
