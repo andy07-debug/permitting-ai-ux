@@ -1,0 +1,1285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Permitting AI · Interactive demo</title>
+<meta name="description" content="Interactive demo of Permitting AI by Techolution: an AI review assistant for permit reviewers. Sample data only.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --stage:#0B1426;
+  --bg:#F3F5FA; --surface:#FFFFFF; --line:#E3E7EF; --line2:#D7DCE6;
+  --ink:#0E1A33; --ink2:#4A556B; --ink3:#7C879C;
+  --blue:#3289FF; --blue-ink:#1A6FE8; --blue-soft:#EAF3FF; --blue-line:#BFDBFF;
+  --ok:#138A4E; --ok-soft:#E6F6EE; --ok-line:#B7E4CA;
+  --bad:#C81E2A; --bad-soft:#FDECEE; --bad-line:#F5C2C7;
+  --warn:#A86200; --warn-soft:#FFF4DE;
+  --hl:#FFE68A;
+  --r:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--stage);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);overflow:hidden;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+input,textarea{font:inherit;color:inherit}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;background:var(--bg);transform-origin:0 0;overflow:hidden}
+.num{font-variant-numeric:tabular-nums}
+[data-act],.clickable{cursor:pointer}
+
+/* ---------- top bar ---------- */
+.topbar{height:64px;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 28px;gap:36px;position:relative;z-index:20}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .name{font-weight:700;font-size:19px;letter-spacing:-.2px}
+.brand .by{font-size:12px;color:var(--ink3);font-weight:500;margin-top:1px}
+.mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#3289FF 0%,#5B6CFF 100%);display:grid;place-items:center;flex:none;box-shadow:0 2px 6px rgba(50,137,255,.35)}
+.mark svg{width:20px;height:20px}
+.nav{display:flex;gap:6px;height:100%}
+.nav a{display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:var(--ink2);border-bottom:2px solid transparent;margin-bottom:-1px;text-decoration:none;cursor:pointer}
+.nav a:hover{color:var(--ink)}
+.nav a.on{color:var(--ink);border-bottom-color:var(--blue);font-weight:600}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:18px}
+.tb-search{width:300px;height:38px;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;gap:10px;padding:0 12px;color:var(--ink3);font-size:14px;background:#FAFBFD}
+.tb-search:hover{border-color:var(--line2)}
+.icon-btn{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;color:var(--ink2);position:relative}
+.icon-btn:hover{background:#F1F4F9}
+.icon-btn .dot{position:absolute;right:8px;top:7px;width:9px;height:9px;border-radius:50%;background:var(--bad);border:2px solid #fff;display:none}
+.icon-btn.has .dot{display:block}
+.avatar{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;border-radius:10px;padding:4px 8px 4px 4px}
+.avatar:hover{background:#F1F4F9}
+.avatar i{width:36px;height:36px;border-radius:50%;background:#DCE8FB;color:#1B4F9C;display:grid;place-items:center;font-style:normal;font-size:13px;font-weight:700}
+.avatar small{display:block;font-size:12px;color:var(--ink3);font-weight:500}
+
+/* dropdowns */
+.dd{position:absolute;top:58px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 44px rgba(14,26,51,.16);padding:8px;display:none;z-index:40}
+.dd.on{display:block}
+.dd h6{font-size:12px;font-weight:700;color:var(--ink3);letter-spacing:.6px;text-transform:uppercase;padding:8px 12px 6px}
+.dd .it{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border-radius:10px;font-size:14px;line-height:1.45;cursor:pointer}
+.dd .it:hover{background:#F4F7FC}
+.dd .it b{font-weight:600}
+.dd .it small{display:block;color:var(--ink3);font-size:12.5px}
+.dd .it .ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;flex:none;background:var(--blue-soft);color:var(--blue-ink)}
+.dd .it .ic.g{background:var(--ok-soft);color:var(--ok)}
+.dd .it .ic.w{background:var(--warn-soft);color:var(--warn)}
+.dd .it .ic svg{width:15px;height:15px}
+#dd-search{right:420px;width:420px}
+#dd-search .sbox{height:42px;border:1.5px solid var(--blue);border-radius:10px;display:flex;align-items:center;gap:10px;padding:0 12px;margin:4px 4px 8px;box-shadow:0 0 0 4px rgba(50,137,255,.12)}
+#dd-search input{border:0;outline:0;flex:1;font-size:14.5px}
+#dd-bell{right:210px;width:400px}
+#dd-user{right:24px;width:280px}
+.dd .stat{display:flex;gap:10px;padding:6px 12px 12px}
+.dd .stat div{flex:1;background:#F6F8FB;border-radius:10px;padding:10px}
+.dd .stat b{display:block;font-size:20px}
+.dd .stat span{font-size:12px;color:var(--ink3)}
+.dd hr{border:0;border-top:1px solid var(--line);margin:6px 0}
+
+.screen{position:absolute;left:0;top:64px;width:1920px;height:1016px;display:none}
+.screen.on{display:block}
+
+/* ---------- queue ---------- */
+.q-wrap{padding:30px 40px}
+.q-head{display:flex;align-items:flex-end;justify-content:space-between}
+.q-head h1{font-size:30px;font-weight:700;letter-spacing:-.4px}
+.q-head p{font-size:16px;color:var(--ink2);margin-top:6px}
+.kpis{display:flex;gap:14px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 18px;min-width:170px}
+.kpi b{display:block;font-size:24px;font-weight:700}
+.kpi span{font-size:13px;color:var(--ink3);font-weight:500}
+.ask{margin-top:24px;height:64px;background:var(--surface);border:1.5px solid var(--blue-line);border-radius:16px;display:flex;align-items:center;gap:14px;padding:0 10px 0 20px;box-shadow:0 6px 20px rgba(50,137,255,.10);cursor:text;position:relative}
+.ask .ph{font-size:17px;color:var(--ink3);flex:1}
+.ask .ph.typed{color:var(--ink)}
+.ask .go{height:44px;padding:0 18px;border-radius:11px;background:var(--blue);color:#fff;font-weight:600;font-size:15px;display:flex;align-items:center;gap:8px}
+.q-answer{position:absolute;left:0;right:0;top:72px;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 22px 50px rgba(14,26,51,.16);padding:18px 22px;z-index:10;display:none;cursor:default}
+.q-answer.on{display:block}
+.q-answer .x{position:absolute;right:14px;top:12px;width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:var(--ink3)}
+.q-answer .x:hover{background:#F1F4F9}
+.q-answer p{font-size:15.5px;line-height:1.6;max-width:1500px}
+.q-answer .lst{display:flex;gap:10px;margin-top:12px}
+.chips{display:flex;gap:10px;margin-top:22px}
+.chip{height:38px;padding:0 16px;border-radius:19px;border:1px solid var(--line2);background:var(--surface);font-size:14px;font-weight:500;color:var(--ink2);display:flex;align-items:center;gap:8px;cursor:pointer}
+.chip:hover{border-color:#B9C3D4}
+.chip b{font-weight:600;color:var(--ink3);font-size:13px}
+.chip i{width:9px;height:9px;border-radius:3px;display:inline-block}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip.on b{color:#AFC0DA}
+.table{margin-top:18px;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.tr{display:grid;grid-template-columns:200px 150px 1fr 260px 150px 130px 240px;align-items:center;padding:0 24px;height:66px;border-top:1px solid var(--line);font-size:15px}
+.tr.th{height:48px;border-top:0;background:#F8F9FC;font-size:12.5px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.6px}
+.tr .id{font-weight:600}
+.tr .muted{color:var(--ink2)}
+.tr.row{cursor:pointer}
+.tr.row:hover{background:#F7FAFF}
+.tr.row.focus{background:#F2F7FF;box-shadow:inset 3px 0 0 var(--blue)}
+.compact .tr:not(.th){height:56px}
+.tr.row.donerow{background:#F3FBF6;box-shadow:inset 3px 0 0 var(--ok)}
+.type{display:inline-flex;align-items:center;gap:8px;font-weight:500}
+.type i{width:9px;height:9px;border-radius:3px;display:inline-block}
+.pc{display:inline-flex;align-items:center;gap:8px;height:30px;padding:0 12px;border-radius:15px;font-size:13.5px;font-weight:600}
+.pc.ok{background:var(--ok-soft);color:var(--ok)}
+.pc.warn{background:var(--warn-soft);color:var(--warn)}
+.pc.blue{background:var(--blue-soft);color:var(--blue-ink)}
+.pc.grey{background:#EEF1F6;color:var(--ink2)}
+.pc svg{width:14px;height:14px}
+.done-banner{display:none;margin-top:20px;background:var(--ok-soft);border:1px solid var(--ok-line);border-radius:14px;padding:14px 18px;align-items:center;gap:14px;font-size:15.5px;color:#0D5C34}
+.done-banner.on{display:flex}
+.done-banner .ic{width:34px;height:34px;border-radius:50%;background:var(--ok);display:grid;place-items:center;color:#fff;flex:none}
+.done-banner .ic svg{width:18px;height:18px}
+.done-banner .btn{margin-left:auto}
+
+/* ---------- generic buttons/pills ---------- */
+.pill{height:28px;padding:0 12px;border-radius:14px;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.pill.blue{background:var(--blue-soft);color:var(--blue-ink)}
+.pill.grey{background:#EEF1F6;color:var(--ink2)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill .dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+.btn{height:42px;padding:0 18px;border-radius:10px;font-size:14.5px;font-weight:600;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.btn svg{width:15px;height:15px}
+.btn.out{border:1px solid var(--line2);background:var(--surface)}
+.btn.out:hover{border-color:#B9C3D4;background:#FAFBFD}
+.btn.pri{background:var(--blue);color:#fff}
+.btn.pri:hover{background:#2479EE}
+.btn.okb{background:var(--ok);color:#fff}
+.btn.sm{height:36px;font-size:13.5px;padding:0 14px}
+.btn[disabled]{opacity:.55;cursor:default}
+.btn.done[disabled]{opacity:1}
+
+/* ---------- permit ---------- */
+.p-head{height:118px;background:var(--surface);border-bottom:1px solid var(--line);padding:16px 32px 0;position:relative}
+.crumb{font-size:13.5px;color:var(--ink3);font-weight:500}
+.crumb a{color:var(--ink3);cursor:pointer;text-decoration:none}
+.crumb a:hover{color:var(--blue-ink);text-decoration:underline}
+.crumb b{color:var(--ink2);font-weight:600}
+.p-title{display:flex;align-items:center;gap:16px;margin-top:8px}
+.p-title h1{font-size:26px;font-weight:700;letter-spacing:-.3px}
+.p-meta{display:flex;gap:28px;margin-top:10px;font-size:14px;color:var(--ink2)}
+.p-meta b{color:var(--ink);font-weight:600}
+.p-actions{position:absolute;right:32px;top:40px;display:flex;gap:10px}
+
+.p-body{position:absolute;top:118px;left:0;right:0;bottom:0;padding:22px 32px 24px;display:flex;gap:22px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px}
+.work-l{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;min-width:0}
+.tabs{height:54px;display:flex;align-items:flex-end;gap:4px;padding:0 16px;border-bottom:1px solid var(--line)}
+.tab{height:42px;padding:0 16px;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:var(--ink2);border-radius:9px 9px 0 0;border:1px solid transparent;border-bottom:0;margin-bottom:-1px;cursor:pointer}
+.tab:hover{color:var(--ink)}
+.tab.on{background:var(--surface);border-color:var(--line);color:var(--ink);font-weight:600}
+.tab .tag{font-size:12px;font-weight:700;color:var(--ink3)}
+.tab .rev{font-size:11px;font-weight:700;color:var(--ok);background:var(--ok-soft);border-radius:6px;padding:2px 6px}
+.tab.code{color:var(--blue-ink)}
+.tab.code .bk{width:16px;height:16px}
+.tab-tools{margin-left:auto;align-self:center;display:flex;gap:6px;color:var(--ink3);font-size:13px;font-weight:600;align-items:center}
+.tab-tools .zm{border:1px solid var(--line);border-radius:8px;height:30px;display:inline-flex;align-items:center;overflow:hidden}
+.tab-tools .zm button{height:30px;width:30px;color:var(--ink2);font-weight:700}
+.tab-tools .zm button:hover{background:#F1F4F9}
+.tab-tools .zm span{min-width:48px;text-align:center}
+.tab-tools .fit{border:1px solid var(--line);border-radius:8px;height:30px;padding:0 10px;color:var(--ink2);font-weight:600}
+.tab-tools .fit:hover{background:#F1F4F9}
+.view{flex:1;display:none;flex-direction:column;min-height:0}
+.view.on{display:flex}
+.sheet{flex:1;min-height:0;padding:14px 16px 0;background:#F7F8FB}
+.sheet .frame{width:100%;height:100%;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.sheet svg{width:100%;height:100%;display:block;transition:transform .35s ease;transform-origin:50% 45%}
+.sheet.only{padding-bottom:16px}
+.sched{padding:14px 18px 16px}
+.sched h3{font-size:13px;font-weight:700;color:var(--ink3);letter-spacing:.6px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.sched table{width:100%;border-collapse:collapse;font-size:14px}
+.sched th{font-size:12px;color:var(--ink3);font-weight:600;text-align:left;padding:7px 10px;background:#F8F9FC;border-bottom:1px solid var(--line)}
+.sched td{padding:8px 10px;border-bottom:1px solid var(--line)}
+.sched tr.hl td{background:#FFF6CC}
+.sched tr.hl td:first-child{box-shadow:inset 3px 0 0 #E0A800}
+.sched tr.okrow td{background:#ECF8F1}
+.sched tr.okrow td:first-child{box-shadow:inset 3px 0 0 var(--ok)}
+
+/* code view */
+.code-wrap{flex:1;display:flex;min-height:0;position:relative}
+.toc{width:300px;border-right:1px solid var(--line);padding:18px 14px;background:#FAFBFD;overflow:hidden}
+.toc .ch{font-size:12px;font-weight:700;color:var(--ink3);letter-spacing:.6px;text-transform:uppercase;padding:0 10px 10px}
+.toc .bk-title{font-size:14px;font-weight:700;padding:0 10px 4px}
+.toc .bk-sub{font-size:12.5px;color:var(--ink3);padding:0 10px 16px}
+.toc a{display:block;font-size:13.5px;color:var(--ink2);padding:7px 10px;border-radius:8px;text-decoration:none;line-height:1.3;cursor:pointer}
+.toc a:hover{background:#F1F4F9}
+.toc a.on{background:var(--blue-soft);color:var(--blue-ink);font-weight:600}
+.doc{flex:1;padding:24px 34px;overflow:hidden;position:relative}
+.doc-inner{transition:transform .5s ease}
+.sum{border:1px solid var(--blue-line);background:linear-gradient(180deg,#F3F8FF,#fff);border-radius:12px;padding:16px 18px;margin-bottom:22px;max-width:760px}
+.sum h4{font-size:13px;font-weight:700;color:var(--blue-ink);display:flex;align-items:center;gap:8px;margin-bottom:6px;letter-spacing:.2px}
+.sum p{font-size:15px;line-height:1.55;color:var(--ink)}
+.doc .src{font-size:12.5px;color:var(--ink3);font-weight:600;letter-spacing:.4px;text-transform:uppercase}
+.doc h2{font-size:21px;font-weight:700;margin:6px 0 14px;letter-spacing:-.2px}
+.doc .sec{font-size:15.5px;line-height:1.7;color:#25304A;max-width:780px;margin-bottom:14px;border-radius:6px;transition:background .3s}
+.doc .sec b{color:var(--ink)}
+.doc .sec.soft{background:#FFF9DB;box-shadow:0 0 0 8px #FFF9DB}
+.doc mark{background:var(--hl);color:inherit;padding:2px 3px;border-radius:3px;box-shadow:0 0 0 2px var(--hl)}
+.doc .fade{position:absolute;left:0;right:0;bottom:0;height:110px;background:linear-gradient(180deg,rgba(255,255,255,0),#fff);pointer-events:none}
+.match{display:flex;gap:28px;align-items:center;max-width:780px;margin:4px 0 18px;background:#fff;border:1px solid var(--blue-line);border-left:4px solid var(--blue);border-radius:12px;box-shadow:0 12px 30px rgba(14,26,51,.10);padding:14px 20px}
+.m-score{width:300px;flex:none}
+.match h5{font-size:13px;font-weight:700;color:var(--ink2);display:flex;align-items:center;gap:8px}
+.match .score{font-size:40px;font-weight:800;letter-spacing:-1px;margin-top:6px;color:var(--ink)}
+.match .score small{font-size:15px;font-weight:600;color:var(--ink3);letter-spacing:0;margin-left:6px}
+.bar{height:8px;border-radius:4px;background:#EDF1F7;margin:6px 0 2px;overflow:hidden}
+.bar i{display:block;height:100%;width:99%;background:linear-gradient(90deg,#3289FF,#5B6CFF);border-radius:4px}
+.match dl{font-size:13.5px;line-height:1.5}
+.match dt{color:var(--ink3);font-weight:500;font-size:12.5px}
+.match dd{color:var(--ink);font-weight:600;margin-bottom:6px}
+
+/* ---------- assistant panel ---------- */
+.assist{width:660px;flex:none;display:flex;flex-direction:column;overflow:hidden}
+.ai-h{height:66px;display:flex;align-items:center;gap:12px;padding:0 18px;border-bottom:1px solid var(--line)}
+.ai-h .t{font-size:16.5px;font-weight:700}
+.ai-h .s{font-size:12.5px;color:var(--ink3);font-weight:500}
+.ctx{margin-left:auto;height:30px;padding:0 12px;border-radius:15px;background:#F1F4F9;font-size:13px;font-weight:600;color:var(--ink2);display:flex;align-items:center;gap:7px}
+.msgs{flex:1;overflow-y:auto;overflow-x:hidden;padding:20px 22px 10px;position:relative;scrollbar-width:thin}
+.msg{display:flex;gap:12px;margin-bottom:18px}
+.msg .av{width:30px;height:30px;border-radius:9px;flex:none;background:linear-gradient(135deg,#3289FF,#5B6CFF);display:grid;place-items:center;margin-top:2px}
+.msg .av svg{width:17px;height:17px}
+.msg .body{flex:1;min-width:0;font-size:15.5px;line-height:1.6}
+.msg .body p+p{margin-top:8px}
+.msg .body ul{margin:8px 0 0 20px}
+.msg .body li{margin-bottom:4px}
+.msg.user{justify-content:flex-end}
+.bubble{max-width:470px;background:#EEF2F8;border-radius:16px 16px 4px 16px;padding:12px 16px;font-size:15.5px;line-height:1.5}
+.time{font-size:11.5px;color:var(--ink3);margin-top:6px}
+.msg.user .time{text-align:right}
+.divider{display:flex;align-items:center;gap:12px;color:var(--ink3);font-size:12.5px;font-weight:600;margin:6px 0 18px}
+.divider:before,.divider:after{content:"";flex:1;border-top:1px dashed var(--line2)}
+.starters{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.starters span{border:1px solid var(--line2);border-radius:16px;padding:6px 12px;font-size:13.5px;color:var(--ink2);font-weight:500;cursor:pointer}
+.starters span:hover{border-color:var(--blue-line);color:var(--blue-ink);background:#F7FAFF}
+
+.work{border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#FAFBFD}
+.work-h{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--ink2)}
+.work-h svg{width:15px;height:15px;color:var(--blue)}
+.work-h .wt{margin-left:auto;font-weight:500;color:var(--ink3);font-size:12.5px}
+.work ol{list-style:none;margin-top:10px}
+.work li{display:flex;align-items:center;gap:10px;font-size:14.5px;color:var(--ink2);padding:5px 0}
+.work li b{color:var(--ink);font-weight:600}
+.st{width:20px;height:20px;border-radius:50%;flex:none;display:grid;place-items:center}
+.st.pend{border:2px solid #CBD3E1;border-top-color:var(--blue);animation:spin .8s linear infinite}
+.st.done{background:var(--ok);color:#fff}
+.st.done svg{width:12px;height:12px}
+.st.wait{border:2px solid #E1E6EF}
+@keyframes spin{to{transform:rotate(360deg)}}
+.typing{display:inline-flex;gap:5px;padding:8px 0}
+.typing i{width:7px;height:7px;border-radius:50%;background:#AEB8CA;animation:bob 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes bob{0%,60%,100%{transform:none;opacity:.6}30%{transform:translateY(-5px);opacity:1}}
+
+.lead b{font-weight:700}
+.checks{width:100%;border-collapse:separate;border-spacing:0;margin:12px 0 10px;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:14.5px}
+.checks th{font-size:12px;font-weight:600;color:var(--ink3);text-align:left;padding:8px 12px;background:#F8F9FC;text-transform:uppercase;letter-spacing:.5px}
+.checks td{padding:9px 12px;border-top:1px solid var(--line)}
+.checks td:last-child,.checks th:last-child{text-align:right;width:44px}
+.checks tr.fail td{background:var(--bad-soft)}
+.checks tr.fail td:nth-child(2){color:var(--bad);font-weight:700}
+.checks tr.pass td{background:#EEF9F3}
+.checks tr.pass td:nth-child(2){color:var(--ok);font-weight:700}
+.ck{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%}
+.ck.ok{background:var(--ok-soft);color:var(--ok)}
+.ck.no{background:var(--bad);color:#fff}
+.ck svg{width:12px;height:12px}
+.source{display:inline-flex;align-items:center;gap:6px;color:var(--blue-ink);font-weight:600;font-size:14.5px;cursor:pointer}
+.source svg{width:14px;height:14px;transition:transform .25s}
+.source.open svg{transform:rotate(180deg)}
+.xp{display:none;margin-top:12px}
+.xp.on{display:block}
+.rcard{border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:#fff;box-shadow:0 4px 14px rgba(14,26,51,.05)}
+.rcard .rh{display:flex;align-items:center;gap:10px}
+.rcard .rh .bulb{width:32px;height:32px;border-radius:9px;background:#FFF6D6;display:grid;place-items:center}
+.rcard .rh .bulb svg{width:19px;height:19px}
+.rcard .rh b{font-size:15.5px;display:block}
+.rcard .rh small{font-size:12.5px;color:var(--ink3)}
+.rcard ol{margin:12px 0 0 0;padding-left:20px;font-size:14.5px;line-height:1.6;color:#25304A}
+.rcard ol li{margin-bottom:7px;padding-left:2px}
+.lnk{color:var(--blue-ink);font-weight:600;cursor:pointer;white-space:nowrap}
+.lnk:hover{text-decoration:underline}
+.lnk svg{width:12px;height:12px;vertical-align:-1px;margin-left:2px}
+.rfoot{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:12px;border-top:1px solid var(--line)}
+.badge{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--ink2);background:#F1F4F9;border-radius:8px;padding:5px 10px}
+.badge svg{width:14px;height:14px}
+.strength{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--ok);background:var(--ok-soft);border-radius:14px;padding:5px 11px}
+.gap{margin-top:12px;border:1px solid var(--bad-line);background:var(--bad-soft);border-radius:14px;padding:14px 18px}
+.gap .gh{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700;color:var(--bad)}
+.gap p{font-size:14.5px;line-height:1.6;color:#4A1D22;margin-top:6px}
+.gap .gfix{display:flex;gap:12px;margin-top:10px;font-size:13.5px;font-weight:600;flex-wrap:wrap}
+.gap .gfix span{background:#fff;border:1px solid var(--bad-line);border-radius:8px;padding:5px 10px;color:#7A2730;cursor:pointer}
+.gap .gfix span:hover{border-color:#E28F98}
+.allok{margin-top:12px;border:1px solid var(--ok-line);background:var(--ok-soft);border-radius:14px;padding:14px 18px}
+.allok .gh{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700;color:var(--ok)}
+.allok p{font-size:14.5px;line-height:1.6;color:#0D4A2A;margin-top:6px}
+.mini{width:100%;border-collapse:collapse;font-size:14px;margin-top:10px}
+.mini th{text-align:left;font-size:12px;color:var(--ink3);font-weight:600;padding:6px 10px;background:#F8F9FC;border-bottom:1px solid var(--line)}
+.mini td{padding:7px 10px;border-bottom:1px solid var(--line)}
+.mini td.r,.mini th.r{text-align:right}
+
+.next h6{font-size:13px;font-weight:700;color:var(--ink3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px}
+.nchips{display:flex;flex-wrap:wrap;gap:9px}
+.nchip{border:1.5px solid var(--blue-line);color:var(--blue-ink);background:#fff;border-radius:20px;padding:8px 15px;font-size:14.5px;font-weight:600;display:inline-flex;align-items:center;gap:7px;cursor:pointer}
+.nchip:hover{background:#F4F8FF}
+.nchip.picked{background:var(--blue);border-color:var(--blue);color:#fff}
+.nchip.dim{opacity:.45}
+.nchip.go{background:var(--blue);border-color:var(--blue);color:#fff}
+.nchip.go.okc{background:var(--ok);border-color:var(--ok)}
+.nchip svg{width:14px;height:14px}
+
+.notice{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:10px;box-shadow:0 4px 14px rgba(14,26,51,.05)}
+.notice .nh{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#F8F9FC;border-bottom:1px solid var(--line);font-size:14.5px;font-weight:700}
+.notice .nh .pill{margin-left:auto;height:24px;font-size:12px}
+.notice .nb{padding:14px 16px;font-size:14.5px;line-height:1.6;color:#25304A}
+.notice .nb .it{font-weight:700;color:var(--ink);margin-bottom:4px}
+.notice .nb [contenteditable=true]{outline:2px solid var(--blue-line);border-radius:6px;padding:4px 6px;background:#FBFDFF}
+.notice .nf{display:flex;gap:10px;justify-content:flex-end;padding:0 16px 14px;align-items:center}
+.notice .nf .ed{margin-right:auto;font-size:12.5px;color:var(--ink3);font-weight:600}
+.notice .btn{height:38px;font-size:14px}
+.btn.done{background:var(--ok)}
+.sysc{border:1px solid var(--blue-line);background:#F5F9FF;border-radius:14px;padding:14px 16px}
+.sysc .sh{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px}
+.sysc .sh svg{width:16px;height:16px;color:var(--blue)}
+.sysc p{font-size:14.5px;line-height:1.55;color:#25304A;margin-top:4px}
+.sysc .sb{display:flex;gap:10px;margin-top:12px}
+.permitc{border:1px solid var(--ok-line);border-radius:14px;overflow:hidden;margin-top:10px}
+.permitc .ph{background:var(--ok);color:#fff;padding:12px 16px;font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px}
+.permitc .ph svg{width:16px;height:16px}
+.permitc .pb{padding:12px 16px;display:grid;grid-template-columns:1fr 1fr;gap:8px 18px;font-size:14px}
+.permitc .pb span{color:var(--ink3);font-size:12.5px;display:block}
+.permitc .pb b{font-weight:600}
+.permitc .pf{display:flex;gap:10px;padding:0 16px 14px}
+
+.composer{border-top:1px solid var(--line);padding:14px 18px 16px}
+.cbox{min-height:58px;border:1.5px solid var(--line2);border-radius:14px;display:flex;align-items:center;gap:10px;padding:8px 8px 8px 16px;background:#fff}
+.cbox.focus,.cbox:focus-within{border-color:var(--blue);box-shadow:0 0 0 4px rgba(50,137,255,.12)}
+#cin{flex:1;border:0;outline:0;font-size:15.5px;background:transparent;min-width:0}
+#cin::placeholder{color:var(--ink3)}
+.send{width:42px;height:42px;border-radius:11px;background:var(--blue);display:grid;place-items:center;flex:none}
+.send:hover{background:#2479EE}
+.send svg{width:18px;height:18px}
+.cnote{font-size:11.5px;color:var(--ink3);margin-top:8px;text-align:center}
+
+/* drawer */
+.drawer{position:absolute;top:64px;right:0;bottom:0;width:520px;background:#fff;border-left:1px solid var(--line);box-shadow:-20px 0 50px rgba(14,26,51,.12);transform:translateX(105%);transition:transform .35s cubic-bezier(.2,.7,.2,1);z-index:30;padding:26px 28px;display:flex;flex-direction:column}
+.drawer.on{transform:none}
+.drawer .dx{position:absolute;right:18px;top:18px;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;color:var(--ink3)}
+.drawer .dx svg{width:18px;height:18px}
+.drawer .dx:hover{background:#F1F4F9}
+.drawer .did{font-size:13px;font-weight:700;color:var(--ink3);letter-spacing:.4px}
+.drawer h2{font-size:23px;font-weight:700;margin:6px 0 10px;letter-spacing:-.3px;padding-right:40px}
+.drawer dl{display:grid;grid-template-columns:130px 1fr;gap:10px 14px;font-size:14.5px;margin:16px 0}
+.drawer dt{color:var(--ink3)}
+.drawer dd{font-weight:600}
+.drawer .aisum{border:1px solid var(--blue-line);background:#F5F9FF;border-radius:12px;padding:14px 16px;font-size:14.5px;line-height:1.6}
+.drawer .aisum h4{font-size:13px;color:var(--blue-ink);display:flex;gap:8px;align-items:center;margin-bottom:4px}
+.drawer .aisum h4 svg{width:14px;height:14px}
+.drawer .dfoot{margin-top:auto;display:flex;gap:10px}
+.scrim{position:absolute;left:0;right:0;top:64px;bottom:0;background:rgba(11,20,38,.18);opacity:0;pointer-events:none;transition:opacity .3s;z-index:25}
+.scrim.on{opacity:1;pointer-events:auto}
+
+/* modal */
+.modal-bg{position:absolute;inset:0;background:rgba(11,20,38,.42);display:none;place-items:center;z-index:60}
+.modal-bg.on{display:grid}
+.modal{width:620px;background:#fff;border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.3);overflow:hidden}
+.modal .mh{padding:22px 26px 6px;display:flex;align-items:center;gap:12px}
+.modal .mh .ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none}
+.modal .mh .ic svg{width:20px;height:20px}
+.modal .mh h3{font-size:20px;font-weight:700;letter-spacing:-.2px}
+.modal .mb{padding:10px 26px 6px;font-size:15px;line-height:1.6;color:#25304A}
+.modal .rows{border:1px solid var(--line);border-radius:12px;margin:12px 0;overflow:hidden}
+.modal .rows div{display:flex;justify-content:space-between;padding:11px 16px;border-top:1px solid var(--line);font-size:14.5px}
+.modal .rows div:first-child{border-top:0}
+.modal .rows b{font-weight:600}
+.modal textarea{width:100%;border:1px solid var(--line2);border-radius:10px;padding:10px 12px;font-size:14px;line-height:1.5;resize:none;height:74px;outline:none}
+.modal textarea:focus{border-color:var(--blue)}
+.modal label{font-size:12.5px;font-weight:600;color:var(--ink3);display:block;margin:6px 0 6px}
+.modal .mf{display:flex;justify-content:flex-end;gap:10px;padding:16px 26px 22px}
+.modal.cert{width:760px}
+.cert .cb{padding:26px 34px 10px}
+.cert .ct{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid var(--ink);padding-bottom:14px}
+.cert .ct h2{font-size:26px;font-weight:800;letter-spacing:-.4px}
+.cert .ct small{display:block;color:var(--ink3);font-size:13px;font-weight:600;margin-top:2px}
+.cert .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 30px;margin-top:18px;font-size:14.5px}
+.cert .grid span{display:block;font-size:12px;color:var(--ink3);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.cert .grid b{font-weight:600}
+.cert .cond{margin-top:18px;background:#F8F9FC;border-radius:12px;padding:12px 16px;font-size:14px;line-height:1.6}
+.cert .seal{width:92px;height:92px;border-radius:50%;border:3px solid var(--ok);color:var(--ok);display:grid;place-items:center;text-align:center;font-size:11px;font-weight:800;letter-spacing:.6px;transform:rotate(-8deg);line-height:1.3}
+
+/* other screens */
+.pg{padding:30px 40px}
+.pg h1{font-size:30px;font-weight:700;letter-spacing:-.4px}
+.pg .sub{font-size:16px;color:var(--ink2);margin-top:6px}
+.seg{display:inline-flex;background:#E9EDF4;border-radius:11px;padding:4px;gap:4px}
+.seg button{height:34px;padding:0 14px;border-radius:8px;font-size:14px;font-weight:600;color:var(--ink2)}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(14,26,51,.12)}
+.dgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:22px}
+.dk{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+.dk span{font-size:13.5px;color:var(--ink3);font-weight:600}
+.dk b{display:block;font-size:34px;font-weight:800;letter-spacing:-.8px;margin-top:6px}
+.dk small{font-size:13px;color:var(--ok);font-weight:600}
+.dpanels{display:grid;grid-template-columns:1.6fr 1fr;gap:18px;margin-top:18px}
+.dp{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 22px;height:560px;position:relative}
+.dp h3{font-size:16px;font-weight:700}
+.dp .h3s{font-size:13px;color:var(--ink3);margin-top:2px}
+.typebar{display:flex;align-items:center;gap:12px;margin-top:18px;font-size:14.5px}
+.typebar .tn{width:120px;font-weight:500}
+.typebar .tb{flex:1;height:12px;border-radius:6px;background:#EEF1F6;overflow:hidden}
+.typebar .tb i{display:block;height:100%;border-radius:6px}
+.typebar .tv{width:40px;text-align:right;font-weight:600}
+.demo-note{margin-top:14px;font-size:12.5px;color:var(--ink3);font-weight:500}
+.maparea{position:absolute;left:40px;right:40px;top:120px;bottom:30px;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.maparea > svg{width:100%;height:100%;display:block}
+.pin{cursor:pointer}
+.mpop{position:absolute;width:340px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 44px rgba(14,26,51,.18);padding:16px 18px;display:none;z-index:5}
+.mpop.on{display:block}
+.mpop h4{font-size:16px;font-weight:700;margin:4px 0 6px}
+.mpop p{font-size:13.5px;color:var(--ink2);line-height:1.5}
+.mpop .btn{margin-top:12px}
+.legend{position:absolute;left:58px;top:136px;display:flex;gap:8px;z-index:4}
+.codes{display:grid;grid-template-columns:520px 1fr;gap:20px;margin-top:22px}
+.clist{background:#fff;border:1px solid var(--line);border-radius:14px;padding:8px}
+.clist .ci{padding:14px 16px;border-radius:10px;cursor:pointer;display:flex;gap:14px;align-items:center}
+.clist .ci:hover{background:#F6F9FE}
+.clist .ci.on{background:var(--blue-soft)}
+.clist .ci .bk{width:40px;height:40px;border-radius:10px;background:#EEF3FB;display:grid;place-items:center;color:var(--blue-ink);flex:none}
+.clist .ci .bk svg{width:19px;height:19px}
+.clist .ci b{font-size:15px;display:block}
+.clist .ci small{font-size:13px;color:var(--ink3)}
+.cdetail{background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px 30px;min-height:560px}
+.cdetail h2{font-size:23px;font-weight:700;letter-spacing:-.3px;margin-top:4px}
+.cdetail p{font-size:15px;line-height:1.6;color:#25304A;margin-top:10px;max-width:900px}
+.cdetail .secs{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;max-width:900px}
+.cdetail .secs div{font-size:14px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;color:var(--ink2)}
+.apptabs{display:flex;gap:8px;margin-top:22px}
+
+.toast{position:absolute;left:50%;bottom:40px;transform:translate(-50%,20px);opacity:0;background:var(--ink);color:#fff;border-radius:12px;padding:14px 20px;font-size:15px;font-weight:600;display:flex;align-items:center;gap:10px;transition:all .35s ease;box-shadow:0 14px 30px rgba(0,0,0,.25);z-index:70;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.toast i{width:22px;height:22px;border-radius:50%;background:var(--ok);display:grid;place-items:center}
+.toast i svg{width:13px;height:13px;color:#fff}
+
+.rise{animation:rise .45s cubic-bezier(.2,.7,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.instant .rise{animation:none}
+
+/* guided hint on the next step */
+.hint{outline:3px solid rgba(50,137,255,.6);outline-offset:3px;animation:hint 1.6s ease-in-out infinite}
+@keyframes hint{50%{outline-color:rgba(50,137,255,.15);outline-offset:6px}}
+.clean .hint{outline:0;animation:none}
+
+#cursor{position:absolute;left:0;top:0;width:26px;height:26px;pointer-events:none;z-index:80;opacity:0;transition:opacity .2s}
+#cursor.on{opacity:1}
+.demo-badge{position:absolute;left:16px;bottom:10px;font-size:11.5px;font-weight:600;color:var(--ink3);background:rgba(255,255,255,.9);border:1px solid var(--line);border-radius:8px;padding:4px 9px;z-index:15;pointer-events:none}
+.clean .demo-badge{display:none}
+
+#hud{position:fixed;left:50%;transform:translateX(-50%);bottom:9px;display:flex;gap:6px;align-items:center;background:rgba(11,20,38,.9);color:#fff;border-radius:12px;padding:6px;font-size:13px;z-index:100;backdrop-filter:blur(6px)}
+#hud button{color:#fff;height:32px;padding:0 12px;border-radius:8px;background:rgba(255,255,255,.08);font-weight:600}
+#hud button:hover{background:rgba(255,255,255,.18)}
+#hud .lbl{padding:0 10px;min-width:210px;text-align:center;color:#C9D6EE}
+#hud .tt{padding:0 8px 0 6px;color:#8EA6CF;font-weight:700;letter-spacing:.4px;font-size:11.5px;text-transform:uppercase}
+.clean #hud{display:none}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="i-mark" viewBox="0 0 24 24"><path d="M6 3.5h8l4 4v13H6z" fill="none" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 3.5v4h4" fill="none" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 10.2l1 2.6 2.6 1-2.6 1-1 2.6-1-2.6-2.6-1 2.6-1z" fill="#fff"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z" fill="currentColor"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.3 1.1 2.2h5c0-.9.4-1.6 1.1-2.2A6 6 0 0 0 12 3z" fill="none" stroke="#C98A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2z" fill="currentColor"/><path d="M12 10v5M12 18v.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15zM10 21h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z M14 3v5h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-ff" viewBox="0 0 24 24"><path d="M4 6l8 6-8 6zM12 6l8 6-8 6z" fill="currentColor"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 21a8 8 0 0 1 16 0" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-redo" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<div id="stage">
+  <header class="topbar">
+    <div class="brand clickable" data-act="nav" data-to="queue">
+      <div class="mark"><svg><use href="#i-mark"/></svg></div>
+      <div><div class="name">Permitting AI</div><div class="by">by Techolution</div></div>
+    </div>
+    <nav class="nav" id="nav">
+      <a data-act="nav" data-to="queue">Review queue</a><a data-act="nav" data-to="apps">Applications</a><a data-act="nav" data-to="dash">Dashboard</a><a data-act="nav" data-to="map">Map</a><a data-act="nav" data-to="codes">Code library</a>
+    </nav>
+    <div class="tb-right">
+      <div class="tb-search clickable" data-act="dd" data-dd="dd-search"><svg width="16" height="16"><use href="#i-search"/></svg>Search permits, addresses, sheets</div>
+      <div class="icon-btn clickable" id="bell" data-act="dd" data-dd="dd-bell"><svg width="20" height="20"><use href="#i-bell"/></svg><span class="dot"></span></div>
+      <div class="avatar clickable" data-act="dd" data-dd="dd-user"><i>PR</i><div>Plan reviewer<small>Building review</small></div></div>
+    </div>
+    <div class="dd" id="dd-search">
+      <div class="sbox"><svg width="16" height="16" style="color:var(--blue)"><use href="#i-search"/></svg><input id="sin" placeholder="Search permits, addresses, sheets" autocomplete="off"></div>
+      <div id="sres"></div>
+    </div>
+    <div class="dd" id="dd-bell"><h6>Notifications</h6><div id="bell-list"></div></div>
+    <div class="dd" id="dd-user">
+      <div class="it" style="cursor:default"><span class="ic"><svg><use href="#i-user"/></svg></span><div><b>Plan reviewer</b><small>Building review · Sample account</small></div></div>
+      <div class="stat"><div><b class="num">12</b><span>Closed this week</span></div><div><b class="num">2.9 d</b><span>Avg. review time</span></div></div>
+      <hr>
+      <div class="it" data-act="nav" data-to="apps" data-filter="Mine"><span class="ic"><svg><use href="#i-doc"/></svg></span><div><b>My reviews</b><small>Applications assigned to you</small></div></div>
+      <div class="it" data-act="restart"><span class="ic w"><svg><use href="#i-redo"/></svg></span><div><b>Restart demo</b><small>Start the review from the beginning</small></div></div>
+    </div>
+  </header>
+
+  <!-- ===== REVIEW QUEUE ===== -->
+  <section class="screen" id="s-queue">
+    <div class="q-wrap">
+      <div class="q-head">
+        <div><h1>Review queue</h1><p id="q-greet">Good morning. 42 applications are waiting for your review.</p></div>
+        <div class="kpis">
+          <div class="kpi"><b class="num" id="k-wait">42</b><span>Waiting for review</span></div>
+          <div class="kpi"><b class="num">6</b><span>Due this week</span></div>
+          <div class="kpi"><b class="num" id="k-pre">42 / 42</b><span>Pre-checked by AI</span></div>
+        </div>
+      </div>
+      <div class="done-banner" id="done-banner">
+        <span class="ic"><svg><use href="#i-check"/></svg></span>
+        <div><b>BLD-2026-04817 approved in 3 days</b>, with one correction round. The permit is issued and the applicant has been notified.</div>
+        <button class="btn out sm" id="restart" data-act="restart"><svg><use href="#i-redo"/></svg>Restart demo</button>
+      </div>
+      <div class="ask" id="q-ask" data-act="q-ask">
+        <svg width="22" height="22" style="color:var(--blue);flex:none"><use href="#i-spark"/></svg>
+        <div class="ph" id="q-ph">Ask about any permit, in plain language…</div>
+        <div class="go">Ask Permitting AI</div>
+        <div class="q-answer" id="q-answer"></div>
+      </div>
+      <div class="chips" id="q-chips"></div>
+      <div class="table" id="q-table"></div>
+    </div>
+  </section>
+
+  <!-- ===== APPLICATIONS ===== -->
+  <section class="screen" id="s-apps">
+    <div class="pg">
+      <h1>Applications</h1><div class="sub">Every application in the system, across all departments.</div>
+      <div class="apptabs" id="app-tabs"></div>
+      <div class="table" id="a-table" style="margin-top:18px"></div>
+    </div>
+  </section>
+
+  <!-- ===== DASHBOARD ===== -->
+  <section class="screen" id="s-dash">
+    <div class="pg">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between">
+        <div><h1>Dashboard</h1><div class="sub">How permit review is running across your team.</div></div>
+        <div class="seg" id="dash-seg"><button data-act="range" data-r="week" class="on">This week</button><button data-act="range" data-r="month">This month</button><button data-act="range" data-r="quarter">This quarter</button></div>
+      </div>
+      <div class="dgrid" id="dash-kpis"></div>
+      <div class="dpanels">
+        <div class="dp"><h3>Reviews completed</h3><div class="h3s" id="dash-sub">Per day</div><svg id="dash-chart" viewBox="0 0 1000 440" style="width:100%;height:470px;margin-top:6px"></svg></div>
+        <div class="dp"><h3>Open applications by type</h3><div class="h3s">Waiting for review today</div><div id="dash-types" style="margin-top:12px"></div>
+          <div class="sysc" style="margin-top:30px"><div class="sh"><svg><use href="#i-spark"/></svg>AI pre-check</div><p>Every new application is checked against the adopted codes before a reviewer opens it. Open items are flagged in the queue.</p><div class="sb"><button class="btn out sm" data-act="nav" data-to="queue">Open the review queue</button></div></div>
+        </div>
+      </div>
+      <div class="demo-note">Sample data for this demo.</div>
+    </div>
+  </section>
+
+  <!-- ===== MAP ===== -->
+  <section class="screen" id="s-map">
+    <div class="pg"><h1>Map</h1><div class="sub">Open applications by location. Select a pin to see the permit.</div></div>
+    <div class="maparea"><svg id="map-svg" viewBox="0 0 1840 866" preserveAspectRatio="xMidYMid slice"></svg><div class="legend" id="map-legend" style="left:18px;top:16px"></div><div class="mpop" id="mpop"></div></div>
+  </section>
+
+  <!-- ===== CODE LIBRARY ===== -->
+  <section class="screen" id="s-codes">
+    <div class="pg"><h1>Code library</h1><div class="sub">The codes and rules Permitting AI checks applications against.</div>
+      <div class="codes"><div class="clist" id="c-list"></div><div class="cdetail" id="c-detail"></div></div>
+    </div>
+  </section>
+
+  <!-- ===== PERMIT + ASSISTANT ===== -->
+  <section class="screen" id="s-permit">
+    <div class="p-head">
+      <div class="crumb"><a data-act="nav" data-to="queue">Review queue</a> &nbsp;/&nbsp; <b>BLD-2026-04817</b></div>
+      <div class="p-title">
+        <h1>Two-storey rear addition, single-family home</h1>
+        <span class="pill blue" id="status-pill"><span class="dot"></span>In review</span>
+        <span class="pill grey num" id="day-pill">Day 2 in review</span>
+      </div>
+      <div class="p-meta">
+        <span>Type <b>Building · Residential</b></span>
+        <span>Address <b>212 Linden Avenue</b></span>
+        <span>Submitted <b class="num">Nov 10, 2026</b></span>
+        <span>Plan set <b>6 sheets</b></span>
+        <span>Code <b>IRC 2018</b></span>
+      </div>
+      <div class="p-actions" id="p-actions"></div>
+    </div>
+
+    <div class="p-body">
+      <div class="card work-l">
+        <div class="tabs" id="tabs">
+          <div class="tab" data-act="sheet" data-s="A-101"><span class="tag">A-101</span>Site plan</div>
+          <div class="tab on" data-act="sheet" data-s="A-102" id="tab-plan"><span class="tag">A-102</span>Second floor plan<span class="rev" id="rev-tag" style="display:none">Rev 1</span></div>
+          <div class="tab" data-act="sheet" data-s="A-201"><span class="tag">A-201</span>Elevations</div>
+          <div class="tab" data-act="sheet" data-s="S-101"><span class="tag">S-101</span>Framing</div>
+          <div class="tab code" data-act="sheet" data-s="code" id="tab-code" style="display:none"><svg class="bk"><use href="#i-book"/></svg>IRC 2018 · R310</div>
+          <div class="tab-tools"><div class="zm"><button data-act="zoom" data-z="-1">−</button><span id="zlbl">100%</span><button data-act="zoom" data-z="1">+</button></div><button class="fit" data-act="zoom" data-z="0">Fit</button></div>
+        </div>
+
+        <div class="view on" id="view-A-102">
+          <div class="sheet"><div class="frame"><svg id="plan" viewBox="0 0 1132 470" preserveAspectRatio="xMidYMid meet"></svg></div></div>
+          <div class="sched">
+            <h3>Window schedule · Sheet A-102 <span class="pill ok" id="sched-rev" style="display:none;height:22px;font-size:11.5px">Rev 1</span></h3>
+            <table>
+              <tr><th>Mark</th><th>Room</th><th>Type</th><th>Rough opening</th><th>Net clear (W × H)</th><th>Net clear area</th><th>Sill height</th></tr>
+              <tr><td><b>W1</b></td><td>Hall</td><td>Fixed</td><td class="num">4'-0" × 3'-0"</td><td>—</td><td>—</td><td class="num">36 in</td></tr>
+              <tr><td><b>W2</b></td><td>Bath 2</td><td>Awning</td><td class="num">2'-0" × 1'-6"</td><td>—</td><td>—</td><td class="num">60 in</td></tr>
+              <tr id="sched-w3"></tr>
+              <tr><td><b>W4</b></td><td>Bedroom 4</td><td>Casement</td><td class="num">2'-8" × 4'-6"</td><td class="num">28 × 46 in</td><td class="num">8.9 sq ft</td><td class="num">36 in</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="view" id="view-A-101"><div class="sheet only"><div class="frame"><svg id="sv-a101" viewBox="0 0 1132 600" preserveAspectRatio="xMidYMid meet"></svg></div></div></div>
+        <div class="view" id="view-A-201"><div class="sheet only"><div class="frame"><svg id="sv-a201" viewBox="0 0 1132 600" preserveAspectRatio="xMidYMid meet"></svg></div></div></div>
+        <div class="view" id="view-S-101"><div class="sheet only"><div class="frame"><svg id="sv-s101" viewBox="0 0 1132 600" preserveAspectRatio="xMidYMid meet"></svg></div></div></div>
+
+        <div class="view" id="view-code">
+          <div class="code-wrap">
+            <div class="toc" id="toc">
+              <div class="bk-title">International Residential Code</div>
+              <div class="bk-sub">2018 edition · as adopted</div>
+              <div class="ch">Chapter 3 · Building planning</div>
+            </div>
+            <div class="doc"><div class="doc-inner" id="doc-inner">
+              <div class="sum">
+                <h4><svg width="15" height="15"><use href="#i-spark"/></svg>Section summary</h4>
+                <p>Every sleeping room needs one operable escape opening. Above the grade floor it must give at least <b>5.7 sq ft</b> of net clear opening, at least 24 in high and 20 in wide, with a sill no higher than 44 in.</p>
+              </div>
+              <div class="src">Section R310</div>
+              <h2>Emergency escape and rescue openings</h2>
+              <p class="sec" id="sec-r3101"><b>R310.1 Required.</b> Basements, habitable attics and every sleeping room shall have at least one operable emergency escape and rescue opening, opening directly onto a public way or onto a yard or court that leads to one.</p>
+              <p class="sec"><b>R310.2 Openings.</b> Emergency escape and rescue openings shall meet the minimum dimensions in Sections R310.2.1 through R310.2.4.</p>
+              <p class="sec" id="code-hl"><b>R310.2.1 Minimum opening area.</b> <mark>Emergency escape and rescue openings shall have a net clear opening of not less than 5.7 square feet (0.530 m²).</mark> The net clear opening shall be reached by normal operation of the opening from the inside. The net clear height shall be not less than 24 inches and the net clear width not less than 20 inches. <i>Exception:</i> grade-floor or below-grade openings may have a net clear opening of not less than 5 square feet.</p>
+              <div class="match" id="match">
+                <div class="m-score"><h5><svg width="15" height="15" style="color:var(--blue)"><use href="#i-spark"/></svg>Code match</h5><div class="score num">99.0%<small>matching score</small></div><div class="bar"><i></i></div></div>
+                <dl><dt>Section</dt><dd>R310.2.1 Minimum opening area</dd><dt>Matched to</dt><dd>Bedroom 3 · Window W3 · Sheet A-102</dd></dl>
+              </div>
+              <p class="sec" id="sec-r3102"><b>R310.2.2 Window sill height.</b> Where a window is provided as the emergency escape and rescue opening, its sill shall be not more than 44 inches above the floor.</p>
+              <p class="sec"><b>R310.2.3 Window wells.</b> The horizontal area of a window well shall be not less than 9 square feet, with a horizontal projection and width of not less than 36 inches.</p>
+            </div><div class="fade"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card assist">
+        <div class="ai-h">
+          <div class="mark" style="width:32px;height:32px;border-radius:9px"><svg style="width:18px;height:18px"><use href="#i-mark"/></svg></div>
+          <div><div class="t">Permitting AI</div><div class="s">Review assistant</div></div>
+          <div class="ctx num"><svg width="13" height="13"><use href="#i-book"/></svg>BLD-2026-04817</div>
+        </div>
+        <div class="msgs" id="msgs"></div>
+        <div class="composer">
+          <div class="cbox" id="cbox">
+            <input id="cin" placeholder="Ask about this permit, in plain language…" autocomplete="off">
+            <button class="send" id="send" data-act="send"><svg><use href="#i-send"/></svg></button>
+          </div>
+          <div class="cnote">Permitting AI suggests. The reviewer decides.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="scrim" id="scrim" data-act="close-drawer"></div>
+  <aside class="drawer" id="drawer"></aside>
+
+  <div class="modal-bg" id="modal-bg"><div class="modal" id="modal"></div></div>
+
+  <div class="toast" id="toast"><i><svg><use href="#i-check"/></svg></i><span id="toast-t"></span></div>
+  <div class="demo-badge">Demo · sample data, not a real agency or permit</div>
+  <svg id="cursor" viewBox="0 0 26 26"><path d="M4 2l16 10.5-7 1.6 4.2 7.6-3 1.6-4.2-7.7L4 20z" fill="#0E1A33" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</div>
+
+<div id="hud">
+  <span class="tt">Guided demo</span>
+  <button id="b-prev" title="Previous step (←)">◀</button>
+  <span class="lbl" id="lbl">1 / 15</span>
+  <button id="b-next" title="Next step (→)">▶</button>
+  <button id="b-play" title="Play the whole review (Space)">Play</button>
+</div>
+
+<script>
+/* ======================= data ======================= */
+const TYPES={Building:'#3289FF',Zoning:'#8B5CF6',Utilities:'#0EA5A4','Right-of-way':'#F59E0B',Traffic:'#EF4444'};
+const QUEUE=[
+ {id:'BLD-2026-04817',type:'Building',project:'Two-storey rear addition, single-family home',addr:'212 Linden Avenue',sub:'Nov 10',day:2,pre:'warn',preT:'1 item to review',x:560,y:300,main:true},
+ {id:'ZON-2026-01192',type:'Zoning',project:'Rear setback variance',addr:'88 Harbor Street',sub:'Nov 9',day:3,pre:'ok',x:1180,y:620,sum:'The requested rear setback is 18 ft against the 25 ft minimum. The application includes a hardship statement and neighbour notices. Ready for the board packet.'},
+ {id:'UTL-2026-00731',type:'Utilities',project:'New water service connection',addr:'1450 Ridge Road',sub:'Nov 11',day:1,pre:'ok',x:1500,y:210,sum:'A 1-inch service with a meter pit at the property line. Main tap and backflow device match the utility standard details.'},
+ {id:'ROW-2026-00418',type:'Right-of-way',project:'Sidewalk café seating',addr:'31 Market Square',sub:'Nov 8',day:4,pre:'warn',preT:'2 items to review',x:930,y:470,sum:'Two items: the plan shows a 5 ft clear path where 6 ft is required, and the insurance certificate is missing.'},
+ {id:'TRF-2026-00266',type:'Traffic',project:'Pedestrian signal upgrade',addr:'Elm Street & 4th Avenue',sub:'Nov 9',day:3,pre:'ok',x:760,y:640,sum:'Countdown signal heads and accessible push buttons at all four corners. Timing sheet and engineering study are attached.'},
+ {id:'BLD-2026-04809',type:'Building',project:'Rooftop solar, 8.2 kW',addr:'17 Orchard Lane',sub:'Nov 10',day:2,pre:'ok',x:330,y:520,sum:'21 panels on the south roof with 36-inch fire setbacks at the ridge and edges. Structural letter confirms the roof load.'},
+ {id:'ROW-2026-00421',type:'Right-of-way',project:'Utility trench, fibre line',addr:'Cedar Avenue, 300 block',sub:'Nov 11',day:1,pre:'ok',x:1340,y:400,sum:'A 140 ft trench in the parking lane with a traffic control plan for one lane closure, weekdays 9 am to 3 pm.'},
+ {id:'ZON-2026-01188',type:'Zoning',project:'Change of use, retail to café',addr:'9 Station Plaza',sub:'Nov 7',day:5,pre:'ok',x:1080,y:250,sum:'A café is a permitted use in this district. Parking is exempt under the transit-area rule. Seating plan shows 28 seats.'},
+ {id:'UTL-2026-00726',type:'Utilities',project:'Gas line relocation',addr:'402 Birch Street',sub:'Nov 10',day:2,pre:'ok',x:1640,y:560,sum:'Relocates 60 ft of service line around a new foundation. Clearances to the water line meet the standard.'},
+ {id:'BLD-2026-04795',type:'Building',project:'Kitchen and bath renovation',addr:'540 Willow Court',sub:'Nov 8',day:4,pre:'ok',x:420,y:740,sum:'Interior work only: new GFCI outlets at the counters and an exhaust fan in the bathroom vented outside.'},
+];
+const DONE_APPS=[
+ {id:'BLD-2026-04771',type:'Building',project:'Rear deck, 240 sq ft',addr:'66 Maple Row',status:'Issued'},
+ {id:'ZON-2026-01170',type:'Zoning',project:'Home occupation permit',addr:'14 Hill Street',status:'Corrections requested'},
+ {id:'UTL-2026-00712',type:'Utilities',project:'Sewer lateral repair',addr:'905 River Road',status:'Approved'},
+ {id:'TRF-2026-00251',type:'Traffic',project:'Temporary road closure, street fair',addr:'Main Street',status:'Approved'},
+];
+const DASH={
+ week:{k:[['Applications received','48','+6 vs last week'],['Average review time','2.9 days','−0.4 days'],['Approved first time','72%','+5 pts'],['Open corrections','9','−3']],bars:[['Mon',9],['Tue',12],['Wed',10],['Thu',14],['Fri',11],['Sat',3],['Sun',2]],sub:'Per day, this week'},
+ month:{k:[['Applications received','186','+12%'],['Average review time','3.1 days','−0.6 days'],['Approved first time','69%','+7 pts'],['Open corrections','9','−5']],bars:[['Week 1',41],['Week 2',47],['Week 3',52],['Week 4',46]],sub:'Per week, this month'},
+ quarter:{k:[['Applications received','541','+9%'],['Average review time','3.4 days','−1.1 days'],['Approved first time','66%','+9 pts'],['Open corrections','9','−8']],bars:[['Sep',168],['Oct',187],['Nov',186]],sub:'Per month, this quarter'},
+};
+const CODES=[
+ {k:'irc',t:'International Residential Code',s:'2018 edition · adopted',d:'Covers one- and two-family homes and townhouses: room sizes, fire safety, emergency escape openings, stairs, structure and energy.',secs:['R301 Design criteria','R302 Fire-resistant construction','R303 Light, ventilation and heating','R304 Minimum room areas','R305 Ceiling height','R308 Glazing','R310 Emergency escape and rescue openings','R311 Means of egress','R314 Smoke alarms','R602 Wood wall framing'],open:true},
+ {k:'ibc',t:'International Building Code',s:'2018 edition · adopted',d:'Covers commercial and multi-family buildings: occupancy, construction type, fire protection, accessibility and structural design.',secs:['Ch. 3 Occupancy classification','Ch. 5 Building heights and areas','Ch. 7 Fire-resistance-rated construction','Ch. 9 Fire protection systems','Ch. 10 Means of egress','Ch. 11 Accessibility']},
+ {k:'zon',t:'Zoning ordinance',s:'2024 edition · local',d:'Sets permitted uses, setbacks, lot coverage, building height and parking for each zoning district.',secs:['Art. 2 Districts and uses','Art. 4 Setbacks and yards','Art. 5 Height and bulk','Art. 7 Parking and loading','Art. 9 Variances']},
+ {k:'row',t:'Right-of-way and street works rules',s:'2025 edition · local',d:'Rules for work in public streets and sidewalks: trenching, restoration, sidewalk cafés, clear paths and traffic control.',secs:['§ 3 Street opening permits','§ 5 Restoration standards','§ 8 Sidewalk cafés','§ 11 Work zone traffic control']},
+ {k:'mutcd',t:'Manual on Uniform Traffic Control Devices',s:'2023 edition · adopted',d:'The national standard for traffic signs, signals and road markings, used for traffic signal and work-zone permits.',secs:['Part 2 Signs','Part 3 Markings','Part 4 Highway traffic signals','Part 6 Temporary traffic control']},
+];
+const TOC=['R301 Design criteria','R302 Fire-resistant construction','R303 Light, ventilation and heating','R304 Minimum room areas','R305 Ceiling height','R306 Sanitation','R307 Toilet, bath and shower spaces','R308 Glazing','R309 Garages and carports','R310 Emergency escape and rescue openings','R311 Means of egress'];
+
+/* ======================= drawings ======================= */
+const INK='#1E2433', THIN='#3A4356';
+function svgT(x,y,t,s,w,c,a,extra){return `<text x="${x}" y="${y}" font-size="${s||12}" font-weight="${w||500}" fill="${c||THIN}" text-anchor="${a||'middle'}" font-family="Inter,system-ui,sans-serif" ${extra||''}>${t}</text>`;}
+function svgL(x1,y1,x2,y2,w,c,dash){return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c||INK}" stroke-width="${w||5}" ${dash?`stroke-dasharray="${dash}"`:''} stroke-linecap="square"/>`;}
+function titleBlock(tx,ty,h,title,num,rev,notes){
+  let g=`<rect x="${tx}" y="${ty}" width="220" height="${h}" fill="#FAFBFD" stroke="#C9D1DE" stroke-width="1.2"/>`;
+  const tl=y=>g+=svgL(tx,y,tx+220,y,1,'#D7DCE6');
+  g+=svgT(tx+16,ty+26,'PROJECT',10.5,700,'#8A94A7','start','letter-spacing="1"')+svgT(tx+16,ty+46,'Rear addition',15,700,INK,'start')+svgT(tx+16,ty+65,'212 Linden Avenue',12.5,500,'#5D677C','start'); tl(ty+82);
+  g+=svgT(tx+16,ty+104,'SHEET TITLE',10.5,700,'#8A94A7','start','letter-spacing="1"')+svgT(tx+16,ty+125,title,15,700,INK,'start'); tl(ty+144);
+  g+=svgT(tx+16,ty+166,'SCALE',10.5,700,'#8A94A7','start','letter-spacing="1"')+svgT(tx+16,ty+186,'1/4" = 1\'-0"',13,600,INK,'start');
+  g+=svgT(tx+120,ty+166,rev?'REVISION':'DATE',10.5,700,'#8A94A7','start','letter-spacing="1"')+svgT(tx+120,ty+186,rev?'Rev 1 · 11.11':'11.08.2026',13,600,rev?'#138A4E':INK,'start'); tl(ty+204);
+  if(notes){g+=svgT(tx+16,ty+226,'GENERAL NOTES',10.5,700,'#8A94A7','start','letter-spacing="1"'); notes.forEach((n,i)=>g+=svgT(tx+16,ty+248+i*20,n,11.5,500,'#5D677C','start')); tl(ty+314);}
+  g+=svgT(tx+16,ty+h-66,'SHEET',10.5,700,'#8A94A7','start','letter-spacing="1"')+svgT(tx+110,ty+h-16,num,50,800,INK,'middle','letter-spacing="-1"');
+  return g;
+}
+function drawPlan(rev){
+  const S=16.5, OX=96, OY=78, X=f=>OX+f*S, Y=f=>OY+f*S;
+  let g=''; const L=(...a)=>g+=svgL(...a), T=(...a)=>g+=svgT(...a);
+  g+=`<rect x="10" y="10" width="1112" height="450" fill="#fff" stroke="#C9D1DE" stroke-width="1.5"/>`;
+  for(let i=0;i<=40;i+=2) L(X(i),Y(0),X(i),Y(22),.5,'#EEF1F6');
+  for(let j=0;j<=22;j+=2) L(X(0),Y(j),X(40),Y(j),.5,'#EEF1F6');
+  g+=`<rect id="bed3fill" x="${X(0)}" y="${Y(0)}" width="${14*S}" height="${12*S}" fill="#3289FF" opacity="0"/>`;
+  g+=`<rect x="${X(0)}" y="${Y(0)}" width="${40*S}" height="${22*S}" fill="none" stroke="${INK}" stroke-width="9"/>`;
+  L(X(14),Y(0),X(14),Y(12)); L(X(22),Y(0),X(22),Y(8)); L(X(26),Y(0),X(26),Y(12));
+  L(X(14),Y(8),X(26),Y(8)); L(X(0),Y(12),X(14),Y(12)); L(X(26),Y(12),X(40),Y(12));
+  L(X(9),Y(16),X(17),Y(16)); L(X(9),Y(16),X(9),Y(22)); L(X(17),Y(16),X(17),Y(22));
+  L(X(17),Y(16),X(40),Y(16),1.6,THIN,'7 5'); L(X(0),Y(16),X(9),Y(16),1.6,THIN,'7 5');
+  const door=(x0,y,w,dir)=>{ g+=`<rect x="${X(x0)}" y="${Y(y)-4}" width="${w*S}" height="8" fill="#fff"/>`; const hx=X(x0),hy=Y(y),ly=hy+dir*w*S; L(hx,hy,hx,ly,2,THIN);
+    g+=`<path d="M${hx} ${ly} A ${w*S} ${w*S} 0 0 ${dir<0?1:0} ${X(x0+w)} ${hy}" fill="none" stroke="${THIN}" stroke-width="1.2" stroke-dasharray="3 3"/>`; };
+  door(10.5,12,2.75,-1); door(15,8,2.5,-1); door(27,12,2.75,-1); door(12,16,2.5,1);
+  g+=`<rect x="${X(22.6)}" y="${Y(8)-4}" width="${2.8*S}" height="8" fill="#fff"/>`; L(X(22.6),Y(8)-6,X(25.4),Y(8)-6,1.4,THIN,'4 3');
+  g+=`<g id="w3hl" opacity="0"><rect id="w3hlr" x="${X(4.2)-10}" y="${Y(0)-58}" width="${2.75*S+20}" height="78" rx="10" fill="#FFE68A" opacity=".75" stroke="#E0A800" stroke-width="2"/></g>`;
+  const win=(x0,w,tag,id)=>{
+    g+=`<g ${id?`id="${id}"`:''}><rect x="${X(x0)}" y="${Y(0)-6}" width="${w*S}" height="12" fill="#fff"/>`;
+    [-4,0,4].forEach(d=>g+=`<line x1="${X(x0)}" y1="${Y(0)+d}" x2="${X(x0+w)}" y2="${Y(0)+d}" stroke="${INK}" stroke-width="1.4"/>`);
+    g+=`<line x1="${X(x0)}" y1="${Y(0)-6}" x2="${X(x0)}" y2="${Y(0)+6}" stroke="${INK}" stroke-width="2"/><line x1="${X(x0+w)}" y1="${Y(0)-6}" x2="${X(x0+w)}" y2="${Y(0)+6}" stroke="${INK}" stroke-width="2"/>`;
+    const cx=X(x0+w/2); g+=`<line x1="${cx}" y1="${Y(0)-8}" x2="${cx}" y2="${Y(0)-22}" stroke="${THIN}" stroke-width="1"/><circle cx="${cx}" cy="${Y(0)-36}" r="14" fill="#fff" stroke="${INK}" stroke-width="1.6"/>`;
+    g+=svgT(cx,Y(0)-31.5,tag,12.5,700,INK)+'</g>';
+  };
+  win(4.5,rev?2.33:2.17,'W3','w3'); win(17,2,'W2'); win(31,2.67,'W4');
+  if(rev){ const cx=X(5.7)+28, cy=Y(0)-44; g+=`<path d="M${cx} ${cy-11} L${cx+11} ${cy+8} L${cx-11} ${cy+8} Z" fill="#E6F6EE" stroke="#138A4E" stroke-width="1.6"/>`+svgT(cx,cy+5,'1',11,800,'#138A4E'); }
+  g+=`<rect x="${X(30)}" y="${Y(22)-6}" width="${4*S}" height="12" fill="#fff"/>`; [-4,0,4].forEach(d=>L(X(30),Y(22)+d,X(34),Y(22)+d,1.4,INK));
+  g+=`<rect x="${X(14.5)}" y="${Y(0.5)}" width="${5*S}" height="${2.5*S}" rx="6" fill="none" stroke="${THIN}" stroke-width="1.3"/>`;
+  g+=`<rect x="${X(20.2)}" y="${Y(0.6)}" width="${1.4*S}" height="${2.8*S}" rx="4" fill="none" stroke="${THIN}" stroke-width="1.3"/>`;
+  g+=`<ellipse cx="${X(20.9)}" cy="${Y(5.9)}" rx="${.65*S}" ry="${.9*S}" fill="none" stroke="${THIN}" stroke-width="1.3"/>`;
+  for(let i=0;i<10;i++){const x=X(.6+i*.84);L(x,Y(16.6),x,Y(20.2),1.1,THIN);}
+  g+=`<path d="M${X(7.6)} ${Y(18.4)} H ${X(1.2)} m 8 -6 l -8 6 8 6" fill="none" stroke="${THIN}" stroke-width="1.4"/>`;
+  L(X(17.6),Y(16.6),X(39.4),Y(21.4),1,'#9AA5B8','6 5'); L(X(17.6),Y(21.4),X(39.4),Y(16.6),1,'#9AA5B8','6 5');
+  [[2.2,2.2],[37.8,2.2],[6,14]].forEach(([x,y])=>{g+=`<circle cx="${X(x)}" cy="${Y(y)}" r="10" fill="#fff" stroke="${THIN}" stroke-width="1.2"/>`+svgT(X(x),Y(y)+3.5,'SA',8.5,700,THIN);});
+  const room=(x,y,n,d)=>{T(X(x),Y(y),n,14,700,INK,'middle','letter-spacing="1.2"'); if(d)T(X(x),Y(y)+19,d,12,500,'#5D677C');};
+  room(7,6.6,'BEDROOM 3',`14'-0" × 12'-0"`); room(33,6.6,'BEDROOM 4',`14'-0" × 12'-0"`);
+  room(17.6,4.7,'BATH 2'); room(24,4.6,'CL.'); room(21,13.4,'HALL');
+  T(X(4.6),Y(21.3),'STAIR · DN',12,700,INK,'middle','letter-spacing="1"');
+  room(13,19.6,'LAUNDRY'); room(28.5,19.6,'OPEN TO BELOW');
+  L(X(0),26,X(40),26,1,THIN); L(X(0),20,X(0),32,1,THIN); L(X(40),20,X(40),32,1,THIN);
+  g+=`<rect x="${X(20)-34}" y="18" width="68" height="16" fill="#fff"/>`; T(X(20),30.5,`40'-0"`,12,600,THIN);
+  L(52,Y(0),52,Y(22),1,THIN); L(46,Y(0),58,Y(0),1,THIN); L(46,Y(22),58,Y(22),1,THIN);
+  g+=`<rect x="44" y="${Y(11)-30}" width="16" height="60" fill="#fff"/>`; T(56,Y(11)+4,`22'-0"`,12,600,THIN,'middle',`transform="rotate(-90 52 ${Y(11)})"`);
+  g+=titleBlock(890,22,426,'Second floor plan','A-102',rev,['1. Verify all dimensions on site.','2. Smoke alarm in each bedroom.','3. Window sizes per schedule.']);
+  document.getElementById('plan').innerHTML=g;
+}
+function drawSheets(){
+  let g=`<rect x="10" y="10" width="1112" height="580" fill="#fff" stroke="#C9D1DE" stroke-width="1.5"/>`;
+  const k=6.2, lx=170, ly=110;
+  g+=`<defs><pattern id="hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="10" stroke="#3289FF" stroke-width="2" opacity=".55"/></pattern></defs>`;
+  g+=`<rect x="70" y="60" width="70" height="460" fill="#EEF1F6"/>`+svgT(105,290,'LINDEN AVENUE',13,700,'#5D677C','middle','letter-spacing="2" transform="rotate(-90 105 290)"');
+  g+=`<rect x="${lx}" y="${ly}" width="${110*k}" height="${50*k}" fill="#F7FBF4" stroke="${INK}" stroke-width="2" stroke-dasharray="14 6 3 6"/>`;
+  const hx=lx+20*k, hy=ly+5*k;
+  g+=`<rect x="${hx}" y="${hy}" width="${40*k}" height="${40*k}" fill="#E9EDF3" stroke="${INK}" stroke-width="3"/>`+svgT(hx+20*k,hy+20*k,'EXISTING HOUSE',13,700,INK,'middle','letter-spacing="1"')+svgT(hx+20*k,hy+20*k+18,'2 storeys',12,500,'#5D677C');
+  g+=`<rect x="${hx+40*k}" y="${hy}" width="${22*k}" height="${40*k}" fill="url(#hatch)" stroke="#1A6FE8" stroke-width="3"/>`+`<rect x="${hx+40*k+14}" y="${hy+20*k-26}" width="${22*k-28}" height="46" fill="#fff" opacity=".9" rx="6"/>`+svgT(hx+51*k,hy+20*k-6,'NEW',13,800,'#1A6FE8','middle','letter-spacing="1"')+svgT(hx+51*k,hy+20*k+12,'ADDITION',13,800,'#1A6FE8','middle','letter-spacing="1"');
+  const rs=lx+110*k-25*k; g+=svgL(rs,ly,rs,ly+50*k,1.5,'#C81E2A','8 6')+svgT(rs+8,ly+20,'REAR SETBACK LINE',11,700,'#C81E2A','start','letter-spacing=".5"');
+  g+=svgL(hx+62*k,ly+50*k+28,rs,ly+50*k+28,1,THIN)+svgT((hx+62*k+rs)/2,ly+50*k+44,`3'-0" clear`,12,600,THIN);
+  g+=svgL(rs,ly+50*k+60,lx+110*k,ly+50*k+60,1,THIN)+svgT((rs+lx+110*k)/2,ly+50*k+76,`25'-0" min. rear yard`,12,600,THIN);
+  g+=svgL(lx,ly-24,lx+110*k,ly-24,1,THIN)+`<rect x="${lx+55*k-40}" y="${ly-32}" width="80" height="16" fill="#fff"/>`+svgT(lx+55*k,ly-20,`110'-0"`,12,600,THIN);
+  g+=`<g transform="translate(830,520)"><circle r="22" fill="none" stroke="${THIN}" stroke-width="1.4"/><path d="M0 -18 L7 6 L0 1 L-7 6Z" fill="${INK}"/>${svgT(0,-28,'N',12,800,INK)}</g>`;
+  g+=titleBlock(890,22,556,'Site plan','A-101',false,['1. Lot area 5,500 sq ft.','2. Lot coverage 34% (40% max).','3. No change to driveway.']);
+  document.getElementById('sv-a101').innerHTML=g;
+
+  const s=13, ex=150, gy=470;
+  g=`<rect x="10" y="10" width="1112" height="580" fill="#fff" stroke="#C9D1DE" stroke-width="1.5"/>`;
+  g+=`<defs><pattern id="gr" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#9AA5B8" stroke-width="1.2"/></pattern></defs>`;
+  g+=svgL(60,gy,860,gy,3,INK)+`<rect x="60" y="${gy}" width="800" height="16" fill="url(#gr)"/>`;
+  const W=40*s, top=gy-19*s;
+  g+=`<rect x="${ex}" y="${top}" width="${W}" height="${19*s}" fill="#FBFCFE" stroke="${INK}" stroke-width="3"/>`;
+  g+=`<path d="M${ex-16} ${top} L${ex+W/2} ${top-8*s} L${ex+W+16} ${top}" fill="none" stroke="${INK}" stroke-width="3"/>`;
+  for(let i=1;i<38;i++) g+=svgL(ex,top+i*6.5,ex+W,top+i*6.5,.4,'#E3E7EF');
+  g+=svgL(ex,gy-10*s,ex+W,gy-10*s,1,'#9AA5B8','6 5');
+  const wnd=(fx,fw,sill,h,tag,hl)=>{const x=ex+fx*s, y=gy-(10+sill)*s-h*s; g+=`<rect x="${x}" y="${y}" width="${fw*s}" height="${h*s}" fill="#EAF3FF" stroke="${hl?'#E0A800':INK}" stroke-width="${hl?3:2}"/>`+svgL(x,y+h*s/2,x+fw*s,y+h*s/2,1.5,INK);
+    if(tag) g+=`<circle cx="${x+fw*s/2}" cy="${y-24}" r="13" fill="#fff" stroke="${INK}" stroke-width="1.5"/>`+svgT(x+fw*s/2,y-19.5,tag,12,700,INK);};
+  wnd(4.5,2.17,3.33,4.2,'W3',true); wnd(17,2,5,1.5,'W2'); wnd(31,2.67,3,4.5,'W4');
+  g+=`<rect x="${ex+8*s}" y="${gy-7*s}" width="${3*s}" height="${7*s}" fill="#fff" stroke="${INK}" stroke-width="2"/>`;
+  g+=`<rect x="${ex+20*s}" y="${gy-6.5*s}" width="${8*s}" height="${5*s}" fill="#EAF3FF" stroke="${INK}" stroke-width="2"/>`;
+  g+=svgL(ex+W+30,gy-10*s,ex+W+60,gy-10*s,1,THIN)+svgT(ex+W+64,gy-10*s+4,`2ND FLOOR 10'-0"`,11,700,THIN,'start');
+  g+=svgL(ex+W+30,top,ex+W+60,top,1,THIN)+svgT(ex+W+64,top+4,`WALL 19'-0"`,11,700,THIN,'start');
+  const sx=ex-24; g+=svgL(sx,gy-10*s,sx,gy-(10+3.33)*s,1.2,'#A86200')+svgT(sx-6,gy-11.4*s,`SILL 40"`,11,700,'#A86200','end');
+  g+=svgT(ex+W/2,gy+46,'REAR ELEVATION',15,800,INK,'middle','letter-spacing="1.5"')+svgT(ex+W/2,gy+66,'Scale 1/4" = 1\'-0"',12,500,'#5D677C');
+  g+=titleBlock(890,22,556,'Elevations','A-201',false,['1. Siding to match existing.','2. Roof pitch 6:12.','3. Window tags per A-102.']);
+  document.getElementById('sv-a201').innerHTML=g;
+
+  const S=16.5, OX=96, OY=110, X=f=>OX+f*S, Y=f=>OY+f*S;
+  g=`<rect x="10" y="10" width="1112" height="580" fill="#fff" stroke="#C9D1DE" stroke-width="1.5"/>`;
+  g+=`<rect x="${X(0)}" y="${Y(0)}" width="${40*S}" height="${22*S}" fill="none" stroke="${INK}" stroke-width="6"/>`;
+  for(let f=1.333;f<40;f+=1.333) g+=svgL(X(f),Y(0),X(f),Y(22),1,'#7C879C');
+  g+=svgL(X(0),Y(12),X(40),Y(12),5,'#1A6FE8','16 8');
+  g+=`<rect x="${X(12.5)}" y="${Y(12)-14}" width="${15*S}" height="24" fill="#fff"/>`+svgT(X(20),Y(12)+4,'(2) 1¾ × 11⅞ LVL BEAM',12.5,800,'#1A6FE8');
+  [[7.5,5],[33.5,5],[27.5,18]].forEach(([x,y])=>g+=`<rect x="${X(x)-80}" y="${Y(y)-14}" width="160" height="24" fill="#fff"/>`+svgT(X(x),Y(y)+4,'2×10 @ 16" O.C.',12.5,700,INK));
+  [[4.5,'2×8 HEADER'],[31,'2×10 HEADER']].forEach(([f,t])=>g+=svgL(X(f-.5),Y(0)+10,X(f+3),Y(0)+10,4,'#A86200')+svgT(X(f+1.2),Y(0)-10,t,11,700,'#A86200'));
+  g+=svgT(X(20),Y(22)+40,'SECOND FLOOR FRAMING PLAN',15,800,INK,'middle','letter-spacing="1.5"');
+  g+=titleBlock(890,22,556,'Framing plan','S-101',false,['1. Lumber SPF No. 2 or better.','2. Joist hangers at the beam.','3. Engineer letter attached.']);
+  document.getElementById('sv-s101').innerHTML=g;
+}
+
+/* ======================= helpers ======================= */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const stage=$('#stage'), msgs=$('#msgs'), cursor=$('#cursor');
+const P=new URLSearchParams(location.search);
+if(P.has('clean')) document.body.classList.add('clean');
+function fit(){const res=P.has('clean')?0:56, H=innerHeight-res, s=Math.min(innerWidth/1920,H/1080);stage.style.transform=`translate(${(innerWidth-1920*s)/2}px,${(H-1080*s)/2}px) scale(${s})`;}
+addEventListener('resize',fit); fit();
+const ico=(id,cls)=>`<svg class="${cls||''}"><use href="#${id}"/></svg>`;
+const icoS=(id,px,color)=>`<svg style="width:${px}px;height:${px}px;${color?'color:'+color:''}"><use href="#${id}"/></svg>`;
+const AV=`<div class="av"><svg><use href="#i-mark"/></svg></div>`;
+const tick=`<span class="ck ok">${ico('i-check')}</span>`, cross=`<span class="ck no">${ico('i-x')}</span>`;
+let ANIM=false, TOKEN=0;
+const realSleep=ms=>new Promise(r=>setTimeout(r,ms));
+const sleep=ms=>ANIM?realSleep(ms):Promise.resolve();
+function guard(t){if(t!==TOKEN) throw 'stale';}
+function add(html){const d=document.createElement('div');d.innerHTML=html.trim();const el=d.firstElementChild;if(ANIM)el.classList.add('rise');msgs.appendChild(el);return el;}
+function scrollChat(el,mode){
+  if(!el) return Promise.resolve();
+  const target=mode==='top'?Math.max(0,el.offsetTop-16):Math.max(0,el.offsetTop+el.offsetHeight-msgs.clientHeight+20);
+  if(!ANIM){msgs.scrollTop=target;return Promise.resolve();}
+  const from=msgs.scrollTop, d=target-from, dur=600, t0=performance.now();
+  return new Promise(r=>{const f=now=>{const k=Math.min(1,(now-t0)/dur), e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2; msgs.scrollTop=from+d*e; k<1?requestAnimationFrame(f):r();};requestAnimationFrame(f);});
+}
+function stagePos(el){const s=stage.getBoundingClientRect(), r=el.getBoundingClientRect(), k=s.width/1920;return{x:(r.left-s.left)/k+r.width/(2*k),y:(r.top-s.top)/k+r.height/(2*k)};}
+let cx=1500, cy=900, AUTOPLAY=false;
+async function point(el){ if(!ANIM||!AUTOPLAY||P.has('nocursor')||!el) return; cursor.classList.add('on');
+  const p=stagePos(el), fx=cx, fy=cy, dur=700, t0=performance.now();
+  await new Promise(r=>{const f=now=>{const k=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-k,3);cx=fx+(p.x-fx)*e;cy=fy+(p.y-fy)*e;cursor.style.transform=`translate(${cx-4}px,${cy-2}px)`;k<1?requestAnimationFrame(f):r();};requestAnimationFrame(f);});
+  await sleep(220); }
+function hideCursor(){cursor.classList.remove('on');}
+let toastTimer; function toast(t){ $('#toast-t').textContent=t; $('#toast').classList.add('on'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>$('#toast').classList.remove('on'),2600); }
+
+/* ======================= state ======================= */
+const S0=()=>({rev:0,day:2,status:'review',issued:false,filter:'All',appFilter:'All',zoom:1,sheet:'A-102',range:'week',code:'irc',assigned:{},t:0});
+let st=S0();
+const QUESTION='Does the new bedroom meet the emergency escape requirements?';
+const now=t=>`<div class="time">${t}</div>`;
+function clock(){ st.t++; return st.day>=3?`10:${String(Math.min(59,10+st.t)).padStart(2,'0')} AM`:`9:${Math.min(59,42+st.t)} AM`; }
+
+/* ======================= screens ======================= */
+let screen='queue', mapFilter=null;
+function show(name){ screen=name; $$('.screen').forEach(s=>s.classList.toggle('on',s.id==='s-'+name));
+  const navIdx={queue:0,permit:0,apps:1,dash:2,map:3,codes:4}[name]; $$('#nav a').forEach((a,i)=>a.classList.toggle('on',i===navIdx));
+  closeAll(); if(name==='queue') renderQueue(); if(name==='apps') renderApps(); if(name==='dash') renderDash(); if(name==='map') renderMap(); if(name==='codes') renderCodes(); updateHint(); }
+function closeAll(){ $$('.dd').forEach(d=>d.classList.remove('on')); closeDrawer(); $('#mpop').classList.remove('on'); }
+function mainPre(){ const m={review:['warn','i-alert','1 item to review'],corr:['grey','i-clock','Corrections requested'],resub:['blue','i-doc','Resubmitted'],ok:['ok','i-check','All checks passed'],issued:['ok','i-check','Approved · issued']}[st.status]; return `<span class="pc ${m[0]}">${ico(m[1])}${m[2]}</span>`; }
+function statusPill(r){ if(r.main) return mainPre(); return r.pre==='warn'?`<span class="pc warn">${ico('i-alert')}${r.preT}</span>`:`<span class="pc ok">${ico('i-check')}Ready for review</span>`; }
+function row(r,cols){ const c=TYPES[r.type]; return `<div class="tr row ${r.main&&st.issued?'donerow':''}" ${r.main?'id="row-04817"':''} data-act="row" data-id="${r.id}"><div class="id num">${r.id}</div><div><span class="type"><i style="background:${c}"></i>${r.type}</span></div><div>${r.project}</div><div class="muted">${r.addr}</div>${cols}</div>`; }
+function renderQueue(){
+  const total={All:42,Building:18,Zoning:7,Utilities:6,'Right-of-way':6,Traffic:5}; if(st.issued){total.All=41;total.Building=17;}
+  $('#q-chips').innerHTML=['All',...Object.keys(TYPES)].map(t=>`<span class="chip ${st.filter===t?'on':''}" data-act="filter" data-f="${t}">${t==='All'?'':`<i style="background:${TYPES[t]}"></i>`}${t} <b>${total[t]}</b></span>`).join('');
+  const rows=QUEUE.filter(r=>st.filter==='All'||r.type===st.filter);
+  $('#q-table').innerHTML=`<div class="tr th"><div>Permit</div><div>Type</div><div>Project</div><div>Address</div><div>Submitted</div><div>In review</div><div>AI pre-check</div></div>`+
+    rows.map(r=>row(r,`<div class="muted num">${r.sub}</div><div class="num">${r.main?(st.issued?'Done · 3 days':'Day '+st.day):'Day '+r.day}</div><div>${statusPill(r)}</div>`)).join('');
+  $('#q-greet').textContent=`Good morning. ${st.issued?41:42} applications are waiting for your review.`;
+  $('#k-wait').textContent=st.issued?'41':'42'; $('#k-pre').textContent=st.issued?'41 / 41':'42 / 42';
+  $('#done-banner').classList.toggle('on',st.issued); $('#s-queue').classList.toggle('compact',st.issued);
+}
+function appStatus(r){ if(r.main) return {review:'In review',corr:'Corrections requested',resub:'Resubmitted',ok:'In review',issued:'Issued'}[st.status]; return r.status||'In review'; }
+function renderApps(){
+  const all=[...QUEUE,...DONE_APPS], tabs=['All','Mine','In review','Corrections requested','Approved or issued'];
+  $('#app-tabs').innerHTML=tabs.map(t=>`<span class="chip ${st.appFilter===t?'on':''}" data-act="appfilter" data-f="${t}">${t}</span>`).join('');
+  const f=st.appFilter, list=all.filter(r=>{const s=appStatus(r); if(f==='All')return true; if(f==='Mine')return r.main||st.assigned[r.id]; if(f==='Approved or issued')return s==='Approved'||s==='Issued'; if(f==='In review')return s==='In review'||s==='Resubmitted'; return s===f;});
+  const pc=s=>({'In review':'blue','Resubmitted':'blue','Corrections requested':'warn','Approved':'ok','Issued':'ok'}[s]);
+  $('#a-table').innerHTML=`<div class="tr th"><div>Permit</div><div>Type</div><div>Project</div><div>Address</div><div>Assigned</div><div></div><div>Status</div></div>`+
+    (list.length?list.map(r=>row(r,`<div class="muted">${r.main||st.assigned[r.id]?'You':'Review team'}</div><div></div><div><span class="pc ${pc(appStatus(r))}">${appStatus(r)}</span></div>`)).join(''):`<div class="tr" style="color:var(--ink3)">No applications here yet.</div>`);
+}
+function renderDash(){
+  const d=DASH[st.range]; $$('#dash-seg button').forEach(b=>b.classList.toggle('on',b.dataset.r===st.range));
+  $('#dash-kpis').innerHTML=d.k.map(k=>`<div class="dk"><span>${k[0]}</span><b class="num">${k[1]}</b><small>${k[2]}</small></div>`).join('');
+  $('#dash-sub').textContent=d.sub;
+  const mx=Math.max(...d.bars.map(b=>b[1]))*1.15, n=d.bars.length, bw=Math.min(110,700/n), gap=(900-bw*n)/(n+1);
+  let g=''; for(let i=0;i<=4;i++){const y=40+i*85; g+=svgL(60,y,960,y,1,'#EEF1F6')+svgT(48,y+4,Math.round(mx*(1-i/4)),12,500,'#9AA5B8','end');}
+  d.bars.forEach((b,i)=>{const h=b[1]/mx*340, x=60+gap+i*(bw+gap); g+=`<rect x="${x}" y="${380-h}" width="${bw}" height="${h}" rx="8" fill="url(#bg)"/>`+svgT(x+bw/2,372-h,b[1],13,700,INK)+svgT(x+bw/2,404,b[0],13,500,'#5D677C');});
+  $('#dash-chart').innerHTML=`<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3289FF"/><stop offset="1" stop-color="#7FB6FF"/></linearGradient></defs>`+g;
+  const tot={Building:st.issued?17:18,Zoning:7,Utilities:6,'Right-of-way':6,Traffic:5};
+  $('#dash-types').innerHTML=Object.keys(TYPES).map(t=>`<div class="typebar"><span class="tn">${t}</span><span class="tb"><i style="width:${tot[t]/20*100}%;background:${TYPES[t]}"></i></span><span class="tv num">${tot[t]}</span></div>`).join('');
+}
+function renderMap(){
+  $('#map-legend').innerHTML=Object.keys(TYPES).map(t=>`<span class="chip ${mapFilter===t?'on':''}" data-act="mapf" data-f="${t}"><i style="background:${TYPES[t]}"></i>${t}</span>`).join('');
+  let g=`<rect width="1840" height="866" fill="#EEF1F5"/>`;
+  g+=`<path d="M-20 790 C 300 730, 520 850, 860 820 S 1500 730, 1880 790 L1880 900 L-20 900Z" fill="#CFE3F7"/>`;
+  for(let x=120;x<1840;x+=230) g+=`<rect x="${x-9}" y="0" width="18" height="790" fill="#fff"/>`;
+  for(let y=110;y<790;y+=165) g+=`<rect x="0" y="${y-9}" width="1840" height="18" fill="#fff"/>`;
+  g+=`<rect x="1184" y="124" width="238" height="148" rx="10" fill="#D9EED8"/>`+svgT(1303,203,'Riverside Park',14,600,'#4D7A4B');
+  [['LINDEN AVE',580,110],['HARBOR ST',1190,605],['RIDGE RD',1500,275],['MARKET SQ',930,440],['ELM ST',760,605],['ORCHARD LN',330,440],['CEDAR AVE',1340,440],['BIRCH ST',1640,605],['WILLOW CT',420,770],['STATION PLAZA',1080,275]].forEach(([t,x,y])=>g+=svgT(x,y+4,t,11,700,'#8A94A7','middle','letter-spacing="1.5"'));
+  QUEUE.forEach(r=>{ if(mapFilter&&r.type!==mapFilter) return; const c=TYPES[r.type];
+    g+=`<g class="pin" data-act="pin" data-id="${r.id}" transform="translate(${r.x},${r.y})"><circle r="26" fill="${c}" opacity=".18"/><circle r="12" fill="${c}" stroke="#fff" stroke-width="3"/>${r.main?`<circle r="12" fill="none" stroke="${c}" stroke-width="2" opacity=".6"><animate attributeName="r" values="12;30" dur="1.6s" repeatCount="indefinite"/><animate attributeName="opacity" values=".6;0" dur="1.6s" repeatCount="indefinite"/></circle>`:''}</g>`; });
+  $('#map-svg').innerHTML=g;
+}
+function renderCodes(){
+  $('#c-list').innerHTML=CODES.map(c=>`<div class="ci ${st.code===c.k?'on':''}" data-act="code" data-k="${c.k}"><span class="bk"><svg><use href="#i-book"/></svg></span><div><b>${c.t}</b><small>${c.s}</small></div></div>`).join('');
+  const c=CODES.find(x=>x.k===st.code);
+  $('#c-detail').innerHTML=`<div style="font-size:12.5px;color:var(--ink3);font-weight:600;letter-spacing:.4px;text-transform:uppercase">${c.s}</div><h2>${c.t}</h2><p>${c.d}</p>
+    <div class="secs">${c.secs.map(s=>`<div>${s}</div>`).join('')}</div>
+    <div style="margin-top:22px;display:flex;gap:10px">${c.open?`<button class="btn pri" data-act="open-r310">${ico('i-book')}Open R310 in BLD-2026-04817</button>`:''}<button class="btn out" data-act="code-ask" data-k="${c.k}">${ico('i-spark')}Which open permits use this?</button></div><div id="c-ans" style="margin-top:16px"></div>`;
+}
+
+/* ======================= drawer / modal ======================= */
+function openDrawer(id){
+  const r=[...QUEUE,...DONE_APPS].find(x=>x.id===id); if(!r) return;
+  const asg=st.assigned[id];
+  $('#drawer').innerHTML=`<button class="dx" data-act="close-drawer">${ico('i-close')}</button>
+    <div class="did num">${r.id}</div><h2>${r.project}</h2>
+    <span class="type"><i style="background:${TYPES[r.type]}"></i>${r.type}</span>
+    <dl><dt>Address</dt><dd>${r.addr}</dd><dt>Submitted</dt><dd>${r.sub||'Closed'}</dd><dt>Status</dt><dd>${r.status||('In review · day '+r.day)}</dd><dt>Assigned to</dt><dd id="d-asg">${asg?'You':'Review team'}</dd></dl>
+    <div class="aisum"><h4>${ico('i-spark')}AI pre-check</h4>${r.sum||'Review complete. No open items.'}</div>
+    <div class="dfoot">${r.status?'':`<button class="btn pri" data-act="assign" data-id="${id}" ${asg?'disabled':''}>${asg?'Assigned to you':'Assign to me'}</button>`}<button class="btn out" data-act="close-drawer">Close</button></div>`;
+  $('#drawer').classList.add('on'); $('#scrim').classList.add('on');
+}
+function closeDrawer(){ $('#drawer').classList.remove('on'); $('#scrim').classList.remove('on'); }
+function modal(html,wide){ $('#modal').className='modal'+(wide?' cert':''); $('#modal').innerHTML=html; $('#modal-bg').classList.add('on'); }
+function closeModal(){ $('#modal-bg').classList.remove('on'); }
+
+/* ======================= permit view ======================= */
+function openPermit(){ show('permit'); }
+function setSheet(s){ st.sheet=s; $$('#tabs .tab').forEach(t=>t.classList.toggle('on',t.dataset.s===s));
+  $$('.work-l .view').forEach(v=>v.classList.toggle('on',v.id==='view-'+s)); applyZoom(); }
+function applyZoom(){ $$('.sheet svg').forEach(sv=>sv.style.transform=`scale(${st.zoom})`); $('#zlbl').textContent=Math.round(st.zoom*100)+'%'; }
+function showCode(sec){ $('#tab-code').style.display='flex'; setSheet('code'); $$('.doc .sec').forEach(p=>p.classList.remove('soft'));
+  $('#doc-inner').style.transform=''; $$('#toc a').forEach(a=>a.classList.toggle('on',a.dataset.r==='R310'));
+  if(sec==='r3101') $('#sec-r3101').classList.add('soft'); if(sec==='r3102'){ $('#sec-r3102').classList.add('soft'); $('#doc-inner').style.transform='translateY(-240px)'; } }
+function markW3(mode){ const on=!!mode; $('#w3hl').setAttribute('opacity',on?1:0); const r=$('#w3hlr');
+  if(r){ r.setAttribute('fill',mode==='ok'?'#C8EED8':'#FFE68A'); r.setAttribute('stroke',mode==='ok'?'#138A4E':'#E0A800'); }
+  $('#bed3fill').setAttribute('opacity',on?.07:0); $('#bed3fill').setAttribute('fill',mode==='ok'?'#138A4E':'#3289FF');
+  $('#sched-w3').classList.toggle('hl',mode==='gap'); $('#sched-w3').classList.toggle('okrow',mode==='ok'); }
+function schedW3(){ $('#sched-w3').innerHTML=st.rev?
+  `<td><b>W3</b></td><td>Bedroom 3</td><td>Casement</td><td class="num">2'-4" × 3'-4"</td><td class="num">24 × 36 in</td><td class="num"><b>6.0 sq ft</b></td><td class="num">40 in</td>`:
+  `<td><b>W3</b></td><td>Bedroom 3</td><td>Double-hung</td><td class="num">2'-2" × 5'-6"</td><td class="num">22 × 31.4 in</td><td class="num"><b>4.8 sq ft</b></td><td class="num">40 in</td>`;
+  $('#sched-rev').style.display=st.rev?'inline-flex':'none'; $('#rev-tag').style.display=st.rev?'inline':'none'; }
+function setStatus(s){ st.status=s; const m={review:['blue','In review'],corr:['warn','Corrections requested'],resub:['blue','Resubmitted · Round 2'],ok:['ok','All checks passed'],issued:['ok','Approved · permit issued']}[s];
+  const p=$('#status-pill'); p.className='pill '+m[0]; p.innerHTML='<span class="dot"></span>'+m[1];
+  $('#day-pill').textContent=s==='issued'?'Completed in 3 days':`Day ${st.day} in review`;
+  $('#p-actions').innerHTML=s==='issued'?`<button class="btn out" data-act="view-permit">${ico('i-doc')}View permit</button><button class="btn pri" data-act="back-queue">Back to queue</button>`
+    :`<button class="btn out" data-act="req-corr">Request corrections</button><button class="btn pri" id="hdr-approve" data-act="approve-hdr">Approve</button>`; }
+
+/* ======================= main storyline (one step per trailer shot) ======================= */
+const STEPS=[
+ {id:'queue',label:'Review queue',run:async t=>{ show('queue'); }},
+ {id:'permit',label:'Permit opens',run:async t=>{
+    if(ANIM){const row=$('#row-04817'); if(row){await point(row); row.classList.add('focus'); await sleep(350);} guard(t);}
+    show('permit'); setSheet('A-102'); hideCursor();
+    add(`<div class="msg">${AV}<div class="body"><p>I’ve read all <b>6 sheets</b> in this plan set and checked them against the adopted code. Ask me anything about this permit.</p>
+      <div class="starters"><span data-act="free" data-q="summary">Summarise this application</span><span data-act="free" data-q="changed">What changed since the last submission?</span><span data-act="free" data-q="smoke">Are the smoke alarms in the right places?</span></div>${now('9:40 AM')}</div></div>`);
+ }},
+ {id:'ask',label:'Question typed',run:async t=>{
+    const box=$('#cbox'), cin=$('#cin'); const typed=cin.value.trim(); const q=(typed&&/bedroom|escape|egress|window/i.test(typed))?typed:QUESTION;
+    if(ANIM && !typed){ await point(box); hideCursor(); box.classList.add('focus');
+      for(let i=1;i<=QUESTION.length;i++){guard(t); cin.value=QUESTION.slice(0,i); await sleep(34+(QUESTION[i-1]===' '?26:0));}
+      await sleep(300); await point($('#send')); await sleep(120); guard(t); }
+    box.classList.remove('focus'); cin.value=''; hideCursor();
+    const u=add(`<div class="msg user"><div><div class="bubble">${q.replace(/</g,'&lt;')}</div>${now('9:41 AM')}</div></div>`); await scrollChat(u);
+ }},
+ {id:'working',label:'Reads the code',run:async t=>{ await work(t,['Reading the plan set · <b>6 sheets</b>','Retrieved applicable code sections · <b>R310.1, R310.2.1, R310.2.2</b>','Section analysis complete · <b>top matches identified</b>'],'4.2'); }},
+ {id:'answer',label:'Answer appears',run:async t=>{
+    const a=add(`<div class="msg" id="answer">${AV}<div class="body">
+      <p class="lead"><b>Not yet.</b> Bedroom 3’s window (W3) is too small to serve as its emergency escape opening.</p>
+      <table class="checks"><tr><th>Requirement</th><th>On the plan</th><th>Code</th><th></th></tr>
+        <tr class="fail"><td>Net clear opening</td><td class="num">4.8 sq ft</td><td class="num">at least 5.7 sq ft</td><td>${cross}</td></tr>
+        <tr><td>Clear height</td><td class="num">31.4 in</td><td class="num">at least 24 in</td><td>${tick}</td></tr>
+        <tr><td>Clear width</td><td class="num">22 in</td><td class="num">at least 20 in</td><td>${tick}</td></tr>
+        <tr><td>Sill height</td><td class="num">40 in</td><td class="num">at most 44 in</td><td>${tick}</td></tr></table>
+      <a class="source" role="button" id="src" data-act="source">Source ${ico('i-chev')}</a>
+      <div class="xp" id="xp">
+        <div class="rcard"><div class="rh"><span class="bulb">${ico('i-bulb')}</span><div><b>Reasoning</b><small>Why is this suggested?</small></div></div>
+          <ol><li>Sheet A-102 labels Bedroom 3 as a sleeping room, so it needs an emergency escape and rescue opening. <span class="lnk" data-act="cite" data-c="r3101">R310.1${ico('i-ext')}</span></li>
+            <li>The window schedule gives W3 a net clear opening of 22 × 31.4 in, which is <b>4.8 sq ft</b>. <span class="lnk" data-act="cite" data-c="sheet">Sheet A-102${ico('i-ext')}</span></li>
+            <li>Openings above the grade floor need at least <b>5.7 sq ft</b>. <span class="lnk" id="lnk-code" data-act="cite" data-c="r3021">R310.2.1${ico('i-ext')}</span></li></ol>
+          <div class="rfoot"><span class="badge">${ico('i-cpu')}Cognitive Decisioning AI</span><span class="strength">Decision strength: High</span></div></div>
+        <div class="gap"><div class="gh">${icoS('i-alert',18)}Gap identified</div>
+          <p>W3 is <b>0.9 sq ft short</b> of the minimum net clear opening. The other three requirements are met.</p>
+          <div class="gfix"><span data-act="free" data-q="sizes">Fix: larger double-hung unit</span><span data-act="free" data-q="sizes">Fix: casement, 24 × 36 in clear or more</span></div></div>
+      </div>${now('9:41 AM')}</div></div>`);
+    await scrollChat(a,'top');
+ }},
+ {id:'reasoning',label:'Reasoning and gap',run:async t=>{
+    const src=$('#src'); if(ANIM){await point(src); await sleep(120); guard(t);}
+    src.classList.add('open'); const xp=$('#xp'); xp.classList.add('on'); if(ANIM){xp.classList.remove('rise');void xp.offsetWidth;xp.classList.add('rise');}
+    setSheet('A-102'); markW3('gap'); hideCursor(); await scrollChat(xp);
+ }},
+ {id:'code',label:'Exact clause',run:async t=>{
+    if(ANIM){await point($('#lnk-code')); await sleep(120); guard(t);} hideCursor();
+    showCode(); const m=$('#match'); m.classList.remove('rise'); void m.offsetWidth; if(ANIM) m.classList.add('rise');
+ }},
+ {id:'next',label:'Suggested next steps',run:async t=>{
+    const n=add(`<div class="msg" id="nextmsg">${AV}<div class="body next"><h6>Suggested next steps</h6>
+      <div class="nchips"><span class="nchip" id="chip-draft" data-act="draft">Draft a correction notice</span><span class="nchip" data-act="free" data-q="sizes">Show window sizes that would comply</span><span class="nchip" data-act="free" data-q="rooms">Check the other sleeping rooms</span><span class="nchip" data-act="free" data-q="smoke">Review smoke alarm locations</span></div></div></div>`);
+    await scrollChat(n);
+ }},
+ {id:'decision',label:'Reviewer picks a step',run:async t=>{
+    const chip=$('#chip-draft'); if(ANIM){await point(chip); await sleep(120); guard(t);}
+    chip.classList.add('picked'); $$('#nextmsg .nchip:not(.picked)').forEach(c=>c.classList.add('dim')); hideCursor();
+    await sleep(500); guard(t);
+    const d=add(`<div class="msg" id="draft">${AV}<div class="body"><p>Here’s a draft for you to check. Nothing goes to the applicant until you approve it.</p>
+      <div class="notice"><div class="nh">Correction notice · BLD-2026-04817 <span class="pill warn" id="draft-pill">Draft</span></div>
+        <div class="nb"><div class="it">1. Sheet A-102 · Window W3, Bedroom 3</div><div id="notice-text">Provide an emergency escape and rescue opening with a net clear opening of at least 5.7 sq ft (IRC R310.2.1). W3 as shown provides 4.8 sq ft. Revise the window schedule and resubmit sheet A-102.</div></div>
+        <div class="nf"><span class="ed" id="edited"></span><button class="btn out" id="edit-btn" data-act="edit">Edit</button><button class="btn pri" id="approve" data-act="send-notice">Approve and send</button></div></div>${now('9:42 AM')}</div></div>`);
+    await scrollChat(d);
+ }},
+ {id:'sent',label:'Reviewer sends corrections',run:async t=>{
+    const b=$('#approve'); if(ANIM){await point(b); await sleep(150); guard(t);}
+    const nt=$('#notice-text'); nt.contentEditable=false; $('#edit-btn').disabled=true;
+    b.classList.add('done'); b.innerHTML=ico('i-check')+'Sent'; b.disabled=true;
+    $('#draft-pill').className='pill blue'; $('#draft-pill').textContent='Sent · Round 1';
+    setStatus('corr'); if(ANIM) toast('Correction notice sent to the applicant · Round 1'); hideCursor();
+    await sleep(700); guard(t);
+    const m=add(`<div class="msg" id="waitmsg">${AV}<div class="body"><p>Sent. I’ll tell you as soon as the applicant resubmits, and I’ll check the new sheets before you open them.</p>
+      <div class="nchips" style="margin-top:10px"><span class="nchip" id="skip" data-act="skip">${ico('i-ff')}Skip ahead to the resubmission</span></div>${now('9:42 AM')}</div></div>`);
+    $('#bell').classList.add('has'); await scrollChat(m);
+ }},
+ {id:'resubmit',label:'Applicant resubmits',run:async t=>{
+    const sk=$('#skip'); if(ANIM&&sk){await point(sk); await sleep(120); guard(t);} hideCursor();
+    if(sk) sk.classList.add('picked');
+    st.day=3; setStatus('resub'); $('#bell').classList.remove('has');
+    add(`<div class="divider">Next day · Nov 11, 10:05 AM</div>`);
+    const m=add(`<div class="msg" id="resubmsg">${AV}<div class="body"><div class="sysc"><div class="sh">${ico('i-doc')}Resubmission received · Round 2</div>
+      <p>The applicant uploaded a revised sheet A-102 (Rev 1). The window schedule changed.</p>
+      <div class="sb"><button class="btn pri sm" id="chk-changed" data-act="recheck">${ico('i-spark')}Check what changed</button><button class="btn out sm" data-act="cite" data-c="sheet-rev">Open sheet A-102 Rev 1</button></div></div>${now('10:05 AM')}</div></div>`);
+    st.rev=1; drawPlan(1); schedW3(); setSheet('A-102'); markW3(false);
+    await scrollChat(m);
+ }},
+ {id:'recheck',label:'AI re-checks the plan',run:async t=>{
+    const b=$('#chk-changed'); if(ANIM&&b){await point(b); await sleep(120); guard(t);} hideCursor();
+    if(b) b.disabled=true;
+    const u=add(`<div class="msg user"><div><div class="bubble">What changed in the resubmission?</div>${now('10:06 AM')}</div></div>`); await scrollChat(u); await sleep(400); guard(t);
+    await work(t,['Compared Rev 0 and Rev 1 · <b>1 sheet changed</b>','Re-checked W3 · <b>R310.2.1, R310.2.2</b>','Ran every check on the plan set · <b>23 of 23 passed</b>'],'3.1');
+    setSheet('A-102'); markW3('ok');
+    const a=add(`<div class="msg" id="recheckmsg">${AV}<div class="body">
+      <p class="lead"><b>It now meets the code.</b> W3 was changed from a double-hung window to a casement.</p>
+      <table class="checks"><tr><th>Requirement</th><th>Rev 1</th><th>Code</th><th></th></tr>
+        <tr class="pass"><td>Net clear opening</td><td class="num">6.0 sq ft</td><td class="num">at least 5.7 sq ft</td><td>${tick}</td></tr>
+        <tr><td>Clear height</td><td class="num">36 in</td><td class="num">at least 24 in</td><td>${tick}</td></tr>
+        <tr><td>Clear width</td><td class="num">24 in</td><td class="num">at least 20 in</td><td>${tick}</td></tr>
+        <tr><td>Sill height</td><td class="num">40 in</td><td class="num">at most 44 in</td><td>${tick}</td></tr></table>
+      <div class="allok"><div class="gh">${icoS('i-check',18)}All checks passed · 23 of 23</div><p>No open gaps on this plan set. The correction from Round 1 is resolved.</p></div>
+      <div class="nchips" style="margin-top:14px"><span class="nchip go okc" id="chip-approve" data-act="approve">${ico('i-check')}Approve permit</span><span class="nchip" data-act="free" data-q="checklist">Show all 23 checks</span></div>
+      ${now('10:06 AM')}</div></div>`);
+    setStatus('ok'); await scrollChat(a,'top');
+ }},
+ {id:'approve',label:'Reviewer approves',run:async t=>{
+    const c=$('#chip-approve'); if(ANIM&&c){await point(c); await sleep(120); guard(t);} hideCursor();
+    modal(`<div class="mh"><span class="ic" style="background:var(--ok-soft);color:var(--ok)">${ico('i-check')}</span><h3>Approve BLD-2026-04817?</h3></div>
+      <div class="mb">This issues the building permit and notifies the applicant.
+        <div class="rows"><div><span>Code checks</span><b style="color:var(--ok)">23 of 23 passed</b></div><div><span>Corrections</span><b>1 of 1 resolved</b></div><div><span>Time in review</span><b>3 days</b></div><div><span>Condition</span><b>Final inspection before occupancy</b></div></div>
+        <label>Reviewer note</label><textarea id="rev-note">Approved after the Round 1 correction to window W3 (Bedroom 3). Final inspection required.</textarea></div>
+      <div class="mf"><button class="btn out" data-act="close-modal">Cancel</button><button class="btn okb" id="m-approve" data-act="issue">${ico('i-check')}Approve and issue permit</button></div>`);
+ }},
+ {id:'issued',label:'Permit issued',run:async t=>{
+    const b=$('#m-approve'); if(ANIM&&b){await point(b); await sleep(150); guard(t);} hideCursor();
+    closeModal(); st.issued=true; setStatus('issued'); if(ANIM) toast('Permit BP-2026-04817 issued · applicant notified');
+    const m=add(`<div class="msg" id="issuedmsg">${AV}<div class="body"><p><b>Permit issued.</b> The applicant has been notified and the final inspection is ready to schedule.</p>
+      <div class="permitc"><div class="ph">${ico('i-check')}Building permit BP-2026-04817</div>
+        <div class="pb"><div><span>Issued</span><b>Nov 12, 2026</b></div><div><span>Review time</span><b>3 days</b></div><div><span>Correction rounds</span><b>1</b></div><div><span>Valid for</span><b>180 days</b></div></div>
+        <div class="pf"><button class="btn out sm" data-act="view-permit">${ico('i-doc')}View permit</button><button class="btn pri sm" id="back-queue" data-act="back-queue">Back to queue</button></div></div>${now('10:08 AM')}</div></div>`);
+    await scrollChat(m);
+ }},
+ {id:'done',label:'Review complete',run:async t=>{
+    const b=$('#back-queue'); if(ANIM&&b){await point(b); await sleep(150); guard(t);} hideCursor();
+    st.filter='All'; show('queue');
+ }},
+];
+async function work(t,steps,secs){
+  const w=add(`<div class="msg">${AV}<div class="body"><div class="work"><div class="work-h">${ico('i-spark')}<span>Watch me work</span><span class="wt num">${ANIM?'Working…':'Worked for '+secs+' s'}</span></div>
+    <ol>${steps.map((s,i)=>`<li><span class="st ${ANIM?(i===0?'pend':'wait'):'done'}">${ANIM?'':ico('i-check')}</span><span>${s}</span></li>`).join('')}</ol></div></div></div>`);
+  await scrollChat(w);
+  if(ANIM){ const sts=[...w.querySelectorAll('.st')]; for(let i=0;i<sts.length;i++){ sts[i].className='st pend'; await sleep(950); guard(t); sts[i].className='st done'; sts[i].innerHTML=ico('i-check'); } w.querySelector('.wt').textContent='Worked for '+secs+' s'; }
+}
+
+/* ======================= side questions ======================= */
+const FREE={
+ summary:{q:'Summarise this application',a:()=>`<p>A two-storey rear addition to a single-family home at 212 Linden Avenue. The new second floor adds <b>two bedrooms, a bathroom, a laundry and a hall</b>, about 880 sq ft.</p><ul><li>6 sheets: site plan, floor plan, elevations, framing and two detail sheets.</li><li>Lot coverage goes to 34% against a 40% maximum.</li><li>${st.rev?'All 23 checks now pass.':'The pre-check flagged <b>1 item</b> on sheet A-102.'}</li></ul>`},
+ changed:{q:'What changed since the last submission?',a:()=>st.rev?`<p>Rev 1 changes one item on sheet A-102: <b>W3 is now a casement window, 24 × 36 in clear (6.0 sq ft)</b>, in place of the double-hung window at 4.8 sq ft. Nothing else changed.</p>`:`<p>This is the <b>first submission</b>, so there’s nothing to compare yet. I’ll show the differences if the applicant sends a revision.</p>`},
+ smoke:{q:'Are the smoke alarms in the right places?',a:()=>`<p><b>Yes.</b> Sheet A-102 shows smoke alarms in Bedroom 3, Bedroom 4 and the hall outside them, marked SA on the plan. That is what R314.3 asks for, and general note 2 repeats it.</p>`},
+ sizes:{q:'Show window sizes that would comply',a:()=>`<p>Any of these would give W3 enough opening with the same 40 in sill:</p><table class="mini"><tr><th>Window</th><th>Net clear (W × H)</th><th>Area</th><th></th></tr><tr><td>Casement</td><td class="num">24 × 36 in</td><td class="num">6.0 sq ft</td><td class="r">${tick}</td></tr><tr><td>Double-hung, wider</td><td class="num">32 × 26 in</td><td class="num">5.8 sq ft</td><td class="r">${tick}</td></tr><tr><td>Slider</td><td class="num">40 × 24 in</td><td class="num">6.7 sq ft</td><td class="r">${tick}</td></tr></table>`},
+ rooms:{q:'Check the other sleeping rooms',a:()=>`<p><b>Bedroom 4 passes.</b> W4 is a casement with 28 × 46 in clear, which is 8.9 sq ft, and a 36 in sill. There are no other sleeping rooms on this sheet.</p>`},
+ checklist:{q:'Show all 23 checks',a:()=>`<table class="mini"><tr><th>Check</th><th class="r">Passed</th></tr>${[['Emergency escape openings',4],['Smoke alarms',3],['Stair geometry',4],['Guards',2],['Ceiling height',3],['Minimum room areas',3],['Safety glazing',2],['Ventilation',2]].map(r=>`<tr><td>${r[0]}</td><td class="r num">${r[1]} of ${r[1]} ${tick}</td></tr>`).join('')}</table>`},
+ corr0:{q:'Request corrections',a:()=>`<p>I haven’t found anything to correct yet. Ask me about the plan first, for example <span class="lnk" data-act="ask-main">“${QUESTION}”</span></p>`},
+};
+let freeBusy=false;
+async function freeQA(key,custom){
+  if(freeBusy||busy) return; freeBusy=true; const save=ANIM; ANIM=true;
+  try{
+    const f=FREE[key]||{q:custom,a:()=>`<p>In this demo I answer questions about this permit’s plans. Try <span class="lnk" data-act="ask-main">“${QUESTION}”</span></p>`};
+    const u=add(`<div class="msg user"><div><div class="bubble">${String(custom||f.q).replace(/</g,'&lt;')}</div>${now(clock())}</div></div>`); await scrollChat(u);
+    const ty=add(`<div class="msg">${AV}<div class="body"><span class="typing"><i></i><i></i><i></i></span></div></div>`); await scrollChat(ty); await realSleep(850); ty.remove();
+    const a=add(`<div class="msg">${AV}<div class="body">${f.a()}${now(clock())}</div></div>`); await scrollChat(a);
+  } finally { ANIM=save; freeBusy=false; }
+}
+
+/* ======================= step engine ======================= */
+let cur=-1, busy=false, playing=false, advancing=false;
+const idx=id=>STEPS.findIndex(s=>s.id===id);
+function label(){ $('#lbl').textContent=`${cur+1} / ${STEPS.length} · ${STEPS[cur].label}`; history.replaceState(null,'',location.pathname+location.search+'#'+STEPS[cur].id); updateHint(); }
+function reset(){
+  st=S0(); msgs.innerHTML=''; msgs.scrollTop=0; hideCursor(); closeModal(); closeAll(); $('#toast').classList.remove('on');
+  drawPlan(0); schedW3(); markW3(false); $('#tab-code').style.display='none'; setSheet('A-102'); applyZoom(); $('#doc-inner').style.transform='';
+  setStatus('review'); $('#cin').value=''; $('#bell').classList.remove('has'); qAnswer(false); mapFilter=null;
+}
+async function goTo(i){ const t=++TOKEN; ANIM=false; busy=false; advancing=false; freeBusy=false; document.body.classList.add('instant'); reset();
+  for(let j=0;j<=i;j++) await STEPS[j].run(t);
+  document.body.classList.remove('instant'); cur=i; label(); }
+async function next(){ if(busy||freeBusy||cur>=STEPS.length-1) return false; busy=true; updateHint(); const t=++TOKEN; ANIM=true;
+  try{ await STEPS[cur+1].run(t); cur++; label(); }catch(e){ if(e!=='stale') console.error(e); }
+  busy=false; updateHint(); return true; }
+async function advanceTo(id){ if(advancing) return; advancing=true; try{ const target=idx(id); while(cur<target){ const before=cur; busy=false; await next(); if(cur===before) break; if(cur<target) await realSleep(450); } } finally { advancing=false; updateHint(); } }
+async function play(){ if(playing) return; playing=true; AUTOPLAY=true; $('#b-play').textContent='Playing…'; updateHint();
+  if(cur>=STEPS.length-1) await goTo(0);
+  while(playing&&cur<STEPS.length-1){ await next(); await realSleep(1400); }
+  playing=false; AUTOPLAY=false; hideCursor(); $('#b-play').textContent='Play'; updateHint(); }
+const HINTS={0:'#row-04817',1:'#send',4:'#src',5:'#lnk-code',7:'#chip-draft',8:'#approve',9:'#skip',10:'#chk-changed',11:'#chip-approve',12:'#m-approve',13:'#back-queue',14:'#restart'};
+function updateHint(){ $$('.hint').forEach(e=>e.classList.remove('hint')); if(busy||playing||advancing) return; const sel=HINTS[cur]; const el=sel&&$(sel); if(el&&el.offsetParent) el.classList.add('hint'); }
+
+/* ======================= queue ask ======================= */
+function qAnswer(on){ $('#q-answer').classList.toggle('on',!!on); if(!on){ $('#q-ph').textContent='Ask about any permit, in plain language…'; $('#q-ph').classList.remove('typed'); } }
+let qBusy=false;
+async function queueAsk(){ if(qBusy||$('#q-answer').classList.contains('on')) return; qBusy=true; const ph=$('#q-ph'), q='Which permits are due this week, and do any need attention?';
+  ph.classList.add('typed'); for(let i=1;i<=q.length;i++){ ph.textContent=q.slice(0,i); await realSleep(20); }
+  await realSleep(300);
+  $('#q-answer').innerHTML=`<button class="x" data-act="q-close">${icoS('i-close',16)}</button>
+    <p><b>6 permits are due this week.</b> Two have items to review: <span class="lnk" data-act="row" data-id="BLD-2026-04817">BLD-2026-04817</span> has one (a bedroom window below the escape-opening minimum) and <span class="lnk" data-act="row" data-id="ROW-2026-00418">ROW-2026-00418</span> has two (the sidewalk clear path and a missing insurance certificate). The other four are ready for review.</p>
+    <div class="lst"><button class="btn pri sm" data-act="row" data-id="BLD-2026-04817">Open BLD-2026-04817</button><button class="btn out sm" data-act="row" data-id="ROW-2026-00418">Preview ROW-2026-00418</button></div>`;
+  qAnswer(true); qBusy=false; }
+
+/* ======================= search / bell ======================= */
+function renderSearch(q){ q=(q||'').toLowerCase();
+  const items=[...QUEUE.map(r=>({t:r.id,s:`${r.project} · ${r.addr}`,act:`data-act="row" data-id="${r.id}"`})),{t:'IRC 2018 · R310',s:'Emergency escape and rescue openings',act:'data-act="open-r310"'},{t:'Code library',s:'All adopted codes',act:'data-act="nav" data-to="codes"'}]
+    .filter(x=>!q||(x.t+' '+x.s).toLowerCase().includes(q)).slice(0,6);
+  $('#sres').innerHTML=items.length?items.map(x=>`<div class="it" ${x.act}><span class="ic"><svg><use href="#i-doc"/></svg></span><div><b>${x.t}</b><small>${x.s}</small></div></div>`).join(''):`<div class="it" style="cursor:default;color:var(--ink3)">No matches</div>`; }
+function renderBell(){ const it=[];
+  if(cur===9) it.push(`<div class="it" data-act="skip"><span class="ic"><svg><use href="#i-doc"/></svg></span><div><b>Applicant resubmitted BLD-2026-04817</b><small>Revised sheet A-102 · Round 2 · just now</small></div></div>`);
+  if(st.issued) it.push(`<div class="it" data-act="row" data-id="BLD-2026-04817"><span class="ic g"><svg><use href="#i-check"/></svg></span><div><b>Permit BP-2026-04817 issued</b><small>Applicant notified · final inspection pending</small></div></div>`);
+  it.push(`<div class="it" data-act="nav" data-to="queue"><span class="ic w"><svg><use href="#i-clock"/></svg></span><div><b>6 permits are due this week</b><small>2 have items to review</small></div></div>`);
+  it.push(`<div class="it" data-act="nav" data-to="dash"><span class="ic g"><svg><use href="#i-spark"/></svg></span><div><b>AI pre-check finished</b><small>All 42 new applications checked overnight</small></div></div>`);
+  $('#bell-list').innerHTML=it.join(''); }
+
+/* ======================= one click handler for everything ======================= */
+document.addEventListener('click',async e=>{
+  const el=e.target.closest('[data-act]');
+  if(!e.target.closest('.dd')&&!e.target.closest('[data-act="dd"]')) $$('.dd').forEach(d=>d.classList.remove('on'));
+  if(!el) return;
+  const a=el.dataset.act;
+  if(playing&&a!=='restart') return;
+  if((busy||advancing)&&!['nav','dd','close-drawer','close-modal','filter','appfilter','range','mapf','pin','code','zoom','sheet'].includes(a)) return;
+  switch(a){
+    case 'nav': if(el.dataset.filter) st.appFilter=el.dataset.filter; show(el.dataset.to); break;
+    case 'dd': { const d=$('#'+el.dataset.dd), on=d.classList.contains('on'); $$('.dd').forEach(x=>x.classList.remove('on')); if(!on){ if(el.dataset.dd==='dd-search'){ $('#sin').value=''; renderSearch(''); setTimeout(()=>$('#sin').focus(),30);} if(el.dataset.dd==='dd-bell') renderBell(); d.classList.add('on'); } break; }
+    case 'restart': playing=false; AUTOPLAY=false; closeAll(); closeModal(); await goTo(0); toast('Demo restarted'); break;
+    case 'filter': st.filter=el.dataset.f; renderQueue(); updateHint(); break;
+    case 'appfilter': st.appFilter=el.dataset.f; renderApps(); break;
+    case 'row': { closeAll(); const id=el.dataset.id; if(id==='BLD-2026-04817'){ qAnswer(false); if(cur===0) await advanceTo('permit'); else openPermit(); } else openDrawer(id); break; }
+    case 'close-drawer': closeDrawer(); break;
+    case 'assign': st.assigned[el.dataset.id]=true; el.disabled=true; el.textContent='Assigned to you'; $('#d-asg').textContent='You'; toast(el.dataset.id+' assigned to you'); break;
+    case 'q-ask': if(!e.target.closest('.q-answer')) queueAsk(); break;
+    case 'q-close': qAnswer(false); break;
+    case 'range': st.range=el.dataset.r; renderDash(); break;
+    case 'mapf': mapFilter=mapFilter===el.dataset.f?null:el.dataset.f; $('#mpop').classList.remove('on'); renderMap(); break;
+    case 'pin': { const r=QUEUE.find(x=>x.id===el.dataset.id), area=$('.maparea'), W=area.clientWidth, H=area.clientHeight;
+      const sc=Math.max(W/1840,H/866), ox=(W-1840*sc)/2, oy=(H-866*sc)/2; let px=ox+r.x*sc+24, py=oy+r.y*sc-40; if(px>W-360) px-=400; py=Math.min(Math.max(10,py),H-230);
+      const p=$('#mpop'); p.style.left=px+'px'; p.style.top=py+'px';
+      p.innerHTML=`<div class="num" style="font-size:12.5px;font-weight:700;color:var(--ink3)">${r.id}</div><h4>${r.project}</h4><p>${r.addr} · ${r.type}</p><div style="margin-top:8px">${statusPill(r)}</div><button class="btn ${r.main?'pri':'out'} sm" data-act="row" data-id="${r.id}">${r.main?'Open permit':'Preview'}</button>`;
+      p.classList.add('on'); break; }
+    case 'code': st.code=el.dataset.k; renderCodes(); break;
+    case 'code-ask': { const map={irc:['BLD-2026-04817','BLD-2026-04809','BLD-2026-04795'],ibc:[],zon:['ZON-2026-01192','ZON-2026-01188'],row:['ROW-2026-00418','ROW-2026-00421'],mutcd:['TRF-2026-00266','ROW-2026-00421']}[el.dataset.k];
+      $('#c-ans').innerHTML=`<div class="sysc"><div class="sh">${ico('i-spark')}${map.length?map.length+' open permit'+(map.length===1?'':'s')+' use this code':'No open permits use this code'}</div><div class="sb" style="flex-wrap:wrap">${map.map(id=>`<button class="btn out sm" data-act="row" data-id="${id}">${id}</button>`).join('')||'<p>Nothing in the queue right now.</p>'}</div></div>`; break; }
+    case 'open-r310': closeAll(); openPermit(); showCode(); break;
+    case 'toc': $$('#toc a').forEach(x=>x.classList.toggle('on',x===el)); if(el.dataset.r!=='R310'){ toast(el.textContent+' · not needed for this permit'); } break;
+    case 'sheet': if(el.dataset.s==='code') showCode(); else setSheet(el.dataset.s); if(el.dataset.s==='A-102'&&cur>=5) markW3(st.rev?(cur>=11?'ok':false):'gap'); break;
+    case 'zoom': { const z=+el.dataset.z; st.zoom=z===0?1:Math.min(2,Math.max(.6,+(st.zoom+z*.2).toFixed(1))); applyZoom(); break; }
+    case 'send': { const v=$('#cin').value.trim();
+      if(cur===1&&(!v||/bedroom|escape|egress|window/i.test(v))){ await advanceTo('answer'); }
+      else if(v){ $('#cin').value=''; const key=/smoke/i.test(v)?'smoke':/summar/i.test(v)?'summary':/chang/i.test(v)?'changed':/size|comply/i.test(v)?'sizes':/check/i.test(v)&&cur>=11?'checklist':null; freeQA(key,v); }
+      else $('#cin').focus();
+      break; }
+    case 'free': freeQA(el.dataset.q); break;
+    case 'ask-main': if(cur===1) advanceTo('answer'); else freeQA(null,QUESTION); break;
+    case 'source': if(cur===4) await advanceTo('reasoning'); else { el.classList.toggle('open'); $('#xp').classList.toggle('on'); } break;
+    case 'cite': { const c=el.dataset.c;
+      if(c==='r3021'){ if(cur===5) await advanceTo('next'); else showCode(); }
+      else if(c==='r3101') showCode('r3101');
+      else { setSheet('A-102'); markW3(st.rev?'ok':'gap'); } break; }
+    case 'draft': if(cur===7) await advanceTo('decision'); else toast('The correction notice is already drafted'); break;
+    case 'edit': { const nt=$('#notice-text'); const on=nt.isContentEditable; nt.contentEditable=!on; el.textContent=on?'Edit':'Save'; if(on){ $('#edited').textContent='Edited by you'; toast('Correction notice updated'); } else nt.focus(); break; }
+    case 'send-notice': if(cur===8){ const nt=$('#notice-text'); if(nt.isContentEditable){ nt.contentEditable=false; $('#edit-btn').textContent='Edit'; } await advanceTo('sent'); } break;
+    case 'skip': closeAll(); if(cur===9){ if(screen!=='permit') openPermit(); await advanceTo('resubmit'); } break;
+    case 'recheck': if(cur===10) await advanceTo('recheck'); break;
+    case 'approve': if(cur===11) await advanceTo('approve'); else if(cur>=12) toast('This permit is already approved'); break;
+    case 'issue': if(cur===12) await advanceTo('issued'); break;
+    case 'close-modal': closeModal(); updateHint(); break;
+    case 'back-queue': if(cur===13) await advanceTo('done'); else show('queue'); break;
+    case 'view-permit': modal(`<div class="cb"><div class="ct"><div><h2>Building permit</h2><small class="num">BP-2026-04817 · Issued Nov 12, 2026</small></div><div class="seal">APPROVED<br>SAMPLE<br>PERMIT</div></div>
+        <div class="grid"><div><span>Project</span><b>Two-storey rear addition, single-family home</b></div><div><span>Address</span><b>212 Linden Avenue</b></div><div><span>Work type</span><b>Building · Residential · Addition</b></div><div><span>Code</span><b>IRC 2018</b></div><div><span>Approved plan set</span><b>6 sheets · A-102 Rev 1</b></div><div><span>Valid until</span><b>May 11, 2027</b></div></div>
+        <div class="cond"><b>Conditions.</b> Keep the approved plans on site. Final inspection is required before the new rooms are used. Window W3 must be installed as shown on A-102 Rev 1.</div></div>
+        <div class="mf"><button class="btn out" data-act="resend">Resend to applicant</button><button class="btn pri" data-act="close-modal">Close</button></div>`,true); break;
+    case 'resend': toast('Permit resent to the applicant'); break;
+    case 'req-corr':
+      if(cur<4) freeQA('corr0');
+      else if(cur<8) await advanceTo('decision');
+      else if(cur===8){ scrollChat($('#draft')); toast('The draft notice is ready below'); }
+      else if(cur<11) toast('A correction notice is already with the applicant');
+      else toast('All checks pass. Nothing to correct.');
+      break;
+    case 'approve-hdr':
+      if(cur===11) await advanceTo('approve');
+      else if(cur>=12) toast('This permit is already approved');
+      else modal(`<div class="mh"><span class="ic" style="background:var(--warn-soft);color:var(--warn)">${ico('i-alert')}</span><h3>Not ready to approve</h3></div>
+        <div class="mb">${cur<4?'Permitting AI hasn’t been asked to check this plan yet. Ask about the plan first, so nothing is missed.':cur<9?'This plan has <b>1 open gap</b>: window W3 in Bedroom 3 is 0.9 sq ft short of the minimum escape opening (R310.2.1).':'A correction notice is with the applicant. Wait for the resubmission, then approve.'}</div>
+        <div class="mf"><button class="btn out" data-act="close-modal">Close</button>${cur>=4&&cur<9?'<button class="btn pri" data-act="show-gap">Show me the gap</button>':cur>=9&&cur<11?'<button class="btn pri" data-act="skip-modal">Skip ahead to the resubmission</button>':''}</div>`);
+      break;
+    case 'skip-modal': closeModal(); if(cur===9) await advanceTo('resubmit'); else if(cur===10) await advanceTo('recheck'); break;
+    case 'show-gap': closeModal(); if(cur===4) await advanceTo('reasoning'); else { $('#src').classList.add('open'); $('#xp').classList.add('on'); scrollChat($('.gap')); setSheet('A-102'); markW3('gap'); } break;
+  }
+});
+$('#modal-bg').addEventListener('click',e=>{ if(e.target.id==='modal-bg'&&cur!==12){ closeModal(); updateHint(); } });
+$('#sin').addEventListener('input',e=>renderSearch(e.target.value));
+$('#cin').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); $('#send').click(); } });
+$('#b-next').onclick=()=>{ if(!playing&&!advancing) next(); };
+$('#b-prev').onclick=()=>{ playing=false; if(cur>0) goTo(cur-1); };
+$('#b-play').onclick=()=>play();
+addEventListener('keydown',e=>{ if(e.target.matches('input,textarea,[contenteditable=true]')) return;
+  if(e.key==='ArrowRight'){ if(!playing) next(); } else if(e.key==='ArrowLeft'){ playing=false; if(cur>0) goTo(cur-1); } else if(e.key===' '){ e.preventDefault(); play(); } else if(e.key==='Escape'){ closeAll(); closeModal(); } });
+
+$('#toc').insertAdjacentHTML('beforeend',TOC.map(t=>`<a data-act="toc" data-r="${t.split(' ')[0]}">${t}</a>`).join(''));
+drawSheets();
+const start=Math.max(0,idx(location.hash.slice(1)));
+(document.fonts?document.fonts.ready:Promise.resolve()).then(async()=>{ await goTo(start); if(P.has('play')) play(); });
+window.__goTo=goTo; window.__steps=STEPS.map(s=>s.id); window.__state=()=>({cur,screen,busy:busy||advancing,freeBusy});
+</script>
+</body>
+</html>
