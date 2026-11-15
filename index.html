@@ -354,7 +354,7 @@ input,textarea{font:inherit;color:inherit}
 .composer{border-top:1px solid var(--line);padding:14px 18px 16px}
 .cbox{min-height:58px;border:1.5px solid var(--line2);border-radius:14px;display:flex;align-items:center;gap:10px;padding:8px 8px 8px 16px;background:#fff}
 .cbox.focus,.cbox:focus-within{border-color:var(--blue);box-shadow:0 0 0 4px rgba(50,137,255,.12)}
-#cin{flex:1;border:0;outline:0;font-size:15.5px;background:transparent;min-width:0}
+#cin{flex:1;border:0;outline:0;font-size:15.5px;line-height:1.45;background:transparent;min-width:0;resize:none;overflow:hidden;padding:8px 0;height:38px;max-height:132px;display:block;font-family:inherit}
 #cin::placeholder{color:var(--ink3)}
 .send{width:42px;height:42px;border-radius:11px;background:var(--blue);display:grid;place-items:center;flex:none}
 .send:hover{background:#2479EE}
@@ -512,7 +512,7 @@ input,textarea{font:inherit;color:inherit}
 .sg{border:1.5px solid var(--blue-line);color:var(--blue-ink);background:#fff;border-radius:18px;padding:7px 15px;font-size:14px;font-weight:600;cursor:pointer;line-height:1.35;max-width:100%}
 .sg:hover{background:#F2F7FF;border-color:#9CC7FF}
 .chatcol .composer{border-top:0;padding:0 22px 12px}
-.chatcol .cbox{min-height:56px;border-radius:12px;padding:6px 6px 6px 16px}
+.chatcol .cbox{min-height:56px;border-radius:12px;padding:6px 6px 6px 16px;align-items:flex-end}
 .chatcol .send{background:none;width:42px;height:42px;border-radius:10px}
 .chatcol .send:hover{background:var(--blue-soft)}
 .chatcol .send svg{width:22px;height:22px;color:var(--blue)}
@@ -738,7 +738,7 @@ ol.ans > li{margin-bottom:10px}
     <div class="msgs" id="msgs"></div>
     <div class="sugg" id="sugg"></div>
     <div class="composer">
-      <div class="cbox" id="cbox"><input id="cin" placeholder="How can I help?" autocomplete="off"><button class="send" id="send" data-act="send" title="Send"><svg><use href="#i-plane"/></svg></button></div>
+      <div class="cbox" id="cbox"><textarea id="cin" rows="1" placeholder="How can I help?" autocomplete="off"></textarea><button class="send" id="send" data-act="send" title="Send"><svg><use href="#i-plane"/></svg></button></div>
       <div class="voice"><i class="vd"></i><button class="vbtn" id="spk" data-act="speaker" title="Voice replies"><svg><use href="#i-spk-off"/></svg></button><i class="vd"></i><i class="vd"></i><button class="vbtn" id="mic" data-act="mic" title="Speak your question"><svg><use href="#i-mic-off"/></svg></button><i class="vd"></i></div>
       <div class="cnote">Permitting AI suggests. The reviewer decides.</div>
     </div>
@@ -1572,7 +1572,11 @@ document.addEventListener('click',async e=>{
 });
 $('#modal-bg').addEventListener('click',async e=>{ if(e.target.id==='modal-bg'&&cur!==12){ closeModal(); updateHint(); if(cur===6) await advanceTo('next'); } });
 $('#sin').addEventListener('input',e=>renderSearch(e.target.value));
-$('#cin').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); $('#send').click(); } });
+$('#cin').addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); $('#send').click(); } });
+// the chat box grows with its text (wraps onto new lines instead of scrolling sideways)
+let cinLast=null;
+function sizeCin(){ const c=$('#cin'); if(c.value===cinLast) return; cinLast=c.value; c.style.height='38px'; const h=Math.min(132,Math.max(38,c.scrollHeight)); c.style.height=h+'px'; c.style.overflowY=c.scrollHeight>132?'auto':'hidden'; }
+(function cinLoop(){ sizeCin(); requestAnimationFrame(cinLoop); })();
 $('#b-next').onclick=()=>{ if(!playing&&!advancing) next(); };
 $('#b-prev').onclick=()=>{ playing=false; if(cur>0) goTo(cur-1); };
 $('#b-play').onclick=()=>play();
