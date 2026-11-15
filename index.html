@@ -7,7 +7,7 @@
 <meta name="description" content="Interactive demo of Permitting AI by Techolution: an AI review assistant for permit reviewers. Sample data only.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --stage:#0B1426;
@@ -529,6 +529,117 @@ input,textarea{font:inherit;color:inherit}
 .chatcol .checks{font-size:13.5px}
 .chatcol .checks td{padding:8px 10px}
 .chatcol .checks th{padding:7px 10px;font-size:11px}
+.chatcol{transition:width .55s cubic-bezier(.2,.7,.2,1)}
+.screen,.crumbbar{transition:left .55s cubic-bezier(.2,.7,.2,1),width .55s cubic-bezier(.2,.7,.2,1)}
+.instant *,.instant{transition:none!important}
+.chat-wide .chatcol{width:920px}
+.chat-wide .screen,.chat-wide .crumbbar{left:920px;width:1000px}
+.chat-wide .p-title h1{font-size:19px}
+.chat-wide .p-actions,.chat-wide .p-meta,.chat-wide #day-pill{display:none}
+.chat-wide .tab{padding:0 10px;font-size:13px}
+.chat-wide .tab .tag{display:none}
+.chat-wide .tab-tools{display:none}
+/* document viewer (permit application, source pages) */
+.docbar{height:46px;display:flex;align-items:center;gap:10px;padding:0 18px;border-bottom:1px solid var(--line);font-size:13.5px;color:var(--ink2);background:#FAFBFD}
+.docbar .fi{width:26px;height:26px;border-radius:7px;background:#FDECEE;color:#C81E2A;display:grid;place-items:center;font-size:9.5px;font-weight:800}
+.docbar b{color:var(--ink);font-weight:600}
+.docbar .sp{margin-left:auto}
+.docbar button{height:30px;padding:0 10px;border:1px solid var(--line);border-radius:8px;font-size:12.5px;font-weight:600;color:var(--ink2);background:#fff}
+.docbar button:hover{background:#F1F4F9}
+.pdfbg{flex:1;min-height:0;background:#E6EAF0;overflow:hidden;padding:22px 0;display:flex;justify-content:center}
+.paper{width:900px;background:#fff;box-shadow:0 10px 30px rgba(14,26,51,.18);padding:34px 44px;position:relative;overflow:hidden;font-size:13.5px;color:#1C2433}
+.form h2{font-size:22px;font-weight:800;letter-spacing:.02em;margin:0}
+.form .fsub{font-size:12.5px;color:#5A6478;margin-top:2px}
+.form .fhead{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2.5px solid #1C2433;padding-bottom:12px;margin-bottom:12px}
+.form .fbox{border:1.5px solid #1C2433;padding:6px 10px;font-size:11.5px;min-width:230px}
+.form .fbox div{display:flex;justify-content:space-between;gap:10px}
+.form .fsec{font-size:11px;font-weight:800;letter-spacing:.08em;background:#1C2433;color:#fff;padding:3px 8px;margin:10px 0 6px;display:inline-block}
+.form .frow{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 18px}
+.form .ff{border-bottom:1px solid #9AA3B2;padding:2px 0 3px}
+.form .ff small{display:block;font-size:10px;color:#6B7487;text-transform:uppercase;letter-spacing:.05em}
+.form .ff span{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12.5px;color:#14306B}
+.form .ff.wide{grid-column:span 3}
+.form .ff.two{grid-column:span 2}
+.form .cbx{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;margin:2px 0 4px}
+.form .cbx i{display:inline-grid;place-items:center;width:13px;height:13px;border:1.4px solid #1C2433;margin-right:5px;vertical-align:-2px;font-style:normal;font-size:10px;font-weight:800;color:#14306B}
+.form .att{font-size:12.5px;line-height:1.75}
+.form .att i{font-style:normal;color:#138A4E;font-weight:800;margin-right:6px}
+.form .sig{display:flex;gap:30px;margin-top:12px;font-size:11px;color:#6B7487}
+.form .sig div{flex:1;border-top:1px solid #1C2433;padding-top:3px}
+.form .sig b{font-family:"Source Serif 4",Georgia,serif;font-style:italic;font-size:17px;color:#14306B;font-weight:400;display:block;margin-bottom:-2px}
+.appstamp{position:absolute;right:56px;top:118px;transform:rotate(-9deg);border:3px solid #D9861C;color:#D9861C;border-radius:8px;padding:4px 14px;font-weight:800;font-size:18px;letter-spacing:.08em;opacity:.9;text-align:center;line-height:1.1}
+.appstamp small{display:block;font-size:10px;letter-spacing:.06em}
+.appstamp.ok{border-color:#138A4E;color:#138A4E}
+.appstamp.blue{border-color:#1A6FE8;color:#1A6FE8}
+/* the code book as a real page */
+.doc{background:#E6EAF0;padding:22px 26px}
+.doc-inner{background:#fff;max-width:880px;margin:0 auto;padding:34px 50px 40px;box-shadow:0 10px 30px rgba(14,26,51,.18);font-family:"Source Serif 4",Georgia,"Times New Roman",serif}
+.doc .sum,.doc .match{display:none}
+.doc .runhead{display:flex;justify-content:space-between;font-family:Inter,system-ui,sans-serif;font-size:10.5px;letter-spacing:.08em;color:#6B7487;border-bottom:1px solid #C9D1DE;padding-bottom:6px;margin-bottom:16px;font-weight:600}
+.doc .src{font-family:inherit;letter-spacing:.04em;color:#1C2433;font-weight:700;font-size:13px}
+.doc h2{font-family:inherit;font-size:20px;text-transform:uppercase;letter-spacing:.03em}
+.doc .sec{font-family:inherit;font-size:15.5px;text-align:justify;color:#1C2433}
+/* watch me work, decision steps */
+.work li{flex-wrap:wrap;cursor:pointer}
+.work li .chev{margin-left:auto;color:var(--ink3);transition:transform .2s}
+.work li .chev svg{width:14px;height:14px}
+.work li.open .chev{transform:rotate(180deg)}
+.work li .wd{display:none;flex-basis:100%;margin:6px 0 2px 30px;font-size:13px;color:var(--ink2);background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 10px;line-height:1.5}
+.work li.open .wd{display:block}
+.work-h .cdtag{font-size:11.5px;font-weight:700;color:var(--blue-ink);background:var(--blue-soft);border-radius:6px;padding:2px 8px;letter-spacing:.02em}
+/* answer + cognitive decisioning card */
+ol.ans{margin:8px 0 0;padding-left:22px}
+ol.ans > li{margin-bottom:10px}
+.cdcard{border:1.5px solid var(--blue-line);border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 6px 20px rgba(14,26,51,.07);margin-top:10px}
+.cdh{display:flex;align-items:center;gap:10px;padding:12px 16px;background:linear-gradient(90deg,#EAF3FF,#F6FAFF);border-bottom:1px solid var(--blue-line);font-weight:800;font-size:15.5px;color:var(--blue-ink)}
+.cdh svg{width:18px;height:18px}
+.cdh .strength{margin-left:auto}
+.cdsec{padding:14px 16px;border-bottom:1px solid var(--line)}
+.cdsec .rh{display:flex;align-items:center;gap:10px}
+.cdsec .rh .ic2{width:34px;height:34px;border-radius:10px;background:#EEF3FB;display:grid;place-items:center;color:var(--blue-ink)}
+.cdsec .rh .ic2 svg{width:19px;height:19px}
+.cdsec .rh b{display:block;font-size:15px}
+.cdsec .rh small{font-size:12.5px;color:var(--ink3)}
+.cdsec ol{margin:10px 0 0;padding-left:22px;font-size:14.5px;line-height:1.6;color:#25304A}
+.cdsec ol li{margin-bottom:8px}
+.cdsec.gapsec{background:#FFF8F8}
+.cdsec.gapsec p{margin:8px 0 0;font-size:14.5px;color:#5A1F25;line-height:1.6}
+.seclink{color:var(--blue-ink);font-weight:700;cursor:pointer;white-space:nowrap}
+.seclink svg{width:13px;height:13px;vertical-align:-2px;transition:transform .2s}
+.seclink.open svg{transform:rotate(180deg)}
+.seclink:hover{text-decoration:underline}
+.cdfoot{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#F8FAFD}
+.cdfoot .badge{background:none;color:var(--blue-ink);padding:0;font-size:13.5px}
+/* visual citation */
+.vcite{display:none;margin:10px 0 4px;border:1.5px solid var(--blue-line);border-radius:14px;padding:10px;gap:10px;grid-template-columns:1fr 1fr;background:#F7FAFF}
+.vcite.on{display:grid}
+.vc{background:#fff;border:1px solid var(--line);border-radius:11px;padding:12px 14px;min-width:0}
+.vch{font-weight:700;font-size:14px;color:var(--ink);background:#F1F4F9;border-radius:8px;padding:8px 10px;margin-bottom:8px}
+.vch.link{background:none;color:var(--blue-ink);padding:0 0 6px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.vch.link svg{width:15px;height:15px}
+.vch.link:hover{text-decoration:underline}
+.vc small{font-size:11.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;font-weight:700}
+.vc .vt{font-weight:700;font-size:13.5px;margin:4px 0}
+.vc ul{margin:4px 0 6px;padding-left:16px;font-size:12.5px;color:#25304A;line-height:1.5}
+.vc p{font-size:12.5px;line-height:1.55;color:#25304A;margin:4px 0 0}
+.vc mark,.gpage mark{background:var(--hl);padding:0 2px;border-radius:2px}
+.pagethumb{height:236px;overflow:hidden;position:relative;border:1px solid #D7DCE6;border-radius:4px;background:#fff;padding:12px 16px 0;font-family:"Source Serif 4",Georgia,serif;font-size:11.5px;line-height:1.45;color:#1C2433;text-align:justify}
+.pagethumb::after{content:"";position:absolute;right:0;top:0;bottom:0;width:22px;background:linear-gradient(90deg,rgba(0,0,0,0),rgba(0,0,0,.14))}
+.pagethumb .ph{font-family:Inter,sans-serif;font-size:8.5px;letter-spacing:.08em;color:#6B7487;border-bottom:1px solid #D7DCE6;padding-bottom:4px;margin-bottom:6px;font-weight:600}
+/* code genie */
+.modal.genie{width:900px}
+.genie .gh2{display:flex;align-items:center;justify-content:space-between;padding:22px 26px 6px}
+.genie .gh2 h3{font-size:22px;font-weight:800}
+.genie .gh2 button{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;color:var(--ink2)}
+.genie .gh2 button:hover{background:#F1F4F9}
+.genie .gh2 button svg{width:20px;height:20px}
+.genie .why{padding:2px 26px 0;font-size:16.5px;font-weight:700}
+.genie .why b{color:var(--ok)}
+.genie ol{margin:6px 26px 0 48px;padding:0;font-size:14.5px;line-height:1.6;color:#25304A}
+.gpage{margin:14px 26px 0;border:1px solid #D7DCE6;border-radius:6px;background:#fff;height:250px;overflow:hidden;position:relative;padding:16px 26px;font-family:"Source Serif 4",Georgia,serif;font-size:14.5px;line-height:1.55;color:#1C2433;text-align:justify;box-shadow:inset 0 0 0 1px #fff}
+.gpage .ph{font-family:Inter,sans-serif;font-size:10px;letter-spacing:.08em;color:#6B7487;border-bottom:1px solid #D7DCE6;padding-bottom:5px;margin-bottom:8px;font-weight:600;display:flex;justify-content:space-between}
+.gpage h4{font-size:15.5px;margin:0 0 6px;font-weight:700}
+.genie .mf{padding:16px 26px 22px}
 .chat-min .chatcol{display:none}
 .chat-min .chat-fab{display:grid}
 .chat-min .screen,.chat-min .crumbbar{left:0;width:1920px}
@@ -726,15 +837,37 @@ input,textarea{font:inherit;color:inherit}
     <div class="p-body">
       <div class="card work-l">
         <div class="tabs" id="tabs">
+          <div class="tab on" data-act="sheet" data-s="APP" id="tab-app"><svg class="bk" style="width:15px;height:15px"><use href="#i-doc"/></svg>Permit application</div>
           <div class="tab" data-act="sheet" data-s="A-101"><span class="tag">A-101</span>Site plan</div>
-          <div class="tab on" data-act="sheet" data-s="A-102" id="tab-plan"><span class="tag">A-102</span>Second floor plan<span class="rev" id="rev-tag" style="display:none">Rev 1</span></div>
+          <div class="tab" data-act="sheet" data-s="A-102" id="tab-plan"><span class="tag">A-102</span>Second floor plan<span class="rev" id="rev-tag" style="display:none">Rev 1</span></div>
           <div class="tab" data-act="sheet" data-s="A-201"><span class="tag">A-201</span>Elevations</div>
           <div class="tab" data-act="sheet" data-s="S-101"><span class="tag">S-101</span>Framing</div>
-          <div class="tab code" data-act="sheet" data-s="code" id="tab-code" style="display:none"><svg class="bk"><use href="#i-book"/></svg>IRC 2018 · R310</div>
+          <div class="tab code" data-act="sheet" data-s="code" id="tab-code" style="display:none"><svg class="bk"><use href="#i-book"/></svg>Source · IRC 2018 R310</div>
           <div class="tab-tools"><div class="zm"><button data-act="zoom" data-z="-1">−</button><span id="zlbl">100%</span><button data-act="zoom" data-z="1">+</button></div><button class="fit" data-act="zoom" data-z="0">Fit</button></div>
         </div>
 
-        <div class="view on" id="view-A-102">
+        <div class="view on" id="view-APP">
+          <div class="docbar"><span class="fi">PDF</span><b>BLD-2026-04817_permit-application.pdf</b><span>Page 1 of 2</span><span class="sp"></span><button data-act="dl">Download</button></div>
+          <div class="pdfbg"><div class="paper form">
+            <div class="fhead"><div><h2>BUILDING PERMIT APPLICATION</h2><div class="fsub">Residential · new buildings, additions and alterations · Form B-1</div></div>
+              <div class="fbox"><div><span>Permit no.</span><b>BLD-2026-04817</b></div><div><span>Received</span><b>Nov 10, 2026</b></div><div><span>Review type</span><b>Plan review</b></div></div></div>
+            <div class="appstamp" id="app-stamp">IN REVIEW<small>Plan review · Building</small></div>
+            <span class="fsec">1 · PROPERTY</span>
+            <div class="frow"><div class="ff two"><small>Address</small><span>212 Linden Avenue</span></div><div class="ff"><small>Parcel ID</small><span>14-208-033</span></div>
+              <div class="ff"><small>Zoning district</small><span>R-1 single-family</span></div><div class="ff"><small>Lot area</small><span>5,500 sq ft</span></div><div class="ff"><small>Existing use</small><span>Single-family home</span></div></div>
+            <span class="fsec">2 · APPLICANT</span>
+            <div class="frow"><div class="ff"><small>Applying as</small><span>Property owner</span></div><div class="ff"><small>Contractor licence</small><span>RC-48213</span></div><div class="ff"><small>Phone</small><span>(555) 010-4427</span></div></div>
+            <span class="fsec">3 · PROPOSED WORK</span>
+            <div class="cbx"><span><i>✓</i>Addition</span><span><i></i>Alteration</span><span><i></i>New building</span><span><i></i>Demolition</span><span><i></i>Repair</span></div>
+            <div class="frow"><div class="ff wide"><small>Description of work</small><span>Two-storey rear addition: two bedrooms, one bathroom, laundry and hall on the new second floor.</span></div>
+              <div class="ff"><small>Occupancy</small><span>R-3</span></div><div class="ff"><small>Floor area added</small><span>880 sq ft</span></div><div class="ff"><small>Valuation</small><span>$186,000</span></div>
+              <div class="ff"><small>Bedrooms added</small><span>2</span></div><div class="ff"><small>Code edition</small><span>IRC 2018</span></div><div class="ff"><small>Sprinklered</small><span>No</span></div></div>
+            <span class="fsec">4 · ATTACHED DOCUMENTS</span>
+            <div class="att"><div><i>✓</i>Plan set, 6 sheets (A-101 site plan · A-102 floor plan and window schedule · A-201 elevations · S-101 framing)</div><div><i>✓</i>Structural engineer’s letter</div><div><i>✓</i>Energy compliance form</div></div>
+            <div class="sig"><div><b>J. Ellis</b>Signature of applicant</div><div><b style="font-family:'JetBrains Mono',monospace;font-style:normal;font-size:13px;padding-top:6px">11 / 10 / 2026</b>Date</div></div>
+          </div></div>
+        </div>
+        <div class="view" id="view-A-102">
           <div class="sheet"><div class="frame"><svg id="plan" viewBox="0 0 1132 470" preserveAspectRatio="xMidYMid meet"></svg></div></div>
           <div class="sched">
             <h3>Window schedule · Sheet A-102 <span class="pill ok" id="sched-rev" style="display:none;height:22px;font-size:11.5px">Rev 1</span></h3>
@@ -759,6 +892,7 @@ input,textarea{font:inherit;color:inherit}
               <div class="ch">Chapter 3 · Building planning</div>
             </div>
             <div class="doc"><div class="doc-inner" id="doc-inner">
+              <div class="runhead"><span>2018 INTERNATIONAL RESIDENTIAL CODE</span><span>CHAPTER 3 · BUILDING PLANNING</span></div>
               <div class="sum">
                 <h4><svg width="15" height="15"><use href="#i-spark"/></svg>Section summary</h4>
                 <p>Every sleeping room needs one operable escape opening. Above the grade floor it must give at least <b>5.7 sq ft</b> of net clear opening, at least 24 in high and 20 in wide, with a sill no higher than 44 in.</p>
@@ -965,7 +1099,9 @@ function guard(t){if(t!==TOKEN) throw 'stale';}
 function add(html){document.body.classList.remove('chat-min');const d=document.createElement('div');d.innerHTML=html.trim();const el=d.firstElementChild;if(ANIM)el.classList.add('rise');msgs.appendChild(el);return el;}
 function scrollChat(el,mode){
   if(!el) return Promise.resolve();
-  const target=mode==='top'?Math.max(0,el.offsetTop-16):Math.max(0,el.offsetTop+el.offsetHeight-msgs.clientHeight+20);
+  const k=stage.getBoundingClientRect().width/1920||1, er=el.getBoundingClientRect(), mr=msgs.getBoundingClientRect();
+  const top=msgs.scrollTop+(er.top-mr.top)/k, h=er.height/k;
+  const target=mode==='top'?Math.max(0,top-30):Math.max(0,top+h-msgs.clientHeight+20);
   if(!ANIM){msgs.scrollTop=target;return Promise.resolve();}
   const from=msgs.scrollTop, d=target-from, dur=600, t0=performance.now();
   return new Promise(r=>{const f=now=>{const k=Math.min(1,(now-t0)/dur), e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2; msgs.scrollTop=from+d*e; k<1?requestAnimationFrame(f):r();};requestAnimationFrame(f);});
@@ -980,7 +1116,7 @@ function hideCursor(){cursor.classList.remove('on');}
 let toastTimer; function toast(t){ $('#toast-t').textContent=t; $('#toast').classList.add('on'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>$('#toast').classList.remove('on'),2600); }
 
 /* ======================= state ======================= */
-const S0=()=>({rev:0,day:2,status:'review',issued:false,filter:'All',appFilter:'All',zoom:1,sheet:'A-102',range:'week',code:'irc',assigned:{},t:0});
+const S0=()=>({genie:false,rev:0,day:2,status:'review',issued:false,filter:'All',appFilter:'All',zoom:1,sheet:'A-102',range:'week',code:'irc',assigned:{},t:0});
 let st=S0();
 const QUESTION='Does the new bedroom meet the emergency escape requirements?';
 const now=t=>`<div class="time">${t}</div>`;
@@ -1003,7 +1139,8 @@ function renderSugg(){ const box=$('#sugg'), atBottom=msgs.scrollHeight-msgs.scr
   let s=[];
   if(cur<=0) s=[['main','Open BLD-2026-04817'],['due','Which permits are due this week?'],['flagged','What did the pre-check flag?']];
   else if(cur===1) s=[['main',QUESTION],['summary','Summarise this application'],['smoke','Are the smoke alarms in the right places?']];
-  else if(cur>=4&&cur<=6) s=[['sizes','Show window sizes that would comply'],['rooms','Check the other sleeping rooms']];
+  else if(cur>=4&&cur<=5) s=[['sizes','Show window sizes that would comply'],['rooms','Check the other sleeping rooms']];
+  else if(cur===6) s=[['main','Show suggested next steps'],['sizes','Show window sizes that would comply']];
   else if(cur===8) s=[['smoke','Are the smoke alarms in the right places?']];
   else if(cur===9) s=[['main','Skip ahead to the resubmission'],['next9','What happens next?']];
   else if(cur===10) s=[['main','What changed in the resubmission?'],['summary','Summarise this application']];
@@ -1077,12 +1214,20 @@ function openDrawer(id){
   $('#drawer').classList.add('on'); $('#scrim').classList.add('on');
 }
 function closeDrawer(){ $('#drawer').classList.remove('on'); $('#scrim').classList.remove('on'); }
-function modal(html,wide){ $('#modal').className='modal'+(wide?' cert':''); $('#modal').innerHTML=html; $('#modal-bg').classList.add('on'); }
+function openGenie(){ st.genie=true; modal(`<div class="gh2"><h3>Code Genie</h3><button data-act="close-genie" aria-label="Close">${ico('i-close')}</button></div>
+  <div class="why">Why is this section relevant? <b>(Matching score: 99.0%)</b></div>
+  <ol><li>Section R310.2.1 sets the minimum net clear opening for an emergency escape opening above the grade floor: 5.7 sq ft.</li><li>Bedroom 3 is a sleeping room on the second floor, and its only window, W3, is the escape opening this section measures.</li><li>W3 provides 4.8 sq ft, so this is the section that decides the answer.</li></ol>
+  <div class="gpage"><div class="ph"><span>2018 INTERNATIONAL RESIDENTIAL CODE</span><span>CHAPTER 3 · BUILDING PLANNING</span></div><h4>SECTION R310 · EMERGENCY ESCAPE AND RESCUE OPENINGS</h4>
+    <b>R310.2 Emergency escape and rescue openings.</b> Emergency escape and rescue openings shall meet the minimum dimensions in Sections R310.2.1 through R310.2.4.<br>
+    <b>R310.2.1 Minimum opening area.</b> <mark>Emergency escape and rescue openings shall have a net clear opening of not less than 5.7 square feet (0.530 m²).</mark> The net clear opening shall be reached by normal operation of the opening from the inside. The net clear height shall be not less than 24 inches and the net clear width not less than 20 inches.<br>
+    <b>R310.2.2 Window sill height.</b> Where a window is provided as the emergency escape and rescue opening, its sill shall be not more than 44 inches above the floor.</div>
+  <div class="mf"><button class="btn out" data-act="close-genie">Close</button><button class="btn pri" id="genie-open" data-act="genie-doc">${ico('i-book')}Open the full source document</button></div>`,'genie'); }
+function modal(html,wide){ $('#modal').className='modal'+(wide==='genie'?' genie':wide?' cert':''); $('#modal').innerHTML=html; $('#modal-bg').classList.add('on'); }
 function closeModal(){ $('#modal-bg').classList.remove('on'); }
 
 /* ======================= permit view ======================= */
 function openPermit(){ show('permit'); }
-function setSheet(s){ st.sheet=s; $$('#tabs .tab').forEach(t=>t.classList.toggle('on',t.dataset.s===s));
+function setSheet(s){ st.sheet=s; if(s==='APP') st.zoom=st.zoom; $$('#tabs .tab').forEach(t=>t.classList.toggle('on',t.dataset.s===s));
   $$('.work-l .view').forEach(v=>v.classList.toggle('on',v.id==='view-'+s)); applyZoom(); }
 function applyZoom(){ $$('.sheet svg').forEach(sv=>sv.style.transform=`scale(${st.zoom})`); $('#zlbl').textContent=Math.round(st.zoom*100)+'%'; }
 function showCode(sec){ $('#tab-code').style.display='flex'; setSheet('code'); $$('.doc .sec').forEach(p=>p.classList.remove('soft'));
@@ -1096,7 +1241,8 @@ function schedW3(){ $('#sched-w3').innerHTML=st.rev?
   `<td><b>W3</b></td><td>Bedroom 3</td><td>Casement</td><td class="num">2'-4" × 3'-4"</td><td class="num">24 × 36 in</td><td class="num"><b>6.0 sq ft</b></td><td class="num">40 in</td>`:
   `<td><b>W3</b></td><td>Bedroom 3</td><td>Double-hung</td><td class="num">2'-2" × 5'-6"</td><td class="num">22 × 31.4 in</td><td class="num"><b>4.8 sq ft</b></td><td class="num">40 in</td>`;
   $('#sched-rev').style.display=st.rev?'inline-flex':'none'; $('#rev-tag').style.display=st.rev?'inline':'none'; }
-function setStatus(s){ st.status=s; $('#rev-today').textContent=s==='issued'?'4 / 12':'3 / 12'; const m={review:['blue','In review'],corr:['warn','Corrections requested'],resub:['blue','Resubmitted · Round 2'],ok:['ok','All checks passed'],issued:['ok','Approved · permit issued']}[s];
+function appStamp(s){ const el=$('#app-stamp'); if(!el) return; const m={review:['','IN REVIEW','Plan review · Building'],corr:['','CORRECTIONS','Round 1 · sent to applicant'],resub:['blue','RESUBMITTED','Round 2 · sheet A-102 Rev 1'],ok:['blue','IN REVIEW','All checks passed'],issued:['ok','APPROVED','Permit BP-2026-04817']}[s]; el.className='appstamp '+m[0]; el.innerHTML=m[1]+'<small>'+m[2]+'</small>'; }
+function setStatus(s){ st.status=s; appStamp(s); $('#rev-today').textContent=s==='issued'?'4 / 12':'3 / 12'; const m={review:['blue','In review'],corr:['warn','Corrections requested'],resub:['blue','Resubmitted · Round 2'],ok:['ok','All checks passed'],issued:['ok','Approved · permit issued']}[s];
   const p=$('#status-pill'); p.className='pill '+m[0]; p.innerHTML='<span class="dot"></span>'+m[1];
   $('#day-pill').textContent=s==='issued'?'Completed in 3 days':`Day ${st.day} in review`;
   $('#p-actions').innerHTML=s==='issued'?`<button class="btn out" data-act="view-permit">${ico('i-doc')}View permit</button><button class="btn pri" data-act="back-queue">Back to queue</button>`
@@ -1107,9 +1253,9 @@ const STEPS=[
  {id:'queue',label:'Review queue',run:async t=>{ show('queue'); if(!msgs.children.length) add(welcome()); }},
  {id:'permit',label:'Permit opens',run:async t=>{
     if(ANIM){const row=$('#row-04817'); if(row){await point(row); row.classList.add('focus'); await sleep(350);} guard(t);}
-    show('permit'); setSheet('A-102'); hideCursor();
+    show('permit'); setSheet('APP'); hideCursor();
     add(`<div class="divider">Opened BLD-2026-04817</div>`);
-    const w=add(`<div class="msg">${AV}<div class="body"><p>I’ve read all <b>6 sheets</b> in this plan set and checked them against the adopted code. Ask me anything about this permit.</p>${now('9:40 AM')}</div></div>`); await scrollChat(w);
+    const w=add(`<div class="msg">${AV}<div class="body"><p>This is a building permit application for a <b>two-storey rear addition</b> at 212 Linden Avenue, with a 6-sheet plan set. I’ve read the application and every sheet. Ask me anything about this permit.</p>${now('9:40 AM')}</div></div>`); await scrollChat(w);
  }},
  {id:'ask',label:'Question typed',run:async t=>{
     const box=$('#cbox'), cin=$('#cin'); const typed=cin.value.trim(); const q=(typed&&/bedroom|escape|egress|window/i.test(typed))?typed:QUESTION;
@@ -1119,39 +1265,62 @@ const STEPS=[
     box.classList.remove('focus'); cin.value=''; hideCursor();
     const u=add(`<div class="msg user"><div><div class="bubble">${q.replace(/</g,'&lt;')}</div>${now('9:41 AM')}</div></div>`); await scrollChat(u);
  }},
- {id:'working',label:'Reads the code',run:async t=>{ await work(t,['Reading the plan set · <b>6 sheets</b>','Retrieved applicable code sections · <b>R310.1, R310.2.1, R310.2.2</b>','Section analysis complete · <b>top matches identified</b>'],'4.2'); }},
+ {id:'working',label:'Decision-making steps',run:async t=>{ await work(t,[
+      ['Read the permit application · <b>addition, 2 new bedrooms</b>','Form B-1, section 3: two-storey rear addition, occupancy R-3, IRC 2018.'],
+      ['Extracted facts from the plan set · <b>6 sheets, 14 facts</b>','Bedroom 3 is a sleeping room (A-102). Window W3: double-hung, net clear 22 × 31.4 in, sill 40 in.'],
+      ['Retrieved applicable code sections · <b>R310.1, R310.2.1, R310.2.2</b>','Emergency escape and rescue openings, IRC 2018, Chapter 3.'],
+      ['Compared each fact with its requirement · <b>4 checks, 1 gap</b>','Opening area 4.8 sq ft vs 5.7 required (gap). Height, width and sill pass.'],
+      ['Section analysis complete · <b>top matches identified</b>','Best match: R310.2.1 Minimum opening area.']],'4.6'); }},
  {id:'answer',label:'Answer appears',run:async t=>{
     const a=add(`<div class="msg" id="answer">${AV}<div class="body">
-      <p class="lead"><b>Not yet.</b> Bedroom 3’s window (W3) is too small to serve as its emergency escape opening.</p>
-      <table class="checks"><tr><th>Requirement</th><th>On the plan</th><th>Code</th><th></th></tr>
-        <tr class="fail"><td>Net clear opening</td><td class="num">4.8 sq ft</td><td class="num">at least 5.7 sq ft</td><td>${cross}</td></tr>
-        <tr><td>Clear height</td><td class="num">31.4 in</td><td class="num">at least 24 in</td><td>${tick}</td></tr>
-        <tr><td>Clear width</td><td class="num">22 in</td><td class="num">at least 20 in</td><td>${tick}</td></tr>
-        <tr><td>Sill height</td><td class="num">40 in</td><td class="num">at most 44 in</td><td>${tick}</td></tr></table>
-      <a class="source" role="button" id="src" data-act="source">Source ${ico('i-chev')}</a>
-      <div class="xp" id="xp">
-        <div class="rcard"><div class="rh"><span class="bulb">${ico('i-bulb')}</span><div><b>Reasoning</b><small>Why is this suggested?</small></div></div>
-          <ol><li>Sheet A-102 labels Bedroom 3 as a sleeping room, so it needs an emergency escape and rescue opening. <span class="lnk" data-act="cite" data-c="r3101">R310.1${ico('i-ext')}</span></li>
-            <li>The window schedule gives W3 a net clear opening of 22 × 31.4 in, which is <b>4.8 sq ft</b>. <span class="lnk" data-act="cite" data-c="sheet">Sheet A-102${ico('i-ext')}</span></li>
-            <li>Openings above the grade floor need at least <b>5.7 sq ft</b>. <span class="lnk" id="lnk-code" data-act="cite" data-c="r3021">R310.2.1${ico('i-ext')}</span></li></ol>
-          <div class="rfoot"><span class="badge">${ico('i-cpu')}Cognitive Decisioning AI</span><span class="strength">Decision strength: High</span></div></div>
-        <div class="gap"><div class="gh">${icoS('i-alert',18)}Gap identified</div>
-          <p>W3 is <b>0.9 sq ft short</b> of the minimum net clear opening. The other three requirements are met.</p>
-          <div class="gfix"><span data-act="free" data-q="sizes">Fix: larger double-hung unit</span><span data-act="free" data-q="sizes">Fix: casement, 24 × 36 in clear or more</span></div></div>
-      </div>${now('9:41 AM')}</div></div>`);
+      <p class="lead"><b>Not yet.</b> Here’s how the new bedroom compares with the emergency escape requirements:</p>
+      <ol class="ans">
+        <li><b>Bedroom 3 needs an escape opening.</b> Sheet A-102 labels it a sleeping room.</li>
+        <li><b>Window W3 is too small.</b> It gives <b>4.8 sq ft</b> of net clear opening, and the code asks for at least <b>5.7 sq ft</b>.
+          <table class="checks"><tr><th>Requirement</th><th>On the plan</th><th>Code</th><th></th></tr>
+            <tr class="fail"><td>Net clear opening</td><td class="num">4.8 sq ft</td><td class="num">at least 5.7 sq ft</td><td>${cross}</td></tr>
+            <tr><td>Clear height</td><td class="num">31.4 in</td><td class="num">at least 24 in</td><td>${tick}</td></tr>
+            <tr><td>Clear width</td><td class="num">22 in</td><td class="num">at least 20 in</td><td>${tick}</td></tr>
+            <tr><td>Sill height</td><td class="num">40 in</td><td class="num">at most 44 in</td><td>${tick}</td></tr></table>
+          <a class="source" role="button" id="src" data-act="source">Source ${ico('i-chev')}</a>
+          <div class="xp" id="xp"><div class="cdcard">
+            <div class="cdh">${ico('i-cpu')}Cognitive Decisioning<span class="strength">Decision Strength: 97%</span></div>
+            <div class="cdsec"><div class="rh"><span class="ic2">${ico('i-bulb')}</span><div><b>Reasoning</b><small>Why is this suggested?</small></div></div>
+              <ol><li>Every sleeping room needs at least one operable emergency escape and rescue opening, and the plan labels Bedroom 3 as a sleeping room. <span class="seclink" data-act="cite" data-c="r3101">Section R310.1${ico('i-chev')}</span></li>
+                <li>An escape opening above the grade floor needs a net clear opening of at least 5.7 sq ft. The window schedule on sheet A-102 gives W3 22 × 31.4 in, which is 4.8 sq ft. <span class="seclink" id="lnk-code" data-act="citation">Section R310.2.1${ico('i-chev')}</span>
+                  <div class="vcite" id="vcite">
+                    <div class="vc"><div class="vch">IRC Section Summary</div><small>Details</small>
+                      <div class="vt">Section R310.2.1 — Minimum opening area</div>
+                      <ul><li><b>Code:</b> International Residential Code, 2018</li><li><b>Chapter:</b> 3 — Building planning</li><li><b>Section:</b> R310 — Emergency escape and rescue openings</li><li><b>Selected point:</b> minimum net clear opening</li></ul>
+                      <div class="vt">Why this answers your question:</div>
+                      <p>Your question, <mark>“Does the new bedroom meet the emergency escape requirements?”</mark>, is answered by this excerpt because it sets <mark>the smallest opening an escape window may have</mark>, and W3 falls below it.</p></div>
+                    <div class="vc"><div class="vch link" id="genie-btn" data-act="genie">IRC 2018 — Section R310.2.1 ${ico('i-ext')}</div>
+                      <div class="pagethumb"><div class="ph">2018 INTERNATIONAL RESIDENTIAL CODE · CHAPTER 3</div><b>R310.2 Emergency escape and rescue openings.</b> Emergency escape and rescue openings shall meet the minimum dimensions in Sections R310.2.1 through R310.2.4.<br><b>R310.2.1 Minimum opening area.</b> <mark>Emergency escape and rescue openings shall have a net clear opening of not less than 5.7 square feet (0.530 m²).</mark> The net clear opening shall be reached by normal operation of the opening from the inside. The net clear height shall be not less than 24 inches and the net clear width not less than 20 inches.</div></div>
+                  </div></li>
+                <li>Height (31.4 in), width (22 in) and sill height (40 in) meet R310.2.1 and R310.2.2, so the area is the only problem. <span class="seclink" data-act="cite" data-c="r3102">Section R310.2.2${ico('i-chev')}</span></li></ol></div>
+            <div class="cdsec gapsec"><div class="rh"><span class="ic2" style="background:#FDECEE;color:var(--bad)">${ico('i-alert')}</span><div><b>Gap</b><small>What’s missing or unclear</small></div></div>
+              <p><b>W3 is 0.9 sq ft short</b> of the minimum net clear opening. A larger unit or a casement window would close the gap.</p>
+              <div class="gap" style="background:none;border:0;padding:0;margin-top:8px"><div class="gfix" style="margin-top:0"><span data-act="free" data-q="sizes">Fix: larger double-hung unit</span><span data-act="free" data-q="sizes">Fix: casement, 24 × 36 in clear or more</span></div></div></div>
+            <div class="cdfoot"><span class="badge">${ico('i-cpu')}Cognitive Decisioning AI</span><span class="strength">Decision Strength: 97%</span></div>
+          </div></div></li>
+        <li><b>Everything else about W3 passes:</b> clear height, clear width and sill height.</li>
+      </ol>${now('9:41 AM')}</div></div>`);
     await scrollChat(a,'top');
  }},
  {id:'reasoning',label:'Reasoning and gap',run:async t=>{
     const src=$('#src'); if(ANIM){await point(src); await sleep(120); guard(t);}
-    src.classList.add('open'); const xp=$('#xp'); xp.classList.add('on'); if(ANIM){xp.classList.remove('rise');void xp.offsetWidth;xp.classList.add('rise');}
-    setSheet('A-102'); markW3('gap'); hideCursor(); await scrollChat(xp);
+    src.classList.add('open'); document.body.classList.add('chat-wide'); const xp=$('#xp'); xp.classList.add('on'); if(ANIM){xp.classList.remove('rise');void xp.offsetWidth;xp.classList.add('rise');}
+    setSheet('A-102'); markW3('gap'); hideCursor(); await sleep(560); await scrollChat(xp,'top');
  }},
- {id:'code',label:'Exact clause',run:async t=>{
-    if(ANIM){await point($('#lnk-code')); await sleep(120); guard(t);} hideCursor();
-    showCode(); const m=$('#match'); m.classList.remove('rise'); void m.offsetWidth; if(ANIM) m.classList.add('rise');
+ {id:'citation',label:'Visual citation',run:async t=>{
+    const l=$('#lnk-code'); if(ANIM){await point(l); await sleep(120); guard(t);} hideCursor();
+    l.classList.add('open'); const v=$('#vcite'); v.classList.add('on'); if(ANIM){v.classList.remove('rise');void v.offsetWidth;v.classList.add('rise');}
+    showCode(); await scrollChat(v,'top');
  }},
- {id:'next',label:'Suggested next steps',run:async t=>{
-    const n=add(`<div class="msg" id="nextmsg">${AV}<div class="body next"><h6>Suggested next steps</h6>
+ {id:'next',label:'Code Genie + next steps',run:async t=>{
+    if(ANIM&&!st.genie){ const g=$('#genie-btn'); await point(g); await sleep(120); guard(t); hideCursor(); openGenie(); await sleep(2800); guard(t); }
+    closeModal(); showCode();
+    const n=add(`<div class="msg" id="nextmsg">${AV}<div class="body next"><h6>Suggested next steps</h6><p style="margin:0 0 10px">Would you like to fix this with the applicant, or look further into the plan first?</p>
       <div class="nchips"><span class="nchip" id="chip-draft" data-act="draft">Draft a correction notice</span><span class="nchip" data-act="free" data-q="sizes">Show window sizes that would comply</span><span class="nchip" data-act="free" data-q="rooms">Check the other sleeping rooms</span><span class="nchip" data-act="free" data-q="smoke">Review smoke alarm locations</span></div></div></div>`);
     await scrollChat(n);
  }},
@@ -1170,7 +1339,7 @@ const STEPS=[
     const nt=$('#notice-text'); nt.contentEditable=false; $('#edit-btn').disabled=true;
     b.classList.add('done'); b.innerHTML=ico('i-check')+'Sent'; b.disabled=true;
     $('#draft-pill').className='pill blue'; $('#draft-pill').textContent='Sent · Round 1';
-    setStatus('corr'); if(ANIM) toast('Correction notice sent to the applicant · Round 1'); hideCursor();
+    setStatus('corr'); document.body.classList.remove('chat-wide'); if(ANIM) toast('Correction notice sent to the applicant · Round 1'); hideCursor();
     await sleep(700); guard(t);
     const m=add(`<div class="msg" id="waitmsg">${AV}<div class="body"><p>Sent. I’ll tell you as soon as the applicant resubmits, and I’ll check the new sheets before you open them.</p>
       <div class="nchips" style="margin-top:10px"><span class="nchip" id="skip" data-act="skip">${ico('i-ff')}Skip ahead to the resubmission</span></div>${now('9:42 AM')}</div></div>`);
@@ -1228,8 +1397,8 @@ const STEPS=[
  }},
 ];
 async function work(t,steps,secs){
-  const w=add(`<div class="msg">${AV}<div class="body"><div class="work"><div class="work-h">${ico('i-spark')}<span>Watch me work</span><span class="wt num">${ANIM?'Working…':'Worked for '+secs+' s'}</span></div>
-    <ol>${steps.map((s,i)=>`<li><span class="st ${ANIM?(i===0?'pend':'wait'):'done'}">${ANIM?'':ico('i-check')}</span><span>${s}</span></li>`).join('')}</ol></div></div></div>`);
+  const w=add(`<div class="msg">${AV}<div class="body"><div class="work"><div class="work-h">${ico('i-spark')}<span>Watch me work</span>${Array.isArray(steps[0])?'<span class="cdtag">Cognitive Decisioning</span>':''}<span class="wt num">${ANIM?'Working…':'Worked for '+secs+' s'}</span></div>
+    <ol>${steps.map((s,i)=>{ const lab=Array.isArray(s)?s[0]:s, det=Array.isArray(s)?s[1]:''; return `<li ${det?'data-act="wstep"':''}><span class="st ${ANIM?(i===0?'pend':'wait'):'done'}">${ANIM?'':ico('i-check')}</span><span>${lab}</span>${det?`<span class="chev">${ico('i-chev')}</span><div class="wd">${det}</div>`:''}</li>`; }).join('')}</ol></div></div></div>`);
   await scrollChat(w);
   if(ANIM){ const sts=[...w.querySelectorAll('.st')]; for(let i=0;i<sts.length;i++){ sts[i].className='st pend'; await sleep(950); guard(t); sts[i].className='st done'; sts[i].innerHTML=ico('i-check'); } w.querySelector('.wt').textContent='Worked for '+secs+' s'; }
 }
@@ -1265,8 +1434,8 @@ const idx=id=>STEPS.findIndex(s=>s.id===id);
 function label(){ $('#lbl').textContent=`${cur+1} / ${STEPS.length} · ${STEPS[cur].label}`; history.replaceState(null,'',location.pathname+location.search+'#'+STEPS[cur].id); updateHint(); }
 function reset(){
   st=S0(); msgs.innerHTML=''; msgs.scrollTop=0; hideCursor(); closeModal(); closeAll(); $('#toast').classList.remove('on');
-  drawPlan(0); schedW3(); markW3(false); $('#tab-code').style.display='none'; setSheet('A-102'); applyZoom(); $('#doc-inner').style.transform='';
-  setStatus('review'); $('#cin').value=''; document.body.classList.remove('chat-min'); $('#spk').classList.remove('on'); $('#spk').innerHTML='<svg><use href="#i-spk-off"/></svg>'; $('#bell').classList.remove('has'); qAnswer(false); mapFilter=null;
+  drawPlan(0); schedW3(); markW3(false); $('#tab-code').style.display='none'; setSheet('APP'); applyZoom(); $('#doc-inner').style.transform='';
+  setStatus('review'); $('#cin').value=''; document.body.classList.remove('chat-min','chat-wide'); $('#spk').classList.remove('on'); $('#spk').innerHTML='<svg><use href="#i-spk-off"/></svg>'; $('#bell').classList.remove('has'); qAnswer(false); mapFilter=null;
 }
 async function goTo(i){ const t=++TOKEN; ANIM=false; busy=false; advancing=false; freeBusy=false; document.body.classList.add('instant'); reset();
   for(let j=0;j<=i;j++) await STEPS[j].run(t);
@@ -1279,7 +1448,7 @@ async function play(){ if(playing) return; playing=true; AUTOPLAY=true; $('#b-pl
   if(cur>=STEPS.length-1) await goTo(0);
   while(playing&&cur<STEPS.length-1){ await next(); await realSleep(1400); }
   playing=false; AUTOPLAY=false; hideCursor(); $('#b-play').textContent='Play'; updateHint(); }
-const HINTS={0:'#row-04817',1:'#sg-main',4:'#src',5:'#lnk-code',7:'#chip-draft',8:'#approve',9:'#skip',10:'#chk-changed',11:'#chip-approve',12:'#m-approve',13:'#back-queue',14:'#restart'};
+const HINTS={0:'#row-04817',1:'#sg-main',4:'#src',5:'#lnk-code',6:'#genie-btn',7:'#chip-draft',8:'#approve',9:'#skip',10:'#chk-changed',11:'#chip-approve',12:'#m-approve',13:'#back-queue',14:'#restart'};
 function updateHint(){ renderSugg(); $$('.hint').forEach(e=>e.classList.remove('hint')); if(busy||playing||advancing) return; const sel=HINTS[cur]; const el=sel&&$(sel); if(el&&el.offsetParent) el.classList.add('hint'); }
 
 /* ======================= queue ask ======================= */
@@ -1346,9 +1515,15 @@ document.addEventListener('click',async e=>{
       else $('#cin').focus();
       break; }
     case 'free': freeQA(el.dataset.q); break;
-    case 'sugg': { const k=el.dataset.k; if(k==='main'){ const m={0:'permit',1:'answer',9:'resubmit',10:'recheck',11:'approve'}[cur]; if(m){ if(cur>0&&screen!=='permit') openPermit(); await advanceTo(m); } } else freeQA(k); break; }
+    case 'citation': if(cur===5) await advanceTo('citation'); else { el.classList.toggle('open'); $('#vcite').classList.toggle('on'); showCode(); } break;
+    case 'genie': openGenie(); break;
+    case 'close-genie': closeModal(); if(cur===6) await advanceTo('next'); break;
+    case 'genie-doc': closeModal(); showCode(); if(cur===6) await advanceTo('next'); break;
+    case 'wstep': el.classList.toggle('open'); break;
+    case 'dl': toast('Downloads are turned off in this demo'); break;
+    case 'sugg': { const k=el.dataset.k; if(k==='main'){ const m={0:'permit',1:'answer',6:'next',9:'resubmit',10:'recheck',11:'approve'}[cur]; if(m){ if(cur>0&&screen!=='permit') openPermit(); await advanceTo(m); } } else freeQA(k); break; }
     case 'newchat': { closeAll(); add(`<div class="divider">New conversation</div>`); const w=add(welcome()); scrollChat(w); break; }
-    case 'chatmin': closeAll(); document.body.classList.add('chat-min'); break;
+    case 'chatmin': closeAll(); if(document.body.classList.contains('chat-wide')) document.body.classList.remove('chat-wide'); else document.body.classList.add('chat-min'); break;
     case 'chatmax': document.body.classList.remove('chat-min'); updateHint(); break;
     case 'speaker': { const on=!el.classList.contains('on'); el.classList.toggle('on',on); el.innerHTML=`<svg><use href="#i-spk-${on?'on':'off'}"/></svg>`; toast(on?'Voice replies on':'Voice replies off'); break; }
     case 'mic': { if(el.classList.contains('on')) break; el.classList.add('on'); el.innerHTML='<svg><use href="#i-mic-on"/></svg>';
@@ -1359,8 +1534,9 @@ document.addEventListener('click',async e=>{
     case 'ask-main': if(cur===1) advanceTo('answer'); else freeQA(null,QUESTION); break;
     case 'source': if(cur===4) await advanceTo('reasoning'); else { el.classList.toggle('open'); $('#xp').classList.toggle('on'); } break;
     case 'cite': { const c=el.dataset.c;
-      if(c==='r3021'){ if(cur===5) await advanceTo('next'); else showCode(); }
+      if(c==='r3021'){ showCode(); }
       else if(c==='r3101') showCode('r3101');
+      else if(c==='r3102') showCode('r3102');
       else { setSheet('A-102'); markW3(st.rev?'ok':'gap'); } break; }
     case 'draft': if(cur===7) await advanceTo('decision'); else toast('The correction notice is already drafted'); break;
     case 'edit': { const nt=$('#notice-text'); const on=nt.isContentEditable; nt.contentEditable=!on; el.textContent=on?'Edit':'Save'; if(on){ $('#edited').textContent='Edited by you'; toast('Correction notice updated'); } else nt.focus(); break; }
@@ -1394,7 +1570,7 @@ document.addEventListener('click',async e=>{
     case 'show-gap': closeModal(); if(cur===4) await advanceTo('reasoning'); else { $('#src').classList.add('open'); $('#xp').classList.add('on'); scrollChat($('.gap')); setSheet('A-102'); markW3('gap'); } break;
   }
 });
-$('#modal-bg').addEventListener('click',e=>{ if(e.target.id==='modal-bg'&&cur!==12){ closeModal(); updateHint(); } });
+$('#modal-bg').addEventListener('click',async e=>{ if(e.target.id==='modal-bg'&&cur!==12){ closeModal(); updateHint(); if(cur===6) await advanceTo('next'); } });
 $('#sin').addEventListener('input',e=>renderSearch(e.target.value));
 $('#cin').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); $('#send').click(); } });
 $('#b-next').onclick=()=>{ if(!playing&&!advancing) next(); };
