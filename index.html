@@ -29,31 +29,34 @@ input,textarea{font:inherit;color:inherit}
 .num{font-variant-numeric:tabular-nums}
 [data-act],.clickable{cursor:pointer}
 
-/* ---------- top bar ---------- */
-.topbar{height:64px;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 28px;gap:36px;position:relative;z-index:20}
+/* ---------- top bar (dark, Techolution navy) ---------- */
+.topbar{height:72px;background:#0B1426;display:flex;align-items:center;padding:0 28px;gap:24px;position:relative;z-index:20;color:#fff}
 .brand{display:flex;align-items:center;gap:12px}
-.brand .name{font-weight:700;font-size:19px;letter-spacing:-.2px}
-.brand .by{font-size:12px;color:var(--ink3);font-weight:500;margin-top:1px}
-.mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#3289FF 0%,#5B6CFF 100%);display:grid;place-items:center;flex:none;box-shadow:0 2px 6px rgba(50,137,255,.35)}
+.brand .name{font-weight:700;font-size:21px;letter-spacing:-.2px;color:#fff}
+.brand .by{font-size:12.5px;color:#9FB3D1;font-weight:500;margin-top:1px}
+.mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#3289FF 0%,#1A6FE8 100%);display:grid;place-items:center;flex:none;box-shadow:0 2px 8px rgba(50,137,255,.45)}
 .mark svg{width:20px;height:20px}
-.nav{display:flex;gap:6px;height:100%}
-.nav a{display:flex;align-items:center;padding:0 14px;font-size:15px;font-weight:500;color:var(--ink2);border-bottom:2px solid transparent;margin-bottom:-1px;text-decoration:none;cursor:pointer}
-.nav a:hover{color:var(--ink)}
-.nav a.on{color:var(--ink);border-bottom-color:var(--blue);font-weight:600}
-.tb-right{margin-left:auto;display:flex;align-items:center;gap:18px}
-.tb-search{width:300px;height:38px;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;gap:10px;padding:0 12px;color:var(--ink3);font-size:14px;background:#FAFBFD}
-.tb-search:hover{border-color:var(--line2)}
-.icon-btn{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;color:var(--ink2);position:relative}
-.icon-btn:hover{background:#F1F4F9}
-.icon-btn .dot{position:absolute;right:8px;top:7px;width:9px;height:9px;border-radius:50%;background:var(--bad);border:2px solid #fff;display:none}
+.mode{position:absolute;left:470px;top:13px;height:46px;width:300px;background:#fff;border-radius:10px;display:flex;align-items:center;gap:12px;padding:0 16px;color:var(--ink);font-size:16px;font-weight:500;cursor:pointer}
+.mode:hover{box-shadow:0 0 0 3px rgba(50,137,255,.35)}
+.mode svg{width:20px;height:20px;color:var(--blue-ink)}
+.mode .chev{margin-left:auto;color:var(--ink2)}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.usage{height:50px;border:2px solid rgba(50,137,255,.6);background:#fff;border-radius:12px;display:flex;align-items:center;gap:12px;padding:0 10px 0 12px;color:var(--ink);cursor:pointer;margin-right:6px}
+.usage .ud{width:28px;height:28px;border-radius:50%;background:var(--blue-soft);display:grid;place-items:center}
+.usage .ud i{width:8px;height:8px;border-radius:50%;background:var(--blue)}
+.usage small{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--blue-ink)}
+.usage small svg{width:12px;height:12px}
+.usage b{font-size:17px;font-weight:800;color:var(--blue-ink);display:block;line-height:1.15}
+.usage .rf{width:30px;height:30px;border-radius:8px;background:var(--blue-soft);display:grid;place-items:center;color:var(--blue-ink)}
+.usage .rf svg{width:15px;height:15px}
+.icon-btn{width:42px;height:42px;border-radius:10px;display:grid;place-items:center;color:#DCE6F5;position:relative}
+.icon-btn:hover{background:rgba(255,255,255,.08)}
+.icon-btn svg{width:22px;height:22px}
+.icon-btn .dot{position:absolute;right:8px;top:7px;width:10px;height:10px;border-radius:50%;background:#FF5A5F;border:2px solid #0B1426;display:none}
 .icon-btn.has .dot{display:block}
-.avatar{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;border-radius:10px;padding:4px 8px 4px 4px}
-.avatar:hover{background:#F1F4F9}
-.avatar i{width:36px;height:36px;border-radius:50%;background:#DCE8FB;color:#1B4F9C;display:grid;place-items:center;font-style:normal;font-size:13px;font-weight:700}
-.avatar small{display:block;font-size:12px;color:var(--ink3);font-weight:500}
 
 /* dropdowns */
-.dd{position:absolute;top:58px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 44px rgba(14,26,51,.16);padding:8px;display:none;z-index:40}
+.dd{position:absolute;top:66px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 44px rgba(14,26,51,.16);padding:8px;display:none;z-index:40}
 .dd.on{display:block}
 .dd h6{font-size:12px;font-weight:700;color:var(--ink3);letter-spacing:.6px;text-transform:uppercase;padding:8px 12px 6px}
 .dd .it{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border-radius:10px;font-size:14px;line-height:1.45;cursor:pointer}
@@ -64,10 +67,12 @@ input,textarea{font:inherit;color:inherit}
 .dd .it .ic.g{background:var(--ok-soft);color:var(--ok)}
 .dd .it .ic.w{background:var(--warn-soft);color:var(--warn)}
 .dd .it .ic svg{width:15px;height:15px}
-#dd-search{right:420px;width:420px}
+#dd-search{right:170px;width:420px}
+#dd-mode{left:470px;width:300px}
+.dd .it.on{background:var(--blue-soft)}
 #dd-search .sbox{height:42px;border:1.5px solid var(--blue);border-radius:10px;display:flex;align-items:center;gap:10px;padding:0 12px;margin:4px 4px 8px;box-shadow:0 0 0 4px rgba(50,137,255,.12)}
 #dd-search input{border:0;outline:0;flex:1;font-size:14.5px}
-#dd-bell{right:210px;width:400px}
+#dd-bell{right:110px;width:400px}
 #dd-user{right:24px;width:280px}
 .dd .stat{display:flex;gap:10px;padding:6px 12px 12px}
 .dd .stat div{flex:1;background:#F6F8FB;border-radius:10px;padding:10px}
@@ -75,13 +80,13 @@ input,textarea{font:inherit;color:inherit}
 .dd .stat span{font-size:12px;color:var(--ink3)}
 .dd hr{border:0;border-top:1px solid var(--line);margin:6px 0}
 
-.screen{position:absolute;left:0;top:64px;width:1920px;height:1016px;display:none}
+.screen{position:absolute;left:500px;top:132px;width:1420px;height:948px;display:none}
 .screen.on{display:block}
 
 /* ---------- queue ---------- */
 .q-wrap{padding:30px 40px}
 .q-head{display:flex;align-items:flex-end;justify-content:space-between}
-.q-head h1{font-size:30px;font-weight:700;letter-spacing:-.4px}
+.q-head h1{font-size:34px;font-weight:800;letter-spacing:-.6px;color:var(--blue-ink)}
 .q-head p{font-size:16px;color:var(--ink2);margin-top:6px}
 .kpis{display:flex;gap:14px}
 .kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 18px;min-width:170px}
@@ -105,7 +110,7 @@ input,textarea{font:inherit;color:inherit}
 .chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
 .chip.on b{color:#AFC0DA}
 .table{margin-top:18px;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.tr{display:grid;grid-template-columns:200px 150px 1fr 260px 150px 130px 240px;align-items:center;padding:0 24px;height:66px;border-top:1px solid var(--line);font-size:15px}
+.tr{display:grid;grid-template-columns:180px 130px 1fr 210px 110px 120px 220px;align-items:center;padding:0 24px;height:66px;border-top:1px solid var(--line);font-size:15px}
 .tr.th{height:48px;border-top:0;background:#F8F9FC;font-size:12.5px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.6px}
 .tr .id{font-weight:600}
 .tr .muted{color:var(--ink2)}
@@ -147,7 +152,7 @@ input,textarea{font:inherit;color:inherit}
 .btn.done[disabled]{opacity:1}
 
 /* ---------- permit ---------- */
-.p-head{height:118px;background:var(--surface);border-bottom:1px solid var(--line);padding:16px 32px 0;position:relative}
+.p-head{height:104px;background:var(--surface);border-bottom:1px solid var(--line);padding:18px 32px 0;position:relative}
 .crumb{font-size:13.5px;color:var(--ink3);font-weight:500}
 .crumb a{color:var(--ink3);cursor:pointer;text-decoration:none}
 .crumb a:hover{color:var(--blue-ink);text-decoration:underline}
@@ -156,9 +161,9 @@ input,textarea{font:inherit;color:inherit}
 .p-title h1{font-size:26px;font-weight:700;letter-spacing:-.3px}
 .p-meta{display:flex;gap:28px;margin-top:10px;font-size:14px;color:var(--ink2)}
 .p-meta b{color:var(--ink);font-weight:600}
-.p-actions{position:absolute;right:32px;top:40px;display:flex;gap:10px}
+.p-actions{position:absolute;right:32px;top:26px;display:flex;gap:10px}
 
-.p-body{position:absolute;top:118px;left:0;right:0;bottom:0;padding:22px 32px 24px;display:flex;gap:22px}
+.p-body{position:absolute;top:104px;left:0;right:0;bottom:0;padding:22px 32px 24px;display:flex;gap:22px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:14px}
 .work-l{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;min-width:0}
 .tabs{height:54px;display:flex;align-items:flex-end;gap:4px;padding:0 16px;border-bottom:1px solid var(--line)}
@@ -357,7 +362,7 @@ input,textarea{font:inherit;color:inherit}
 .cnote{font-size:11.5px;color:var(--ink3);margin-top:8px;text-align:center}
 
 /* drawer */
-.drawer{position:absolute;top:64px;right:0;bottom:0;width:520px;background:#fff;border-left:1px solid var(--line);box-shadow:-20px 0 50px rgba(14,26,51,.12);transform:translateX(105%);transition:transform .35s cubic-bezier(.2,.7,.2,1);z-index:30;padding:26px 28px;display:flex;flex-direction:column}
+.drawer{position:absolute;top:72px;right:0;bottom:0;width:520px;background:#fff;border-left:1px solid var(--line);box-shadow:-20px 0 50px rgba(14,26,51,.12);transform:translateX(105%);transition:transform .35s cubic-bezier(.2,.7,.2,1);z-index:30;padding:26px 28px;display:flex;flex-direction:column}
 .drawer.on{transform:none}
 .drawer .dx{position:absolute;right:18px;top:18px;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;color:var(--ink3)}
 .drawer .dx svg{width:18px;height:18px}
@@ -371,7 +376,7 @@ input,textarea{font:inherit;color:inherit}
 .drawer .aisum h4{font-size:13px;color:var(--blue-ink);display:flex;gap:8px;align-items:center;margin-bottom:4px}
 .drawer .aisum h4 svg{width:14px;height:14px}
 .drawer .dfoot{margin-top:auto;display:flex;gap:10px}
-.scrim{position:absolute;left:0;right:0;top:64px;bottom:0;background:rgba(11,20,38,.18);opacity:0;pointer-events:none;transition:opacity .3s;z-index:25}
+.scrim{position:absolute;left:0;right:0;top:72px;bottom:0;background:rgba(11,20,38,.18);opacity:0;pointer-events:none;transition:opacity .3s;z-index:25}
 .scrim.on{opacity:1;pointer-events:auto}
 
 /* modal */
@@ -404,7 +409,7 @@ input,textarea{font:inherit;color:inherit}
 
 /* other screens */
 .pg{padding:30px 40px}
-.pg h1{font-size:30px;font-weight:700;letter-spacing:-.4px}
+.pg h1{font-size:34px;font-weight:800;letter-spacing:-.6px;color:var(--blue-ink)}
 .pg .sub{font-size:16px;color:var(--ink2);margin-top:6px}
 .seg{display:inline-flex;background:#E9EDF4;border-radius:11px;padding:4px;gap:4px}
 .seg button{height:34px;padding:0 14px;border-radius:8px;font-size:14px;font-weight:600;color:var(--ink2)}
@@ -465,7 +470,7 @@ input,textarea{font:inherit;color:inherit}
 
 #cursor{position:absolute;left:0;top:0;width:26px;height:26px;pointer-events:none;z-index:80;opacity:0;transition:opacity .2s}
 #cursor.on{opacity:1}
-.demo-badge{position:absolute;left:16px;bottom:10px;font-size:11.5px;font-weight:600;color:var(--ink3);background:rgba(255,255,255,.9);border:1px solid var(--line);border-radius:8px;padding:4px 9px;z-index:15;pointer-events:none}
+.demo-badge{position:absolute;right:16px;bottom:8px;font-size:11.5px;font-weight:600;color:var(--ink3);background:rgba(255,255,255,.9);border:1px solid var(--line);border-radius:8px;padding:4px 9px;z-index:15;pointer-events:none}
 .clean .demo-badge{display:none}
 
 #hud{position:fixed;left:50%;transform:translateX(-50%);bottom:9px;display:flex;gap:6px;align-items:center;background:rgba(11,20,38,.9);color:#fff;border-radius:12px;padding:6px;font-size:13px;z-index:100;backdrop-filter:blur(6px)}
@@ -474,6 +479,59 @@ input,textarea{font:inherit;color:inherit}
 #hud .lbl{padding:0 10px;min-width:210px;text-align:center;color:#C9D6EE}
 #hud .tt{padding:0 8px 0 6px;color:#8EA6CF;font-weight:700;letter-spacing:.4px;font-size:11.5px;text-transform:uppercase}
 .clean #hud{display:none}
+
+/* ---------- AppMod-style shell: breadcrumb bar + left chat column ---------- */
+.crumbbar{position:absolute;left:500px;top:72px;width:1420px;height:60px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:0 28px;z-index:11;font-size:17px}
+.cb-home{width:36px;height:36px;border-radius:8px;display:grid;place-items:center;color:var(--ink3)}
+.cb-home:hover,.cb-fs:hover{background:#F1F4F9}
+.cb-home svg{width:20px;height:20px}
+.cb-sep{color:#AEB8CA;margin:0 2px}
+.cb-l{color:var(--blue-ink);font-weight:600;cursor:pointer;text-decoration:none}
+.cb-l:hover{text-decoration:underline}
+.cb-cur{color:var(--ink);font-weight:600}
+.cb-fs{margin-left:auto;width:40px;height:40px;border-radius:8px;display:grid;place-items:center;color:var(--ink)}
+.cb-fs svg{width:22px;height:22px}
+.chatcol{position:absolute;left:0;top:72px;bottom:0;width:500px;background:#F6F9FD;border-right:1px solid var(--line);display:flex;flex-direction:column;z-index:12}
+.ch-h{height:60px;flex:none;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 10px;gap:4px}
+.ch-proj{display:flex;align-items:center;gap:9px;height:42px;padding:0 14px;border-radius:9px;font-size:15.5px;font-weight:600;color:var(--ink)}
+.ch-proj svg,.ch-ic svg{width:21px;height:21px;color:var(--blue-ink)}
+.ch-proj:hover,.ch-ic:hover{background:#F1F5FB}
+.ch-sep{width:1px;height:32px;background:var(--line);margin:0 6px}
+.ch-ic{flex:1;height:42px;border-radius:9px;display:grid;place-items:center}
+.ch-ctx{display:flex;align-items:center;gap:8px;padding:12px 22px 0;font-size:12.5px;font-weight:600;color:var(--ink3)}
+.ch-ctx .dot{width:7px;height:7px;border-radius:50%;background:var(--ok)}
+.chatcol .msgs{padding:14px 22px 8px}
+.chatcol .dd{top:56px}
+#dd-proj{left:10px;width:360px}
+#dd-more{right:10px;width:280px}
+.msg .av{width:30px;height:30px;background:none;box-shadow:none;border-radius:0}
+.msg .av svg{width:28px;height:28px}
+.bubble{background:#E4EDFA}
+.sugg{padding:2px 22px 10px;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.sugg:empty{display:none}
+.sg{border:1.5px solid var(--blue-line);color:var(--blue-ink);background:#fff;border-radius:18px;padding:7px 15px;font-size:14px;font-weight:600;cursor:pointer;line-height:1.35;max-width:100%}
+.sg:hover{background:#F2F7FF;border-color:#9CC7FF}
+.chatcol .composer{border-top:0;padding:0 22px 12px}
+.chatcol .cbox{min-height:56px;border-radius:12px;padding:6px 6px 6px 16px}
+.chatcol .send{background:none;width:42px;height:42px;border-radius:10px}
+.chatcol .send:hover{background:var(--blue-soft)}
+.chatcol .send svg{width:22px;height:22px;color:var(--blue)}
+.voice{display:flex;align-items:center;gap:8px;margin-top:10px}
+.vd{flex:1;height:4px;background-image:radial-gradient(circle,#C2CBD9 1.3px,transparent 1.7px);background-size:10px 4px;background-repeat:repeat-x;background-position:center}
+.vbtn{width:40px;height:40px;border-radius:50%;border:1.5px solid #AEB8CA;display:grid;place-items:center;color:var(--ink2);flex:none;background:#fff}
+.vbtn svg{width:19px;height:19px}
+.vbtn:hover{border-color:var(--blue);color:var(--blue-ink)}
+.vbtn.on{border-color:var(--blue);color:#fff;background:var(--blue);box-shadow:0 0 0 6px rgba(50,137,255,.16)}
+.chat-fab{position:absolute;left:24px;bottom:24px;width:66px;height:66px;border-radius:50%;background:#fff;border:1px solid var(--line);box-shadow:0 10px 30px rgba(14,26,51,.18);display:none;place-items:center;z-index:13}
+.chat-fab svg{width:36px;height:36px}
+.tr{column-gap:18px}
+.tr > div{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chatcol .checks{font-size:13.5px}
+.chatcol .checks td{padding:8px 10px}
+.chatcol .checks th{padding:7px 10px;font-size:11px}
+.chat-min .chatcol{display:none}
+.chat-min .chat-fab{display:grid}
+.chat-min .screen,.chat-min .crumbbar{left:0;width:1920px}
 </style>
 </head>
 <body>
@@ -498,6 +556,21 @@ input,textarea{font:inherit;color:inherit}
     <symbol id="i-ff" viewBox="0 0 24 24"><path d="M4 6l8 6-8 6zM12 6l8 6-8 6z" fill="currentColor"/></symbol>
     <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 21a8 8 0 0 1 16 0" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
     <symbol id="i-redo" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <linearGradient id="sgrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1A6FE8"/><stop offset="1" stop-color="#5BA8FF"/></linearGradient>
+    <symbol id="i-spark2" viewBox="0 0 24 24"><path d="M10 4.5l1.9 6.6 6.6 1.9-6.6 1.9L10 21.5l-1.9-6.6-6.6-1.9 6.6-1.9z" fill="url(#sgrad)"/><path d="M19 1.5l.95 3.05L23 5.5l-3.05.95L19 9.5l-.95-3.05L15 5.5l3.05-.95z" fill="url(#sgrad)"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chatplus" viewBox="0 0 24 24"><path d="M20 12.5a8 8 0 1 1-4.2-7.1M11.5 20.5L8 22v-3.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 2.5v6M16 5.5h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-collapse" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.5 3.5v17" stroke="currentColor" stroke-width="2"/><path d="M12 12h6M15.5 9.5L18 12l-2.5 2.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-dots" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.9" fill="currentColor"/><circle cx="12" cy="12" r="1.9" fill="currentColor"/><circle cx="12" cy="19" r="1.9" fill="currentColor"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 11L12 4l8.5 7v8.5a1 1 0 0 1-1 1H15v-6H9v6H4.5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-expand" viewBox="0 0 24 24"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+    <symbol id="i-mode" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="12.5" y="12.5" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M11.5 7.5h5v5" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="i-plane" viewBox="0 0 24 24"><path d="M21 3L3 10.5l7 2.5 2.5 7z M10 13l11-10" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-spk-off" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M17 9.5l4 5M21 9.5l-4 5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+    <symbol id="i-spk-on" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+    <symbol id="i-mic-off" viewBox="0 0 24 24"><path d="M9 9V6a3 3 0 0 1 6 0v5M5.5 11a6.5 6.5 0 0 0 10.6 5M12 18v3M4 4l16 16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+    <symbol id="i-mic-on" viewBox="0 0 24 24"><path d="M9 6a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0zM5.5 11a6.5 6.5 0 0 0 13 0M12 18v3" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
   </defs>
 </svg>
 
@@ -507,13 +580,19 @@ input,textarea{font:inherit;color:inherit}
       <div class="mark"><svg><use href="#i-mark"/></svg></div>
       <div><div class="name">Permitting AI</div><div class="by">by Techolution</div></div>
     </div>
-    <nav class="nav" id="nav">
-      <a data-act="nav" data-to="queue">Review queue</a><a data-act="nav" data-to="apps">Applications</a><a data-act="nav" data-to="dash">Dashboard</a><a data-act="nav" data-to="map">Map</a><a data-act="nav" data-to="codes">Code library</a>
-    </nav>
+    <div class="mode" data-act="dd" data-dd="dd-mode"><svg><use href="#i-mode"/></svg><span id="mode-name">Review queue</span><svg class="chev"><use href="#i-chev"/></svg></div>
     <div class="tb-right">
-      <div class="tb-search clickable" data-act="dd" data-dd="dd-search"><svg width="16" height="16"><use href="#i-search"/></svg>Search permits, addresses, sheets</div>
-      <div class="icon-btn clickable" id="bell" data-act="dd" data-dd="dd-bell"><svg width="20" height="20"><use href="#i-bell"/></svg><span class="dot"></span></div>
-      <div class="avatar clickable" data-act="dd" data-dd="dd-user"><i>PR</i><div>Plan reviewer<small>Building review</small></div></div>
+      <div class="usage" data-act="nav" data-to="dash" title="Open the dashboard"><span class="ud"><i></i></span><div><small><svg><use href="#i-spark"/></svg>Reviewed today</small><b class="num" id="rev-today">3 / 12</b></div><span class="rf"><svg><use href="#i-redo"/></svg></span></div>
+      <div class="icon-btn clickable" data-act="dd" data-dd="dd-search" title="Search"><svg><use href="#i-search"/></svg></div>
+      <div class="icon-btn clickable" id="bell" data-act="dd" data-dd="dd-bell" title="Notifications"><svg><use href="#i-bell"/></svg><span class="dot"></span></div>
+      <div class="icon-btn clickable" data-act="dd" data-dd="dd-user" title="Menu"><svg><use href="#i-menu"/></svg></div>
+    </div>
+    <div class="dd" id="dd-mode">
+      <div class="it" data-act="nav" data-to="queue"><span class="ic"><svg><use href="#i-doc"/></svg></span><div><b>Review queue</b><small>Permits waiting for your review</small></div></div>
+      <div class="it" data-act="nav" data-to="apps"><span class="ic"><svg><use href="#i-folder"/></svg></span><div><b>Applications</b><small>Every application, every status</small></div></div>
+      <div class="it" data-act="nav" data-to="dash"><span class="ic"><svg><use href="#i-clock"/></svg></span><div><b>Dashboard</b><small>Review times and workload</small></div></div>
+      <div class="it" data-act="nav" data-to="map"><span class="ic"><svg><use href="#i-search"/></svg></span><div><b>Map</b><small>Open applications by location</small></div></div>
+      <div class="it" data-act="nav" data-to="codes"><span class="ic"><svg><use href="#i-book"/></svg></span><div><b>Code library</b><small>The codes the AI checks against</small></div></div>
     </div>
     <div class="dd" id="dd-search">
       <div class="sbox"><svg width="16" height="16" style="color:var(--blue)"><use href="#i-search"/></svg><input id="sin" placeholder="Search permits, addresses, sheets" autocomplete="off"></div>
@@ -528,6 +607,42 @@ input,textarea{font:inherit;color:inherit}
       <div class="it" data-act="restart"><span class="ic w"><svg><use href="#i-redo"/></svg></span><div><b>Restart demo</b><small>Start the review from the beginning</small></div></div>
     </div>
   </header>
+
+  <div class="crumbbar" id="crumbbar">
+    <button class="cb-home" data-act="nav" data-to="queue" title="Home"><svg><use href="#i-home"/></svg></button>
+    <span class="cb-sep">›</span><a class="cb-l" id="cb1" data-act="nav" data-to="queue">Review queue</a>
+    <span id="cb2w" style="display:none"><span class="cb-sep">›</span> <b class="cb-cur num" id="cb2">BLD-2026-04817</b></span>
+    <button class="cb-fs" data-act="fullscreen" title="Full screen"><svg><use href="#i-expand"/></svg></button>
+  </div>
+
+  <aside class="chatcol" id="chatcol">
+    <div class="ch-h">
+      <button class="ch-proj" data-act="dd" data-dd="dd-proj"><svg><use href="#i-folder"/></svg>Projects</button>
+      <span class="ch-sep"></span>
+      <button class="ch-ic" data-act="newchat" title="New chat"><svg><use href="#i-chatplus"/></svg></button>
+      <button class="ch-ic" data-act="chatmin" title="Collapse chat"><svg><use href="#i-collapse"/></svg></button>
+      <button class="ch-ic" data-act="dd" data-dd="dd-more" title="More"><svg><use href="#i-dots"/></svg></button>
+    </div>
+    <div class="ch-ctx"><span class="dot"></span><span id="ctx-t">Context: review queue · 42 applications</span></div>
+    <div class="msgs" id="msgs"></div>
+    <div class="sugg" id="sugg"></div>
+    <div class="composer">
+      <div class="cbox" id="cbox"><input id="cin" placeholder="How can I help?" autocomplete="off"><button class="send" id="send" data-act="send" title="Send"><svg><use href="#i-plane"/></svg></button></div>
+      <div class="voice"><i class="vd"></i><button class="vbtn" id="spk" data-act="speaker" title="Voice replies"><svg><use href="#i-spk-off"/></svg></button><i class="vd"></i><i class="vd"></i><button class="vbtn" id="mic" data-act="mic" title="Speak your question"><svg><use href="#i-mic-off"/></svg></button><i class="vd"></i></div>
+      <div class="cnote">Permitting AI suggests. The reviewer decides.</div>
+    </div>
+    <div class="dd" id="dd-proj"><h6>Projects</h6>
+      <div class="it" data-act="row" data-id="BLD-2026-04817"><span class="ic"><svg><use href="#i-doc"/></svg></span><div><b>BLD-2026-04817</b><small>Two-storey rear addition · 212 Linden Avenue</small></div></div>
+      <div class="it" data-act="row" data-id="ROW-2026-00418"><span class="ic w"><svg><use href="#i-doc"/></svg></span><div><b>ROW-2026-00418</b><small>Sidewalk café seating · 31 Market Square</small></div></div>
+      <div class="it" data-act="row" data-id="ZON-2026-01192"><span class="ic"><svg><use href="#i-doc"/></svg></span><div><b>ZON-2026-01192</b><small>Rear setback variance · 88 Harbor Street</small></div></div>
+    </div>
+    <div class="dd" id="dd-more">
+      <div class="it" data-act="newchat"><span class="ic"><svg><use href="#i-chatplus"/></svg></span><div><b>New conversation</b><small>Start a fresh thread</small></div></div>
+      <div class="it" data-act="chatmin"><span class="ic"><svg><use href="#i-collapse"/></svg></span><div><b>Collapse chat</b><small>Give the plans more room</small></div></div>
+      <div class="it" data-act="restart"><span class="ic w"><svg><use href="#i-redo"/></svg></span><div><b>Restart demo</b><small>Start the review from the beginning</small></div></div>
+    </div>
+  </aside>
+  <button class="chat-fab" data-act="chatmax" title="Open Permitting AI"><svg><use href="#i-spark2"/></svg></button>
 
   <!-- ===== REVIEW QUEUE ===== -->
   <section class="screen" id="s-queue">
@@ -544,12 +659,6 @@ input,textarea{font:inherit;color:inherit}
         <span class="ic"><svg><use href="#i-check"/></svg></span>
         <div><b>BLD-2026-04817 approved in 3 days</b>, with one correction round. The permit is issued and the applicant has been notified.</div>
         <button class="btn out sm" id="restart" data-act="restart"><svg><use href="#i-redo"/></svg>Restart demo</button>
-      </div>
-      <div class="ask" id="q-ask" data-act="q-ask">
-        <svg width="22" height="22" style="color:var(--blue);flex:none"><use href="#i-spark"/></svg>
-        <div class="ph" id="q-ph">Ask about any permit, in plain language…</div>
-        <div class="go">Ask Permitting AI</div>
-        <div class="q-answer" id="q-answer"></div>
       </div>
       <div class="chips" id="q-chips"></div>
       <div class="table" id="q-table"></div>
@@ -599,7 +708,6 @@ input,textarea{font:inherit;color:inherit}
   <!-- ===== PERMIT + ASSISTANT ===== -->
   <section class="screen" id="s-permit">
     <div class="p-head">
-      <div class="crumb"><a data-act="nav" data-to="queue">Review queue</a> &nbsp;/&nbsp; <b>BLD-2026-04817</b></div>
       <div class="p-title">
         <h1>Two-storey rear addition, single-family home</h1>
         <span class="pill blue" id="status-pill"><span class="dot"></span>In review</span>
@@ -671,21 +779,6 @@ input,textarea{font:inherit;color:inherit}
         </div>
       </div>
 
-      <div class="card assist">
-        <div class="ai-h">
-          <div class="mark" style="width:32px;height:32px;border-radius:9px"><svg style="width:18px;height:18px"><use href="#i-mark"/></svg></div>
-          <div><div class="t">Permitting AI</div><div class="s">Review assistant</div></div>
-          <div class="ctx num"><svg width="13" height="13"><use href="#i-book"/></svg>BLD-2026-04817</div>
-        </div>
-        <div class="msgs" id="msgs"></div>
-        <div class="composer">
-          <div class="cbox" id="cbox">
-            <input id="cin" placeholder="Ask about this permit, in plain language…" autocomplete="off">
-            <button class="send" id="send" data-act="send"><svg><use href="#i-send"/></svg></button>
-          </div>
-          <div class="cnote">Permitting AI suggests. The reviewer decides.</div>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -752,7 +845,7 @@ function titleBlock(tx,ty,h,title,num,rev,notes){
   g+=svgT(tx+16,ty+26,'PROJECT',10.5,700,'#8A94A7','start','letter-spacing="1"')+svgT(tx+16,ty+46,'Rear addition',15,700,INK,'start')+svgT(tx+16,ty+65,'212 Linden Avenue',12.5,500,'#5D677C','start'); tl(ty+82);
   g+=svgT(tx+16,ty+104,'SHEET TITLE',10.5,700,'#8A94A7','start','letter-spacing="1"')+svgT(tx+16,ty+125,title,15,700,INK,'start'); tl(ty+144);
   g+=svgT(tx+16,ty+166,'SCALE',10.5,700,'#8A94A7','start','letter-spacing="1"')+svgT(tx+16,ty+186,'1/4" = 1\'-0"',13,600,INK,'start');
-  g+=svgT(tx+120,ty+166,rev?'REVISION':'DATE',10.5,700,'#8A94A7','start','letter-spacing="1"')+svgT(tx+120,ty+186,rev?'Rev 1 · 11.11':'11.08.2026',13,600,rev?'#138A4E':INK,'start'); tl(ty+204);
+  g+=svgT(tx+120,ty+166,rev?'REVISION':'DATE',10.5,700,'#8A94A7','start','letter-spacing="1"')+svgT(tx+120,ty+186,rev?'Rev 1 · 11.12':'11.08.2026',13,600,rev?'#138A4E':INK,'start'); tl(ty+204);
   if(notes){g+=svgT(tx+16,ty+226,'GENERAL NOTES',10.5,700,'#8A94A7','start','letter-spacing="1"'); notes.forEach((n,i)=>g+=svgT(tx+16,ty+248+i*20,n,11.5,500,'#5D677C','start')); tl(ty+314);}
   g+=svgT(tx+16,ty+h-66,'SHEET',10.5,700,'#8A94A7','start','letter-spacing="1"')+svgT(tx+110,ty+h-16,num,50,800,INK,'middle','letter-spacing="-1"');
   return g;
@@ -863,13 +956,13 @@ function fit(){const res=P.has('clean')?0:56, H=innerHeight-res, s=Math.min(inne
 addEventListener('resize',fit); fit();
 const ico=(id,cls)=>`<svg class="${cls||''}"><use href="#${id}"/></svg>`;
 const icoS=(id,px,color)=>`<svg style="width:${px}px;height:${px}px;${color?'color:'+color:''}"><use href="#${id}"/></svg>`;
-const AV=`<div class="av"><svg><use href="#i-mark"/></svg></div>`;
+const AV=`<div class="av"><svg><use href="#i-spark2"/></svg></div>`;
 const tick=`<span class="ck ok">${ico('i-check')}</span>`, cross=`<span class="ck no">${ico('i-x')}</span>`;
 let ANIM=false, TOKEN=0;
 const realSleep=ms=>new Promise(r=>setTimeout(r,ms));
 const sleep=ms=>ANIM?realSleep(ms):Promise.resolve();
 function guard(t){if(t!==TOKEN) throw 'stale';}
-function add(html){const d=document.createElement('div');d.innerHTML=html.trim();const el=d.firstElementChild;if(ANIM)el.classList.add('rise');msgs.appendChild(el);return el;}
+function add(html){document.body.classList.remove('chat-min');const d=document.createElement('div');d.innerHTML=html.trim();const el=d.firstElementChild;if(ANIM)el.classList.add('rise');msgs.appendChild(el);return el;}
 function scrollChat(el,mode){
   if(!el) return Promise.resolve();
   const target=mode==='top'?Math.max(0,el.offsetTop-16):Math.max(0,el.offsetTop+el.offsetHeight-msgs.clientHeight+20);
@@ -896,8 +989,27 @@ function clock(){ st.t++; return st.day>=3?`10:${String(Math.min(59,10+st.t)).pa
 /* ======================= screens ======================= */
 let screen='queue', mapFilter=null;
 function show(name){ screen=name; $$('.screen').forEach(s=>s.classList.toggle('on',s.id==='s-'+name));
-  const navIdx={queue:0,permit:0,apps:1,dash:2,map:3,codes:4}[name]; $$('#nav a').forEach((a,i)=>a.classList.toggle('on',i===navIdx));
+  setCrumb(name);
   closeAll(); if(name==='queue') renderQueue(); if(name==='apps') renderApps(); if(name==='dash') renderDash(); if(name==='map') renderMap(); if(name==='codes') renderCodes(); updateHint(); }
+const SCREEN_NAMES={queue:'Review queue',permit:'Review queue',apps:'Applications',dash:'Dashboard',map:'Map',codes:'Code library'};
+function setCrumb(name){ $('#cb1').textContent=SCREEN_NAMES[name]; $('#cb1').dataset.to=name==='permit'?'queue':name; $('#cb2w').style.display=name==='permit'?'inline':'none';
+  $('#mode-name').textContent=name==='permit'?'Permit review':SCREEN_NAMES[name];
+  $$('#dd-mode .it').forEach(i=>i.classList.toggle('on',i.dataset.to===(name==='permit'?'queue':name)));
+  $('#ctx-t').textContent=name==='permit'?'Context: BLD-2026-04817 · 212 Linden Avenue':name==='queue'?`Context: review queue · ${st.issued?41:42} applications`:'Context: '+SCREEN_NAMES[name].toLowerCase(); }
+function welcome(){ return screen==='permit'
+  ? `<div class="msg">${AV}<div class="body"><p>I’ve read all <b>6 sheets</b> in this plan set and checked them against the adopted code. Ask me anything about this permit.</p>${now(clock())}</div></div>`
+  : `<div class="msg">${AV}<div class="body"><p>Good morning. I pre-checked all <b>42 applications</b> in your queue overnight.</p><p>Two need attention: <span class="lnk" data-act="row" data-id="BLD-2026-04817">BLD-2026-04817</span> and <span class="lnk" data-act="row" data-id="ROW-2026-00418">ROW-2026-00418</span>.</p>${now('9:38 AM')}</div></div>`; }
+function renderSugg(){ const box=$('#sugg'), atBottom=msgs.scrollHeight-msgs.scrollTop-msgs.clientHeight<40; if(busy||advancing||freeBusy||playing){ box.innerHTML=''; return; }
+  let s=[];
+  if(cur<=0) s=[['main','Open BLD-2026-04817'],['due','Which permits are due this week?'],['flagged','What did the pre-check flag?']];
+  else if(cur===1) s=[['main',QUESTION],['summary','Summarise this application'],['smoke','Are the smoke alarms in the right places?']];
+  else if(cur>=4&&cur<=6) s=[['sizes','Show window sizes that would comply'],['rooms','Check the other sleeping rooms']];
+  else if(cur===8) s=[['smoke','Are the smoke alarms in the right places?']];
+  else if(cur===9) s=[['main','Skip ahead to the resubmission'],['next9','What happens next?']];
+  else if(cur===10) s=[['main','What changed in the resubmission?'],['summary','Summarise this application']];
+  else if(cur===11) s=[['main','Approve this permit'],['checklist','Show all 23 checks']];
+  else if(cur>=13) s=[['recap','Summarise this review'],['due','Which permits are due this week?']];
+  box.innerHTML=s.map(([k,t])=>`<span class="sg" ${k==='main'?'id="sg-main"':''} data-act="sugg" data-k="${k}">${t}</span>`).join(''); if(atBottom) msgs.scrollTop=msgs.scrollHeight; }
 function closeAll(){ $$('.dd').forEach(d=>d.classList.remove('on')); closeDrawer(); $('#mpop').classList.remove('on'); }
 function mainPre(){ const m={review:['warn','i-alert','1 item to review'],corr:['grey','i-clock','Corrections requested'],resub:['blue','i-doc','Resubmitted'],ok:['ok','i-check','All checks passed'],issued:['ok','i-check','Approved · issued']}[st.status]; return `<span class="pc ${m[0]}">${ico(m[1])}${m[2]}</span>`; }
 function statusPill(r){ if(r.main) return mainPre(); return r.pre==='warn'?`<span class="pc warn">${ico('i-alert')}${r.preT}</span>`:`<span class="pc ok">${ico('i-check')}Ready for review</span>`; }
@@ -984,7 +1096,7 @@ function schedW3(){ $('#sched-w3').innerHTML=st.rev?
   `<td><b>W3</b></td><td>Bedroom 3</td><td>Casement</td><td class="num">2'-4" × 3'-4"</td><td class="num">24 × 36 in</td><td class="num"><b>6.0 sq ft</b></td><td class="num">40 in</td>`:
   `<td><b>W3</b></td><td>Bedroom 3</td><td>Double-hung</td><td class="num">2'-2" × 5'-6"</td><td class="num">22 × 31.4 in</td><td class="num"><b>4.8 sq ft</b></td><td class="num">40 in</td>`;
   $('#sched-rev').style.display=st.rev?'inline-flex':'none'; $('#rev-tag').style.display=st.rev?'inline':'none'; }
-function setStatus(s){ st.status=s; const m={review:['blue','In review'],corr:['warn','Corrections requested'],resub:['blue','Resubmitted · Round 2'],ok:['ok','All checks passed'],issued:['ok','Approved · permit issued']}[s];
+function setStatus(s){ st.status=s; $('#rev-today').textContent=s==='issued'?'4 / 12':'3 / 12'; const m={review:['blue','In review'],corr:['warn','Corrections requested'],resub:['blue','Resubmitted · Round 2'],ok:['ok','All checks passed'],issued:['ok','Approved · permit issued']}[s];
   const p=$('#status-pill'); p.className='pill '+m[0]; p.innerHTML='<span class="dot"></span>'+m[1];
   $('#day-pill').textContent=s==='issued'?'Completed in 3 days':`Day ${st.day} in review`;
   $('#p-actions').innerHTML=s==='issued'?`<button class="btn out" data-act="view-permit">${ico('i-doc')}View permit</button><button class="btn pri" data-act="back-queue">Back to queue</button>`
@@ -992,12 +1104,12 @@ function setStatus(s){ st.status=s; const m={review:['blue','In review'],corr:['
 
 /* ======================= main storyline (one step per trailer shot) ======================= */
 const STEPS=[
- {id:'queue',label:'Review queue',run:async t=>{ show('queue'); }},
+ {id:'queue',label:'Review queue',run:async t=>{ show('queue'); if(!msgs.children.length) add(welcome()); }},
  {id:'permit',label:'Permit opens',run:async t=>{
     if(ANIM){const row=$('#row-04817'); if(row){await point(row); row.classList.add('focus'); await sleep(350);} guard(t);}
     show('permit'); setSheet('A-102'); hideCursor();
-    add(`<div class="msg">${AV}<div class="body"><p>I’ve read all <b>6 sheets</b> in this plan set and checked them against the adopted code. Ask me anything about this permit.</p>
-      <div class="starters"><span data-act="free" data-q="summary">Summarise this application</span><span data-act="free" data-q="changed">What changed since the last submission?</span><span data-act="free" data-q="smoke">Are the smoke alarms in the right places?</span></div>${now('9:40 AM')}</div></div>`);
+    add(`<div class="divider">Opened BLD-2026-04817</div>`);
+    const w=add(`<div class="msg">${AV}<div class="body"><p>I’ve read all <b>6 sheets</b> in this plan set and checked them against the adopted code. Ask me anything about this permit.</p>${now('9:40 AM')}</div></div>`); await scrollChat(w);
  }},
  {id:'ask',label:'Question typed',run:async t=>{
     const box=$('#cbox'), cin=$('#cin'); const typed=cin.value.trim(); const q=(typed&&/bedroom|escape|egress|window/i.test(typed))?typed:QUESTION;
@@ -1068,7 +1180,7 @@ const STEPS=[
     const sk=$('#skip'); if(ANIM&&sk){await point(sk); await sleep(120); guard(t);} hideCursor();
     if(sk) sk.classList.add('picked');
     st.day=3; setStatus('resub'); $('#bell').classList.remove('has');
-    add(`<div class="divider">Next day · Nov 11, 10:05 AM</div>`);
+    add(`<div class="divider">Next day · Nov 12, 10:05 AM</div>`);
     const m=add(`<div class="msg" id="resubmsg">${AV}<div class="body"><div class="sysc"><div class="sh">${ico('i-doc')}Resubmission received · Round 2</div>
       <p>The applicant uploaded a revised sheet A-102 (Rev 1). The window schedule changed.</p>
       <div class="sb"><button class="btn pri sm" id="chk-changed" data-act="recheck">${ico('i-spark')}Check what changed</button><button class="btn out sm" data-act="cite" data-c="sheet-rev">Open sheet A-102 Rev 1</button></div></div>${now('10:05 AM')}</div></div>`);
@@ -1130,17 +1242,21 @@ const FREE={
  sizes:{q:'Show window sizes that would comply',a:()=>`<p>Any of these would give W3 enough opening with the same 40 in sill:</p><table class="mini"><tr><th>Window</th><th>Net clear (W × H)</th><th>Area</th><th></th></tr><tr><td>Casement</td><td class="num">24 × 36 in</td><td class="num">6.0 sq ft</td><td class="r">${tick}</td></tr><tr><td>Double-hung, wider</td><td class="num">32 × 26 in</td><td class="num">5.8 sq ft</td><td class="r">${tick}</td></tr><tr><td>Slider</td><td class="num">40 × 24 in</td><td class="num">6.7 sq ft</td><td class="r">${tick}</td></tr></table>`},
  rooms:{q:'Check the other sleeping rooms',a:()=>`<p><b>Bedroom 4 passes.</b> W4 is a casement with 28 × 46 in clear, which is 8.9 sq ft, and a 36 in sill. There are no other sleeping rooms on this sheet.</p>`},
  checklist:{q:'Show all 23 checks',a:()=>`<table class="mini"><tr><th>Check</th><th class="r">Passed</th></tr>${[['Emergency escape openings',4],['Smoke alarms',3],['Stair geometry',4],['Guards',2],['Ceiling height',3],['Minimum room areas',3],['Safety glazing',2],['Ventilation',2]].map(r=>`<tr><td>${r[0]}</td><td class="r num">${r[1]} of ${r[1]} ${tick}</td></tr>`).join('')}</table>`},
+ due:{q:'Which permits are due this week?',a:()=>`<p><b>6 permits are due this week.</b> Two have items to review: <span class="lnk" data-act="row" data-id="BLD-2026-04817">BLD-2026-04817</span> ${st.issued?'(now approved and issued)':'(a bedroom window below the escape-opening minimum)'} and <span class="lnk" data-act="row" data-id="ROW-2026-00418">ROW-2026-00418</span> (the sidewalk clear path and a missing insurance certificate). The other four are ready for review.</p>`},
+ flagged:{q:'What did the pre-check flag?',a:()=>`<ul><li><span class="lnk" data-act="row" data-id="BLD-2026-04817">BLD-2026-04817</span> · the Bedroom 3 window is below the 5.7 sq ft escape-opening minimum.</li><li><span class="lnk" data-act="row" data-id="ROW-2026-00418">ROW-2026-00418</span> · a 5 ft clear path where 6 ft is required, and no insurance certificate.</li></ul><p>The other 40 are ready for review.</p>`},
+ next9:{q:'What happens next?',a:()=>`<p>The applicant gets the correction notice by email. When they upload a revised sheet, I’ll compare it with the original and re-run every check before you open it.</p>`},
+ recap:{q:'Summarise this review',a:()=>`<ul><li><b>Nov 10</b> · submitted. The pre-check flagged window W3.</li><li><b>Nov 11</b> · correction notice sent (Round 1).</li><li><b>Nov 12</b> · sheet A-102 Rev 1 received. 23 of 23 checks passed.</li><li><b>Nov 12</b> · approved. Permit BP-2026-04817 issued.</li></ul><p>Total time in review: <b>3 days</b>.</p>`},
  corr0:{q:'Request corrections',a:()=>`<p>I haven’t found anything to correct yet. Ask me about the plan first, for example <span class="lnk" data-act="ask-main">“${QUESTION}”</span></p>`},
 };
 let freeBusy=false;
 async function freeQA(key,custom){
-  if(freeBusy||busy) return; freeBusy=true; const save=ANIM; ANIM=true;
+  if(freeBusy||busy) return; freeBusy=true; renderSugg(); const save=ANIM; ANIM=true;
   try{
     const f=FREE[key]||{q:custom,a:()=>`<p>In this demo I answer questions about this permit’s plans. Try <span class="lnk" data-act="ask-main">“${QUESTION}”</span></p>`};
     const u=add(`<div class="msg user"><div><div class="bubble">${String(custom||f.q).replace(/</g,'&lt;')}</div>${now(clock())}</div></div>`); await scrollChat(u);
     const ty=add(`<div class="msg">${AV}<div class="body"><span class="typing"><i></i><i></i><i></i></span></div></div>`); await scrollChat(ty); await realSleep(850); ty.remove();
     const a=add(`<div class="msg">${AV}<div class="body">${f.a()}${now(clock())}</div></div>`); await scrollChat(a);
-  } finally { ANIM=save; freeBusy=false; }
+  } finally { ANIM=save; freeBusy=false; updateHint(); }
 }
 
 /* ======================= step engine ======================= */
@@ -1150,7 +1266,7 @@ function label(){ $('#lbl').textContent=`${cur+1} / ${STEPS.length} · ${STEPS[c
 function reset(){
   st=S0(); msgs.innerHTML=''; msgs.scrollTop=0; hideCursor(); closeModal(); closeAll(); $('#toast').classList.remove('on');
   drawPlan(0); schedW3(); markW3(false); $('#tab-code').style.display='none'; setSheet('A-102'); applyZoom(); $('#doc-inner').style.transform='';
-  setStatus('review'); $('#cin').value=''; $('#bell').classList.remove('has'); qAnswer(false); mapFilter=null;
+  setStatus('review'); $('#cin').value=''; document.body.classList.remove('chat-min'); $('#spk').classList.remove('on'); $('#spk').innerHTML='<svg><use href="#i-spk-off"/></svg>'; $('#bell').classList.remove('has'); qAnswer(false); mapFilter=null;
 }
 async function goTo(i){ const t=++TOKEN; ANIM=false; busy=false; advancing=false; freeBusy=false; document.body.classList.add('instant'); reset();
   for(let j=0;j<=i;j++) await STEPS[j].run(t);
@@ -1163,11 +1279,11 @@ async function play(){ if(playing) return; playing=true; AUTOPLAY=true; $('#b-pl
   if(cur>=STEPS.length-1) await goTo(0);
   while(playing&&cur<STEPS.length-1){ await next(); await realSleep(1400); }
   playing=false; AUTOPLAY=false; hideCursor(); $('#b-play').textContent='Play'; updateHint(); }
-const HINTS={0:'#row-04817',1:'#send',4:'#src',5:'#lnk-code',7:'#chip-draft',8:'#approve',9:'#skip',10:'#chk-changed',11:'#chip-approve',12:'#m-approve',13:'#back-queue',14:'#restart'};
-function updateHint(){ $$('.hint').forEach(e=>e.classList.remove('hint')); if(busy||playing||advancing) return; const sel=HINTS[cur]; const el=sel&&$(sel); if(el&&el.offsetParent) el.classList.add('hint'); }
+const HINTS={0:'#row-04817',1:'#sg-main',4:'#src',5:'#lnk-code',7:'#chip-draft',8:'#approve',9:'#skip',10:'#chk-changed',11:'#chip-approve',12:'#m-approve',13:'#back-queue',14:'#restart'};
+function updateHint(){ renderSugg(); $$('.hint').forEach(e=>e.classList.remove('hint')); if(busy||playing||advancing) return; const sel=HINTS[cur]; const el=sel&&$(sel); if(el&&el.offsetParent) el.classList.add('hint'); }
 
 /* ======================= queue ask ======================= */
-function qAnswer(on){ $('#q-answer').classList.toggle('on',!!on); if(!on){ $('#q-ph').textContent='Ask about any permit, in plain language…'; $('#q-ph').classList.remove('typed'); } }
+function qAnswer(on){ if(!$('#q-answer')) return;  $('#q-answer').classList.toggle('on',!!on); if(!on){ $('#q-ph').textContent='Ask about any permit, in plain language…'; $('#q-ph').classList.remove('typed'); } }
 let qBusy=false;
 async function queueAsk(){ if(qBusy||$('#q-answer').classList.contains('on')) return; qBusy=true; const ph=$('#q-ph'), q='Which permits are due this week, and do any need attention?';
   ph.classList.add('typed'); for(let i=1;i<=q.length;i++){ ph.textContent=q.slice(0,i); await realSleep(20); }
@@ -1224,10 +1340,22 @@ document.addEventListener('click',async e=>{
     case 'zoom': { const z=+el.dataset.z; st.zoom=z===0?1:Math.min(2,Math.max(.6,+(st.zoom+z*.2).toFixed(1))); applyZoom(); break; }
     case 'send': { const v=$('#cin').value.trim();
       if(cur===1&&(!v||/bedroom|escape|egress|window/i.test(v))){ await advanceTo('answer'); }
+      else if(cur===10&&/chang|resubmi/i.test(v)){ $('#cin').value=''; await advanceTo('recheck'); }
+      else if(cur===11&&/approve/i.test(v)){ $('#cin').value=''; await advanceTo('approve'); }
       else if(v){ $('#cin').value=''; const key=/smoke/i.test(v)?'smoke':/summar/i.test(v)?'summary':/chang/i.test(v)?'changed':/size|comply/i.test(v)?'sizes':/check/i.test(v)&&cur>=11?'checklist':null; freeQA(key,v); }
       else $('#cin').focus();
       break; }
     case 'free': freeQA(el.dataset.q); break;
+    case 'sugg': { const k=el.dataset.k; if(k==='main'){ const m={0:'permit',1:'answer',9:'resubmit',10:'recheck',11:'approve'}[cur]; if(m){ if(cur>0&&screen!=='permit') openPermit(); await advanceTo(m); } } else freeQA(k); break; }
+    case 'newchat': { closeAll(); add(`<div class="divider">New conversation</div>`); const w=add(welcome()); scrollChat(w); break; }
+    case 'chatmin': closeAll(); document.body.classList.add('chat-min'); break;
+    case 'chatmax': document.body.classList.remove('chat-min'); updateHint(); break;
+    case 'speaker': { const on=!el.classList.contains('on'); el.classList.toggle('on',on); el.innerHTML=`<svg><use href="#i-spk-${on?'on':'off'}"/></svg>`; toast(on?'Voice replies on':'Voice replies off'); break; }
+    case 'mic': { if(el.classList.contains('on')) break; el.classList.add('on'); el.innerHTML='<svg><use href="#i-mic-on"/></svg>';
+      const q=cur===1?QUESTION:cur===10?'What changed in the resubmission?':'Summarise this application', cin=$('#cin'); cin.value='';
+      for(let i=1;i<=q.length;i++){ cin.value=q.slice(0,i); await realSleep(22); }
+      el.classList.remove('on'); el.innerHTML='<svg><use href="#i-mic-off"/></svg>'; cin.focus(); toast('Got it. Press send to ask.'); break; }
+    case 'fullscreen': if(document.fullscreenElement) document.exitFullscreen().catch(()=>{}); else document.documentElement.requestFullscreen?.().catch(()=>toast('Full screen isn’t available here')); break;
     case 'ask-main': if(cur===1) advanceTo('answer'); else freeQA(null,QUESTION); break;
     case 'source': if(cur===4) await advanceTo('reasoning'); else { el.classList.toggle('open'); $('#xp').classList.toggle('on'); } break;
     case 'cite': { const c=el.dataset.c;

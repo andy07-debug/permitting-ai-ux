@@ -9,6 +9,7 @@ the reviewer asks a question in plain language, the AI checks the plans against 
 shows its reasoning and the exact clause, drafts a correction notice, re-checks the
 resubmission, and the reviewer approves and issues the permit.
 
+- Permitting AI sits in the chat column on the left; the permit, plans and code open on the right.
 - Click the highlighted control to move to the next step, or use the **Guided demo** bar (◀ ▶ Play).
 - Every tab, chip and button responds: queue filters, map pins, dashboard ranges, code library, sheet tabs, side questions.
 - Add `?clean` to the address to hide the demo bar (for screen recording).
