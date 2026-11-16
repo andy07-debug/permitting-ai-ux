@@ -500,7 +500,7 @@ input,textarea{font:inherit;color:inherit}
 .ch-ic{flex:1;height:42px;border-radius:9px;display:grid;place-items:center}
 .ch-ctx{display:flex;align-items:center;gap:8px;padding:12px 22px 0;font-size:12.5px;font-weight:600;color:var(--ink3)}
 .ch-ctx .dot{width:7px;height:7px;border-radius:50%;background:var(--ok)}
-.chatcol .msgs{padding:14px 22px 8px}
+.chatcol .msgs{padding:14px 22px 8px;overflow-anchor:none} /* the thread scrolls only where we send it (no browser scroll anchoring while cards grow open) */
 .chatcol .dd{top:56px}
 #dd-proj{left:10px;width:360px}
 #dd-more{right:10px;width:280px}
@@ -1113,8 +1113,9 @@ const realSleep=ms=>new Promise(r=>setTimeout(r,ms));
 const sleep=ms=>ANIM?realSleep(ms):Promise.resolve();
 function guard(t){if(t!==TOKEN) throw 'stale';}
 function add(html){document.body.classList.remove('chat-min');const d=document.createElement('div');d.innerHTML=html.trim();const el=d.firstElementChild;if(ANIM)el.classList.add('rise');msgs.appendChild(el);return el;}
+let lastAim=-1e9; // when a step last aimed the thread at something (the suggestions must not undo it)
 function scrollChat(el,mode){
-  if(!el) return Promise.resolve();
+  if(!el) return Promise.resolve(); lastAim=performance.now();
   const k=stage.getBoundingClientRect().width/1920||1, er=el.getBoundingClientRect(), mr=msgs.getBoundingClientRect();
   const top=msgs.scrollTop+(er.top-mr.top)/k, h=er.height/k;
   const target=mode==='top'?Math.max(0,top-30):Math.max(0,top+h-msgs.clientHeight+20);
@@ -1164,7 +1165,7 @@ function renderSugg(){ const box=$('#sugg'), atBottom=msgs.scrollHeight-msgs.scr
   else if(cur===10) s=[['main','What changed in the resubmission?'],['summary','Summarise this application']];
   else if(cur===11) s=[['main','Approve this permit'],['checklist','Show all 18 checks']];
   else if(cur>=13) s=[['recap','Summarise this review'],['due','Which permits are due this week?']];
-  box.innerHTML=s.map(([k,t])=>`<span class="sg" ${k==='main'?'id="sg-main"':''} data-act="sugg" data-k="${k}">${t}</span>`).join(''); if(atBottom) msgs.scrollTop=msgs.scrollHeight; }
+  box.innerHTML=s.map(([k,t])=>`<span class="sg" ${k==='main'?'id="sg-main"':''} data-act="sugg" data-k="${k}">${t}</span>`).join(''); if(atBottom && performance.now()-lastAim>1500) msgs.scrollTop=msgs.scrollHeight; }
 function closeAll(){ $$('.dd').forEach(d=>d.classList.remove('on')); closeDrawer(); $('#mpop').classList.remove('on'); }
 function mainPre(){ const m={review:['warn','i-alert','1 item to review'],corr:['grey','i-clock','Corrections requested'],resub:['blue','i-doc','Resubmitted'],ok:['ok','i-check','All checks passed'],issued:['ok','i-check','Approved · issued']}[st.status]; return `<span class="pc ${m[0]}">${ico(m[1])}${m[2]}</span>`; }
 function statusPill(r){ if(r.main) return mainPre(); return r.pre==='warn'?`<span class="pc warn">${ico('i-alert')}${r.preT}</span>`:`<span class="pc ok">${ico('i-check')}Ready for review</span>`; }
