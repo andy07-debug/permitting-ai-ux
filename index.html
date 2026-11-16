@@ -1338,7 +1338,7 @@ const STEPS=[
  {id:'citation',label:'Visual citation',run:async t=>{
     const l=$('#lnk-code'); if(ANIM){await point(l); await sleep(120); guard(t);} hideCursor();
     l.classList.add('open'); const v=$('#vcite'); v.classList.add('on'); if(ANIM){v.classList.remove('rise');void v.offsetWidth;v.classList.add('rise');} expand(v,560);
-    showCode(); await sleep(ANIM?140:0); await scrollChat(v,'top');
+    showCode(); await sleep(ANIM?140:0); await scrollChat(l,'top'); // the clicked link stays in view, the citation opens under it
  }},
  {id:'next',label:'Permit Genie + next steps',run:async t=>{
     if(ANIM&&!st.genie){ const g=$('#genie-btn'); await point(g); await sleep(120); guard(t); hideCursor(); openGenie(); await sleep(2800); guard(t); }
