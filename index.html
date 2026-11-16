@@ -588,6 +588,8 @@ input,textarea{font:inherit;color:inherit}
 .doc .sec{font-family:inherit;font-size:15.5px;text-align:justify;color:#1C2433}
 /* watch me work, decision steps */
 .work li{flex-wrap:wrap;cursor:pointer}
+.work li > span:nth-child(2){flex:1;min-width:0}
+.work li .chev{flex:none}
 .work li .chev{margin-left:auto;color:var(--ink3);transition:transform .2s}
 .work li .chev svg{width:14px;height:14px}
 .work li.open .chev{transform:rotate(180deg)}
@@ -1127,6 +1129,8 @@ async function point(el){ if(!ANIM||!AUTOPLAY||P.has('nocursor')||!el) return; c
   await new Promise(r=>{const f=now=>{const k=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-k,3);cx=fx+(p.x-fx)*e;cy=fy+(p.y-fy)*e;cursor.style.transform=`translate(${cx-4}px,${cy-2}px)`;k<1?requestAnimationFrame(f):r();};requestAnimationFrame(f);});
   await sleep(220); }
 function hideCursor(){cursor.classList.remove('on');}
+// open a block smoothly: its height grows from 0 while it fades up (no jump of the thread below it)
+function expand(el,dur=560){ if(!ANIM||!el) return; el.style.overflow='hidden'; el.style.maxHeight='0px'; el.style.transition=`max-height ${dur}ms cubic-bezier(.2,.7,.2,1)`; void el.offsetHeight; el.style.maxHeight=el.scrollHeight+'px'; setTimeout(()=>{el.style.maxHeight='';el.style.overflow='';el.style.transition='';},dur+60); }
 let toastTimer; function toast(t){ $('#toast-t').textContent=t; $('#toast').classList.add('on'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>$('#toast').classList.remove('on'),2600); }
 
 /* ======================= state ======================= */
@@ -1328,13 +1332,13 @@ const STEPS=[
  }},
  {id:'reasoning',label:'Reasoning and gap',run:async t=>{
     const src=$('#src'); if(ANIM){await point(src); await sleep(120); guard(t);}
-    src.classList.add('open'); document.body.classList.add('chat-wide'); const xp=$('#xp'); xp.classList.add('on'); if(ANIM){xp.classList.remove('rise');void xp.offsetWidth;xp.classList.add('rise');}
-    setSheet('A-101'); markW3('gap'); hideCursor(); await sleep(560); await scrollChat(xp,'top');
+    src.classList.add('open'); document.body.classList.add('chat-wide'); const xp=$('#xp'); xp.classList.add('on'); if(ANIM){xp.classList.remove('rise');void xp.offsetWidth;xp.classList.add('rise');} expand(xp,620);
+    setSheet('A-101'); markW3('gap'); hideCursor(); await sleep(ANIM?260:0); await scrollChat(xp,'top');
  }},
  {id:'citation',label:'Visual citation',run:async t=>{
     const l=$('#lnk-code'); if(ANIM){await point(l); await sleep(120); guard(t);} hideCursor();
-    l.classList.add('open'); const v=$('#vcite'); v.classList.add('on'); if(ANIM){v.classList.remove('rise');void v.offsetWidth;v.classList.add('rise');}
-    showCode(); await scrollChat(v,'top');
+    l.classList.add('open'); const v=$('#vcite'); v.classList.add('on'); if(ANIM){v.classList.remove('rise');void v.offsetWidth;v.classList.add('rise');} expand(v,560);
+    showCode(); await sleep(ANIM?140:0); await scrollChat(v,'top');
  }},
  {id:'next',label:'Permit Genie + next steps',run:async t=>{
     if(ANIM&&!st.genie){ const g=$('#genie-btn'); await point(g); await sleep(120); guard(t); hideCursor(); openGenie(); await sleep(2800); guard(t); }
