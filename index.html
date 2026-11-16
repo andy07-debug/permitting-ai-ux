@@ -652,6 +652,117 @@ ol.ans > li{margin-bottom:10px}
 .chat-min .chatcol{display:none}
 .chat-min .chat-fab{display:grid}
 .chat-min .screen,.chat-min .crumbbar{left:0;width:1920px}
+
+.tabs .tab{white-space:nowrap;flex:none}
+.tabs.tight .tab{padding:0 11px;gap:6px}
+/* ---------- outcome views: AI pre-check report, review timeline, team impact ---------- */
+.rpt{flex:1;min-height:0;overflow:auto;background:#F7F8FB;padding:20px 22px}
+.rpt-h{display:flex;align-items:center;gap:12px}
+.rpt-h h2{font-size:21px;font-weight:700;letter-spacing:-.3px}
+.rpt-h .cdtag{font-size:11.5px;font-weight:700;color:var(--blue-ink);background:var(--blue-soft);border-radius:6px;padding:3px 9px}
+.rpt-h .meta{margin-left:auto;font-size:13.5px;color:var(--ink3);font-weight:500}
+.rgrid{display:grid;grid-template-columns:1.25fr 1fr;gap:18px;margin-top:16px}
+.rbox{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.rbox h3{font-size:15px;font-weight:700;display:flex;align-items:center;gap:9px}
+.rbox h3 svg{width:17px;height:17px;color:var(--blue-ink)}
+.rbox h3 .cnt{margin-left:auto;font-size:13px;font-weight:600;color:var(--ink3)}
+.rbox .rs{font-size:13.5px;color:var(--ink2);margin-top:4px;line-height:1.5}
+.ckl{margin-top:10px}
+.ckr{display:flex;align-items:center;gap:12px;padding:9px 4px;border-bottom:1px solid var(--line);font-size:14.5px}
+.ckr:last-child{border-bottom:0}
+.ckr .cn{flex:1;font-weight:500}
+.ckr .cc{font-size:12.5px;color:var(--ink3);font-weight:600;width:150px}
+.ckr .cv{width:86px;text-align:right;font-weight:600;color:var(--ok)}
+.ckr.gap{background:#FFF8F8;border-radius:10px 10px 0 0;border-bottom:0;padding-left:10px;padding-right:10px;margin-top:2px}
+.ckr.gap .cv{color:var(--bad)}
+.ckr.res .cv{color:var(--ok)}
+.ckr.gap.res{background:#F3FBF6}
+.ckr .ck.warn{background:var(--bad-soft);color:var(--bad)}
+.gapd{background:#FFF8F8;border-radius:0 0 10px 10px;padding:4px 14px 14px 44px;border-bottom:1px solid var(--line);margin-bottom:2px}
+.gapd.res{background:#F3FBF6}
+.gapd dl{display:grid;grid-template-columns:70px 1fr;gap:6px 12px;font-size:13.5px;line-height:1.5;color:#25304A}
+.gapd dt{font-weight:700;color:var(--ink3);font-size:12px;letter-spacing:.4px;text-transform:uppercase;padding-top:2px}
+.gapd .clause{display:inline-flex;align-items:center;gap:7px;margin-top:10px;font-size:13px;font-weight:700;color:var(--blue-ink);background:#fff;border:1px solid var(--blue-line);border-radius:8px;padding:5px 10px}
+.gapd .clause svg{width:14px;height:14px}
+.gapd .str{margin-left:10px;font-size:12.5px;font-weight:700;color:var(--ok)}
+.rstats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rstat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.rstat span{font-size:12.5px;color:var(--ink3);font-weight:600}
+.rstat b{display:block;font-size:30px;font-weight:800;letter-spacing:-.6px;margin-top:2px}
+.rstat b.ok{color:var(--ok)} .rstat b.bad{color:var(--bad)}
+.fixl{margin-top:10px}
+.fixr{display:flex;align-items:flex-start;gap:12px;padding:10px 2px;border-bottom:1px solid var(--line)}
+.fixr:last-child{border-bottom:0}
+.fixr .ft{flex:1;font-size:14px;line-height:1.45}
+.fixr .ft s{color:var(--ink3);text-decoration-color:#9AA5B8}
+.fixr .ft small{display:block;font-size:12.5px;color:var(--ink3);margin-top:2px;font-weight:600}
+.fixr .pc{height:26px;font-size:12.5px;flex:none}
+.selfnote{margin-top:12px;display:flex;gap:10px;align-items:center;font-size:13.5px;color:#0D4A2A;background:var(--ok-soft);border:1px solid var(--ok-line);border-radius:10px;padding:10px 12px;line-height:1.45}
+.selfnote svg{width:16px;height:16px;color:var(--ok);flex:none}
+
+.tl-cmp{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px 16px;margin-top:16px}
+.tl-row{display:grid;grid-template-columns:200px 1fr 96px;align-items:center;gap:16px;margin-top:14px}
+.tl-row .lb b{display:block;font-size:14.5px;font-weight:700}
+.tl-row .lb small{font-size:12.5px;color:var(--ink3);font-weight:500}
+.tl-row .tot{font-size:22px;font-weight:800;letter-spacing:-.4px;text-align:right}
+.tl-row.new .tot{color:var(--blue-ink)}
+.tl-bar{height:40px;display:flex;gap:3px;position:relative}
+.tl-bar i{display:flex;align-items:center;padding:0 10px;border-radius:7px;font-style:normal;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden}
+.tl-bar.old i{background:#EEF1F6;color:var(--ink2)}
+.tl-bar.old i.c{background:#FBE3E5;color:#8A1B24}
+.tl-bar.new i{background:var(--blue);color:#fff;padding:0;justify-content:center}
+.tl-bar.new .tl-call{position:absolute;left:calc(10% + 14px);top:50%;transform:translateY(-50%);font-size:13.5px;font-weight:600;color:var(--blue-ink);white-space:nowrap}
+.tl-scale{display:grid;grid-template-columns:200px 1fr 96px;gap:16px;margin-top:6px}
+.tl-scale div{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink3);font-weight:600}
+.tl-fast{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 14px;border-radius:16px;background:var(--ok-soft);color:var(--ok);font-weight:700;font-size:14.5px;margin-left:auto}
+.tl-fast svg{width:15px;height:15px}
+.tl-days{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+.tl-day{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.tl-day h4{font-size:13px;font-weight:700;color:var(--ink3);letter-spacing:.5px;text-transform:uppercase}
+.tl-day h4 b{color:var(--ink)}
+.tl-ev{display:flex;gap:11px;margin-top:12px;position:relative}
+.tl-ev .d{width:22px;height:22px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--blue-soft);color:var(--blue-ink)}
+.tl-ev .d svg{width:12px;height:12px}
+.tl-ev.ai .d{background:var(--blue);color:#fff}
+.tl-ev.ok .d{background:var(--ok);color:#fff}
+.tl-ev.todo{opacity:.45}
+.tl-ev .e{font-size:14px;line-height:1.4}
+.tl-ev .e b{font-weight:600}
+.tl-ev .e small{display:block;font-size:12.5px;color:var(--ink3);font-weight:500;margin-top:1px}
+.tl-ev .e em{font-style:normal;font-weight:700;color:var(--blue-ink)}
+.tl-why{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+.tl-w{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.tl-w span{font-size:12.5px;color:var(--ink3);font-weight:600}
+.tl-w b{display:flex;align-items:baseline;gap:10px;font-size:22px;font-weight:800;letter-spacing:-.4px;margin-top:4px}
+.tl-w b s{font-size:15px;font-weight:600;color:var(--ink3);text-decoration-color:#B5BECD}
+.tl-w b svg{width:16px;height:16px;color:var(--ink3);align-self:center;transform:rotate(-90deg)}
+.tl-w p{font-size:13px;color:var(--ink2);margin-top:4px;line-height:1.45}
+
+.dhead-r{display:flex;gap:12px;align-items:center}
+#dash-impact{display:none}
+.impact #dash-impact{display:grid;margin-top:22px}
+#dash-impact .dp{height:548px}
+.impact #dash-kpis,.impact .dpanels:not(#dash-impact),.impact #dash-seg{display:none}
+.dk small.was{color:var(--ink3)}
+.dk .x2{display:inline-flex;align-items:center;height:26px;padding:0 10px;border-radius:13px;background:var(--ok-soft);color:var(--ok);font-size:14px;font-weight:800;margin-left:10px;vertical-align:6px;letter-spacing:0}
+.team{display:flex;gap:10px;margin-top:14px}
+.team .tm{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-size:15px;font-weight:700;color:#fff}
+.team-n{font-size:13.5px;color:var(--ink2);margin-top:10px}
+.team-n b{color:var(--ink)}
+.rtime{margin-top:30px;padding-top:22px;border-top:1px solid var(--line)}
+.rtime h4{font-size:14px;font-weight:700}
+.rt{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:center;margin-top:20px;font-size:14px}
+.rt .rn{font-weight:500;color:var(--ink2)}
+.rt .rb{display:flex;flex-direction:column;gap:5px}
+.rt .rb div{display:flex;align-items:center;gap:10px}
+.rt .rb i{display:block;height:16px;border-radius:8px}
+.rt .rb i.o{background:#D5DBE6}
+.rt .rb i.n{background:var(--blue)}
+.rt .rb span{font-size:12.5px;font-weight:700;white-space:nowrap}
+.rt .rb span.o{color:var(--ink3)}
+.rt .rb span.n{color:var(--blue-ink)}
+.rleg{display:flex;gap:16px;margin-top:22px;font-size:12.5px;color:var(--ink3);font-weight:600}
+.rleg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
 </style>
 </head>
 <body>
@@ -799,7 +910,7 @@ ol.ans > li{margin-bottom:10px}
     <div class="pg">
       <div style="display:flex;align-items:flex-end;justify-content:space-between">
         <div><h1>Dashboard</h1><div class="sub">How permit review is running across your team.</div></div>
-        <div class="seg" id="dash-seg"><button data-act="range" data-r="week" class="on">This week</button><button data-act="range" data-r="month">This month</button><button data-act="range" data-r="quarter">This quarter</button></div>
+        <div class="dhead-r"><div class="seg" id="dash-view"><button data-act="dview" data-v="ops" class="on">Overview</button><button data-act="dview" data-v="impact" id="dv-impact">Team impact</button></div><div class="seg" id="dash-seg"><button data-act="range" data-r="week" class="on">This week</button><button data-act="range" data-r="month">This month</button><button data-act="range" data-r="quarter">This quarter</button></div></div>
       </div>
       <div class="dgrid" id="dash-kpis"></div>
       <div class="dpanels">
@@ -808,6 +919,7 @@ ol.ans > li{margin-bottom:10px}
           <div class="sysc" style="margin-top:30px"><div class="sh"><svg><use href="#i-spark"/></svg>AI pre-check</div><p>Every new application is checked against the adopted codes before a reviewer opens it. Open items are flagged in the queue.</p><div class="sb"><button class="btn out sm" data-act="nav" data-to="queue">Open the review queue</button></div></div>
         </div>
       </div>
+      <div class="dpanels" id="dash-impact"></div>
       <div class="demo-note">Sample data for this demo.</div>
     </div>
   </section>
@@ -845,13 +957,15 @@ ol.ans > li{margin-bottom:10px}
 
     <div class="p-body">
       <div class="card work-l">
-        <div class="tabs" id="tabs">
+        <div class="tabs tight" id="tabs">
           <div class="tab on" data-act="sheet" data-s="APP" id="tab-app"><svg class="bk" style="width:15px;height:15px"><use href="#i-doc"/></svg>Permit application</div>
+          <div class="tab" data-act="sheet" data-s="CHECK" id="tab-check"><svg class="bk" style="width:15px;height:15px;color:var(--blue-ink)"><use href="#i-spark"/></svg>AI pre-check</div>
+          <div class="tab" data-act="sheet" data-s="TIME" id="tab-time"><svg class="bk" style="width:15px;height:15px"><use href="#i-clock"/></svg>Timeline</div>
           <div class="tab" data-act="sheet" data-s="A-101" id="tab-plan"><span class="tag">A-101</span>Site plan<span class="rev" id="rev-tag" style="display:none">Rev 1</span></div>
           <div class="tab" data-act="sheet" data-s="A-102"><span class="tag">A-102</span>Floor plan</div>
           <div class="tab" data-act="sheet" data-s="A-201"><span class="tag">A-201</span>Elevations</div>
           <div class="tab" data-act="sheet" data-s="A-301"><span class="tag">A-301</span>Wall section</div>
-          <div class="tab code" data-act="sheet" data-s="code" id="tab-code" style="display:none"><svg class="bk"><use href="#i-book"/></svg>Source · IRC 2018 R302.1</div>
+          <div class="tab code" data-act="sheet" data-s="code" id="tab-code" style="display:none"><svg class="bk"><use href="#i-book"/></svg>Source · R302.1</div>
           <div class="tab-tools"><div class="zm"><button data-act="zoom" data-z="-1">−</button><span id="zlbl">100%</span><button data-act="zoom" data-z="1">+</button></div><button class="fit" data-act="zoom" data-z="0">Fit</button></div>
         </div>
 
@@ -893,6 +1007,9 @@ ol.ans > li{margin-bottom:10px}
         <div class="view" id="view-A-102"><div class="sheet only"><div class="frame"><svg id="sv-a102" viewBox="0 0 1132 600" preserveAspectRatio="xMidYMid meet"></svg></div></div></div>
         <div class="view" id="view-A-201"><div class="sheet only"><div class="frame"><svg id="sv-a201" viewBox="0 0 1132 600" preserveAspectRatio="xMidYMid meet"></svg></div></div></div>
         <div class="view" id="view-A-301"><div class="sheet only"><div class="frame"><svg id="sv-a301" viewBox="0 0 1132 600" preserveAspectRatio="xMidYMid meet"></svg></div></div></div>
+
+        <div class="view" id="view-CHECK"><div class="rpt" id="rpt-check"></div></div>
+        <div class="view" id="view-TIME"><div class="rpt" id="rpt-time"></div></div>
 
         <div class="view" id="view-code">
           <div class="code-wrap">
@@ -1135,7 +1252,7 @@ function expand(el,dur=560){ if(!ANIM||!el) return; el.style.overflow='hidden'; 
 let toastTimer; function toast(t){ $('#toast-t').textContent=t; $('#toast').classList.add('on'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>$('#toast').classList.remove('on'),2600); }
 
 /* ======================= state ======================= */
-const S0=()=>({genie:false,rev:0,day:2,status:'review',issued:false,filter:'All',appFilter:'All',zoom:1,sheet:'APP',range:'week',code:'irc',assigned:{},t:0});
+const S0=()=>({genie:false,rev:0,day:2,status:'review',issued:false,filter:'All',appFilter:'All',zoom:1,sheet:'APP',range:'week',dview:'ops',code:'irc',assigned:{},t:0});
 let st=S0();
 const QUESTION='Is the new cottage far enough from the side lot line?';
 const now=t=>`<div class="time">${t}</div>`;
@@ -1190,6 +1307,7 @@ function renderApps(){
     (list.length?list.map(r=>row(r,`<div class="muted">${r.main||st.assigned[r.id]?'You':'Review team'}</div><div></div><div><span class="pc ${pc(appStatus(r))}">${appStatus(r)}</span></div>`)).join(''):`<div class="tr" style="color:var(--ink3)">No applications here yet.</div>`);
 }
 function renderDash(){
+  $('#s-dash').classList.toggle('impact',st.dview==='impact'); $$('#dash-view button').forEach(b=>b.classList.toggle('on',b.dataset.v===(st.dview||'ops'))); renderImpact();
   const d=DASH[st.range]; $$('#dash-seg button').forEach(b=>b.classList.toggle('on',b.dataset.r===st.range));
   $('#dash-kpis').innerHTML=d.k.map(k=>`<div class="dk"><span>${k[0]}</span><b class="num">${k[1]}</b><small>${k[2]}</small></div>`).join('');
   $('#dash-sub').textContent=d.sub;
@@ -1247,10 +1365,64 @@ function openGenie(){ st.genie=true; modal(`<div class="gh2"><h3>Permit Genie</h
 function modal(html,wide){ $('#modal').className='modal'+(wide==='genie'?' genie':wide?' cert':''); $('#modal').innerHTML=html; $('#modal-bg').classList.add('on'); }
 function closeModal(){ $('#modal-bg').classList.remove('on'); }
 
+
+/* ======================= outcome views ======================= */
+const CHECKS=[['Fire separation distance','IRC R302.1',4],['Openings in exterior walls','IRC R302.1',2],['Setbacks','Zoning Art. 4',3],['Distance between buildings','IRC R302.1',1],['Lot coverage','Zoning Art. 5',1],['Height','Zoning Art. 5',1],['Smoke alarms','IRC R314',2],['Utility connections','Utility standard',2],['Access and address','IRC R319',1],['Drainage','IRC R401.3',1]];
+const SELF_FIXES=[['Smoke alarm missing in bedroom 2','IRC R314.3 · sheet A-102'],['Address numbers not shown on the site plan','IRC R319.1 · sheet A-101'],['Downspouts discharge within 5 ft of the side lot line','IRC R401.3 · sheet A-101']];
+function renderCheck(){ const el=$('#rpt-check'); if(!el) return; const res=st.rev>0;
+  const rows=CHECKS.map(([n,c,k],i)=>{ if(i!==0) return `<div class="ckr"><span class="ck ok">${ico('i-check')}</span><span class="cn">${n}</span><span class="cc">${c}</span><span class="cv num">${k} of ${k}</span></div>`;
+    return `<div class="ckr gap ${res?'res':''}" id="ck-gap"><span class="ck ${res?'ok':'warn'}">${ico(res?'i-check':'i-alert')}</span><span class="cn"><b>${n}</b></span><span class="cc">${c}</span><span class="cv num">${res?'4 of 4':'3 of 4'}</span></div>
+    <div class="gapd ${res?'res':''}" id="ck-gapd"><dl><dt>Drawn</dt><dd>South wall of the cottage ${res?`moved to <b>5'-0"</b> from the side lot line (A-101 Rev 1)`:`<b>3'-6"</b> from the side lot line (A-101), wall type W1 not fire-rated (A-301)`}</dd>
+      <dt>Code</dt><dd>Walls less than 5 feet from the lot line need a 1-hour fire-resistance rating.</dd>
+      <dt>${res?'Result':'Fix'}</dt><dd>${res?'Resolved in Round 1. No rating needed at 5 feet.':`Move the cottage to 5'-0" from the lot line, or rate the south wall for 1 hour.`}</dd></dl>
+      <span class="clause" id="ck-clause">${ico('i-book')}IRC 2018 · Table R302.1(1)</span>${res?'':'<span class="str">Decision strength · High</span>'}</div>`; }).join('');
+  el.innerHTML=`<div class="rpt-h"><h2>AI pre-check report</h2><span class="cdtag">Cognitive Decisioning</span><span class="meta num">Ran Nov 10 at 11:52 PM · 6 sheets · 4 min${res?' · rechecked Nov 12 in 2 min':''}</span></div>
+  <div class="rgrid"><div class="rbox" id="ck-list"><h3>${ico('i-spark')}Code checks<span class="cnt num">${res?'18 of 18 passed':'17 of 18 passed · 1 gap'}</span></h3><div class="rs">Every sheet checked against the adopted code before a reviewer opened it.</div><div class="ckl">${rows}</div></div>
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <div class="rstats" id="ck-stats"><div class="rstat"><span>Checks run</span><b class="num">18</b></div><div class="rstat"><span>Passed</span><b class="num ok">${res?18:17}</b></div><div class="rstat"><span>Gaps found</span><b class="num ${res?'':'bad'}">${res?0:1}</b></div><div class="rstat"><span>Fixed before submitting</span><b class="num ok">3</b></div></div>
+    <div class="rbox" id="ck-self"><h3>${ico('i-user')}Fixed before submitting<span class="cnt">Applicant self-check · Nov 9</span></h3><div class="rs">The applicant ran the same check before sending the plans in.</div>
+      <div class="fixl">${SELF_FIXES.map(f=>`<div class="fixr"><div class="ft"><s>${f[0]}</s><small>${f[1]}</small></div><span class="pc ok">${ico('i-check')}Fixed</span></div>`).join('')}</div>
+      <div class="selfnote">${ico('i-check')}<span>3 errors never reached the review queue. Plans arrive with fewer errors, so fewer go back for corrections.</span></div></div>
+  </div></div>`; }
+function renderTime(){ const el=$('#rpt-time'); if(!el) return; const S={review:1,corr:2,resub:3,ok:4,issued:5}[st.status]||1, done=st.issued;
+  const ev=(ok,cls,icon,t,b,sm)=>`<div class="tl-ev ${cls} ${ok?'':'todo'}"><span class="d">${ico(icon)}</span><div class="e"><b>${b}</b><small class="num">${t}${sm?' · '+sm:''}</small></div></div>`;
+  el.innerHTML=`<div class="rpt-h"><h2>Review timeline</h2><span class="meta num" style="margin-left:14px">BLD-2026-04817 · submitted Nov 10, 2026</span>${done?`<span class="tl-fast" id="tl-fast">${ico('i-check')}Issued in 3 days · 90% faster</span>`:`<span class="tl-fast" style="background:var(--blue-soft);color:var(--blue-ink)">${ico('i-clock')}Day ${st.day} · on track for 3 days</span>`}</div>
+  <div class="tl-cmp" id="tl-cmp"><div style="display:flex;align-items:center"><h3 style="font-size:15px;font-weight:700">Where the days go</h3><span style="margin-left:12px;font-size:13px;color:var(--ink3)">Same permit type, same team</span></div>
+    <div class="tl-row old" id="tl-old"><div class="lb"><b>Before Permitting AI</b><small>Average, 2025</small></div><div class="tl-bar old"><i style="width:26.7%">Waiting for intake check · 8 days</i><i style="width:23.3%">Code research by hand · 7 days</i><i class="c" style="width:46.7%">3 correction rounds · 14 days</i><i style="width:3.3%"></i></div><div class="tot num">30 days</div></div>
+    <div class="tl-row new" id="tl-new"><div class="lb"><b>With Permitting AI</b><small>BLD-2026-04817</small></div><div class="tl-bar new"><i style="width:10%">3 days</i><span class="tl-call">Pre-checked overnight · 1 correction round · issued day 3</span></div><div class="tot num">3 days</div></div>
+    <div class="tl-scale"><span></span><div class="num"><span>Day 0</span><span>5</span><span>10</span><span>15</span><span>20</span><span>25</span><span>30</span></div><span></span></div></div>
+  <div class="tl-days" id="tl-days">
+    <div class="tl-day"><h4><b>Day 1</b> · Nov 10</h4>${ev(1,'ok','i-check','4:18 PM','Plans submitted','3 errors fixed by the applicant first')}${ev(1,'ai','i-spark','11:52 PM','AI pre-check: 18 checks in 4 min','1 gap found')}</div>
+    <div class="tl-day"><h4><b>Day 2</b> · Nov 11</h4>${ev(1,'','i-user','9:40 AM','Reviewer opens it','Gap and clause already found')}${ev(S>=2,'ai','i-spark','9:42 AM','Correction notice sent','Cites Table R302.1(1) and the fix')}</div>
+    <div class="tl-day"><h4><b>Day 3</b> · Nov 12</h4>${ev(S>=3,'','i-doc','9:58 AM','Applicant resubmits','A-101 Rev 1')}${ev(S>=4,'ai','i-spark','10:06 AM','AI recheck: 2 min','18 of 18 passed')}${ev(S>=5,'ok','i-check','10:08 AM','Approved · permit issued','The reviewer makes the call')}</div></div>
+  <div class="tl-why" id="tl-why">
+    <div class="tl-w"><span>Intake check</span><b><s class="num">8 days</s>${ico('i-chev')}Overnight</b><p>Every application is pre-checked the night it arrives.</p></div>
+    <div class="tl-w"><span>Code research</span><b><s class="num">7 days</s>${ico('i-chev')}4 minutes</b><p>Facts read from the sheets, matched to the clause.</p></div>
+    <div class="tl-w"><span>Correction rounds</span><b><s class="num">3 rounds</s>${ico('i-chev')}1 round</b><p>Each notice cites the exact clause and the fix.</p></div></div>`; }
+const IMPACT={months:[['Dec',88],['Jan',91],['Feb',86],['Mar',93],['Apr',92],['May',118],['Jun',141],['Jul',158],['Aug',171],['Sep',178],['Oct',182],['Nov',184]],live:5};
+function renderImpact(){ const el=$('#dash-impact'); if(!el) return;
+  const kp=`<div class="dgrid" id="imp-kpis" style="grid-column:1/-1;margin-top:0">
+    <div class="dk" id="imp-k1"><span>Permits issued per month</span><b class="num">184<span class="x2">2×</span></b><small class="was">was 92 before Permitting AI</small></div>
+    <div class="dk" id="imp-k2"><span>Reviewers</span><b class="num">6</b><small class="was">Same team</small></div>
+    <div class="dk" id="imp-k3"><span>Time to permit</span><b class="num">3 days</b><small>was 30 days · 90% faster</small></div>
+    <div class="dk" id="imp-k4"><span>Errors in submitted plans</span><b class="num">−30%</b><small>since applicant self-check</small></div></div>`;
+  const m=IMPACT.months, mx=200, n=m.length, X0=46, X1=752, PY=30, PH=360, bw=40, gap=(X1-X0-bw*n)/(n+1), Y=v=>PY+PH-v/mx*PH; let g='';
+  for(let i=0;i<=4;i++){const y=PY+i*PH/4; g+=svgL(X0,y,X1,y,1,'#EEF1F6')+svgT(X0-10,y+4,Math.round(mx*(1-i/4)),12,500,'#9AA5B8','end');}
+  const xl=X0+gap+IMPACT.live*(bw+gap)-gap/2;
+  g+=`<rect x="${xl}" y="${PY-12}" width="${X1-xl}" height="${PH+12}" fill="#F2F7FF" rx="6"/>`+svgL(xl,PY-12,xl,PY+PH,1.5,'#3289FF','5 5')+svgT(xl+10,PY+6,'Permitting AI live',12.5,700,'#1A6FE8','start');
+  g+=svgL(X0,Y(92),xl,Y(92),1.5,'#9AA5B8','4 5')+svgL(xl,Y(184),X1,Y(184),1.5,'#1A6FE8','4 5');
+  m.forEach((b,i)=>{const h=b[1]/mx*PH, x=X0+gap+i*(bw+gap), on=i>=IMPACT.live; g+=`<rect class="imp-bar" x="${x}" y="${PY+PH-h}" width="${bw}" height="${h}" rx="7" fill="${on?'url(#bg2)':'#CBD3E0'}"/>`+svgT(x+bw/2,PY+PH-h-8,b[1],12.5,700,on?INK:'#7C879C','middle',`stroke="${on?'#F2F7FF':'#fff'}" stroke-width="5" paint-order="stroke"`)+svgT(x+bw/2,PY+PH+24,b[0],12.5,500,'#5D677C');});
+  const team=[['MR','#3289FF'],['JT','#0EA5A4'],['AL','#8B5CF6'],['DS','#F59E0B'],['KP','#EF4444'],['NW','#1A6FE8']];
+  const rt=(n,o,on,nn,ns)=>`<div class="rt"><span class="rn">${n}</span><div class="rb"><div><i class="o" style="width:${o}%"></i><span class="o num">${on}</span></div><div><i class="n" style="width:${nn}%"></i><span class="n num">${ns}</span></div></div></div>`;
+  el.innerHTML=kp+`<div class="dp" id="imp-chart"><h3>Permits issued per month</h3><div class="h3s">Same 6 reviewers, before and after Permitting AI</div><svg viewBox="0 0 770 430" style="width:100%;height:auto;margin-top:18px;display:block"><defs><linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3289FF"/><stop offset="1" stop-color="#7FB6FF"/></linearGradient></defs>${g}</svg></div>
+  <div class="dp" id="imp-team"><h3>Your review team</h3><div class="h3s">No new hires</div><div class="team">${team.map(t=>`<span class="tm" style="background:${t[1]}">${t[0]}</span>`).join('')}</div><div class="team-n"><b>6 reviewers</b> · 2× the permits</div>
+    <div class="rtime" id="imp-time"><h4>Reviewer time per application</h4>${rt('Code research',100,'3 h',16.7,'30 min')}${rt('Writing corrections',25,'45 min',5.6,'10 min')}${rt('Making the call',16.7,'30 min',16.7,'30 min')}
+    <div class="rleg"><span><i style="background:#D5DBE6"></i>Before</span><span><i style="background:var(--blue)"></i>With Permitting AI</span></div></div></div>`; }
+
 /* ======================= permit view ======================= */
 function openPermit(){ show('permit'); }
 function setSheet(s){ st.sheet=s; if(s==='APP') st.zoom=st.zoom; $$('#tabs .tab').forEach(t=>t.classList.toggle('on',t.dataset.s===s));
-  $$('.work-l .view').forEach(v=>v.classList.toggle('on',v.id==='view-'+s)); applyZoom(); }
+  $$('.work-l .view').forEach(v=>v.classList.toggle('on',v.id==='view-'+s)); if(s==='CHECK') renderCheck(); if(s==='TIME') renderTime(); applyZoom(); }
 function applyZoom(){ $$('.sheet svg').forEach(sv=>sv.style.transform=`scale(${st.zoom})`); $('#zlbl').textContent=Math.round(st.zoom*100)+'%'; }
 function showCode(sec){ $('#tab-code').style.display='flex'; setSheet('code'); $$('.doc .sec,.ctab tr').forEach(p=>p.classList.remove('soft'));
   $('#doc-inner').style.transform=''; $$('#toc a').forEach(a=>a.classList.toggle('on',a.dataset.r==='R302'));
@@ -1267,7 +1439,7 @@ function schedW3(){ $('#sched-w3').innerHTML=st.rev?
 function appStamp(s){ const el=$('#app-stamp'); if(!el) return; const m={review:['','IN REVIEW','Plan review · Building'],corr:['','CORRECTIONS','Round 1 · sent to applicant'],resub:['blue','RESUBMITTED','Round 2 · site plan A-101 Rev 1'],ok:['blue','IN REVIEW','All checks passed'],issued:['ok','APPROVED','Permit BP-2026-04817']}[s]; el.className='appstamp '+m[0]; el.innerHTML=m[1]+'<small>'+m[2]+'</small>'; }
 function setStatus(s){ st.status=s; appStamp(s); $('#rev-today').textContent=s==='issued'?'4 / 12':'3 / 12'; const m={review:['blue','In review'],corr:['warn','Corrections requested'],resub:['blue','Resubmitted · Round 2'],ok:['ok','All checks passed'],issued:['ok','Approved · permit issued']}[s];
   const p=$('#status-pill'); p.className='pill '+m[0]; p.innerHTML='<span class="dot"></span>'+m[1];
-  $('#day-pill').textContent=s==='issued'?'Completed in 3 days':`Day ${st.day} in review`;
+  $('#day-pill').textContent=s==='issued'?'Completed in 3 days':`Day ${st.day} in review`; renderCheck(); renderTime();
   $('#p-actions').innerHTML=s==='issued'?`<button class="btn out" data-act="view-permit">${ico('i-doc')}View permit</button><button class="btn pri" data-act="back-queue">Back to queue</button>`
     :`<button class="btn out" data-act="req-corr">Request corrections</button><button class="btn pri" id="hdr-approve" data-act="approve-hdr">Approve</button>`; }
 
@@ -1519,6 +1691,7 @@ document.addEventListener('click',async e=>{
     case 'q-ask': if(!e.target.closest('.q-answer')) queueAsk(); break;
     case 'q-close': qAnswer(false); break;
     case 'range': st.range=el.dataset.r; renderDash(); break;
+    case 'dview': st.dview=el.dataset.v; renderDash(); break;
     case 'mapf': mapFilter=mapFilter===el.dataset.f?null:el.dataset.f; $('#mpop').classList.remove('on'); renderMap(); break;
     case 'pin': { const r=QUEUE.find(x=>x.id===el.dataset.id), area=$('.maparea'), W=area.clientWidth, H=area.clientHeight;
       const sc=Math.max(W/1840,H/866), ox=(W-1840*sc)/2, oy=(H-866*sc)/2; let px=ox+r.x*sc+24, py=oy+r.y*sc-40; if(px>W-360) px-=400; py=Math.min(Math.max(10,py),H-230);
