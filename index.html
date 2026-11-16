@@ -700,20 +700,20 @@ ol.ans > li{margin-bottom:10px}
 .selfnote{margin-top:12px;display:flex;gap:10px;align-items:center;font-size:13.5px;color:#0D4A2A;background:var(--ok-soft);border:1px solid var(--ok-line);border-radius:10px;padding:10px 12px;line-height:1.45}
 .selfnote svg{width:16px;height:16px;color:var(--ok);flex:none}
 
-.tl-cmp{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px 16px;margin-top:16px}
-.tl-row{display:grid;grid-template-columns:200px 1fr 96px;align-items:center;gap:16px;margin-top:14px}
-.tl-row .lb b{display:block;font-size:14.5px;font-weight:700}
-.tl-row .lb small{font-size:12.5px;color:var(--ink3);font-weight:500}
-.tl-row .tot{font-size:22px;font-weight:800;letter-spacing:-.4px;text-align:right}
+.tl-cmp{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 28px 26px;margin-top:16px}
+.tl-h{display:flex;align-items:center;gap:14px}
+.tl-h h3{font-size:20px;font-weight:700;letter-spacing:-.2px}
+.tl-h span{font-size:14px;color:var(--ink3)}
+.tl-h .tl-pill{margin-left:auto;height:32px;padding:0 14px;border-radius:16px;background:var(--ok-soft);color:var(--ok);font-weight:700;font-size:15px;display:inline-flex;align-items:center}
+.tl-row{display:grid;grid-template-columns:230px 1fr 140px;align-items:center;gap:20px;margin-top:20px}
+.tl-row .lb{font-size:18px;font-weight:600;color:var(--ink2)}
+.tl-row.new .lb{color:var(--blue-ink)}
+.tl-row .tot{font-size:32px;font-weight:800;letter-spacing:-.6px;text-align:right}
 .tl-row.new .tot{color:var(--blue-ink)}
-.tl-bar{height:40px;display:flex;gap:3px;position:relative}
-.tl-bar i{display:flex;align-items:center;padding:0 10px;border-radius:7px;font-style:normal;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden}
-.tl-bar.old i{background:#EEF1F6;color:var(--ink2)}
-.tl-bar.old i.c{background:#FBE3E5;color:#8A1B24}
-.tl-bar.new i{background:var(--blue);color:#fff;padding:0;justify-content:center}
-.tl-bar.new .tl-call{position:absolute;left:calc(10% + 14px);top:50%;transform:translateY(-50%);font-size:13.5px;font-weight:600;color:var(--blue-ink);white-space:nowrap}
-.tl-scale{display:grid;grid-template-columns:200px 1fr 96px;gap:16px;margin-top:6px}
-.tl-scale div{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink3);font-weight:600}
+.tl-bar{height:44px;position:relative}
+.tl-bar i{display:block;height:100%;border-radius:10px}
+.tl-bar.old i{background:#D5DBE6}
+.tl-bar.new i{background:var(--blue)}
 .tl-fast{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 14px;border-radius:16px;background:var(--ok-soft);color:var(--ok);font-weight:700;font-size:14.5px;margin-left:auto}
 .tl-fast svg{width:15px;height:15px}
 .tl-days{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
@@ -1387,10 +1387,9 @@ function renderCheck(){ const el=$('#rpt-check'); if(!el) return; const res=st.r
 function renderTime(){ const el=$('#rpt-time'); if(!el) return; const S={review:1,corr:2,resub:3,ok:4,issued:5}[st.status]||1, done=st.issued;
   const ev=(ok,cls,icon,t,b,sm)=>`<div class="tl-ev ${cls} ${ok?'':'todo'}"><span class="d">${ico(icon)}</span><div class="e"><b>${b}</b><small class="num">${t}${sm?' · '+sm:''}</small></div></div>`;
   el.innerHTML=`<div class="rpt-h"><h2>Review timeline</h2><span class="meta num" style="margin-left:14px">BLD-2026-04817 · submitted Nov 10, 2026</span>${done?`<span class="tl-fast" id="tl-fast">${ico('i-check')}Issued in 3 days · 90% faster</span>`:`<span class="tl-fast" style="background:var(--blue-soft);color:var(--blue-ink)">${ico('i-clock')}Day ${st.day} · on track for 3 days</span>`}</div>
-  <div class="tl-cmp" id="tl-cmp"><div style="display:flex;align-items:center"><h3 style="font-size:15px;font-weight:700">Where the days go</h3><span style="margin-left:12px;font-size:13px;color:var(--ink3)">Same permit type, same team</span></div>
-    <div class="tl-row old" id="tl-old"><div class="lb"><b>Before Permitting AI</b><small>Average, 2025</small></div><div class="tl-bar old"><i style="width:26.7%">Waiting for intake check · 8 days</i><i style="width:23.3%">Code research by hand · 7 days</i><i class="c" style="width:46.7%">3 correction rounds · 14 days</i><i style="width:3.3%"></i></div><div class="tot num">30 days</div></div>
-    <div class="tl-row new" id="tl-new"><div class="lb"><b>With Permitting AI</b><small>BLD-2026-04817</small></div><div class="tl-bar new"><i style="width:10%">3 days</i><span class="tl-call">Pre-checked overnight · 1 correction round · issued day 3</span></div><div class="tot num">3 days</div></div>
-    <div class="tl-scale"><span></span><div class="num"><span>Day 0</span><span>5</span><span>10</span><span>15</span><span>20</span><span>25</span><span>30</span></div><span></span></div></div>
+  <div class="tl-cmp" id="tl-cmp"><div class="tl-h"><h3>Time to permit</h3><span>Same permit type, same team</span>${done?`<span class="tl-pill" id="tl-pill">90% faster</span>`:''}</div>
+    <div class="tl-row old" id="tl-old"><div class="lb">Before Permitting AI</div><div class="tl-bar old"><i style="width:100%"></i></div><div class="tot num">30 days</div></div>
+    <div class="tl-row new" id="tl-new"><div class="lb">With Permitting AI</div><div class="tl-bar new"><i style="width:10%"></i></div><div class="tot num">3 days</div></div></div>
   <div class="tl-days" id="tl-days">
     <div class="tl-day"><h4><b>Day 1</b> · Nov 10</h4>${ev(1,'ok','i-check','4:18 PM','Plans submitted','3 errors fixed by the applicant first')}${ev(1,'ai','i-spark','11:52 PM','AI pre-check: 18 checks in 4 min','1 gap found')}</div>
     <div class="tl-day"><h4><b>Day 2</b> · Nov 11</h4>${ev(1,'','i-user','9:40 AM','Reviewer opens it','Gap and clause already found')}${ev(S>=2,'ai','i-spark','9:42 AM','Correction notice sent','Cites Table R302.1(1) and the fix')}</div>
