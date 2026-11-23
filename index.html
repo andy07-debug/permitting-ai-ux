@@ -650,8 +650,18 @@ ol.ans > li{margin-bottom:10px}
 .gpage h4{font-size:15.5px;margin:0 0 6px;font-weight:700}
 .genie .mf{padding:16px 26px 22px}
 .chat-min .chatcol{display:none}
-.chat-min .chat-fab{display:grid}
+.chat-min .chat-fab,.chat-min .fab-tips{display:grid}
 .chat-min .screen,.chat-min .crumbbar{left:0;width:1920px}
+/* AppMod: the header toggle widens the chat to the right; its icon flips while wide */
+.ch-h [data-act=chatwide] .ic-b{display:none}
+.chat-wide .ch-h [data-act=chatwide] .ic-a{display:none}
+.chat-wide .ch-h [data-act=chatwide] .ic-b{display:block}
+/* AppMod: minimised chat = sparkle button + "I'm here" bubbles */
+.fab-tips{position:absolute;left:24px;bottom:104px;z-index:13;display:none;justify-items:start;gap:10px}
+.fab-tips .tip{position:relative;background:#fff;border-radius:999px;padding:9px 16px;font-size:15px;color:var(--ink);cursor:pointer;box-shadow:0 4px 14px rgba(14,26,51,.08);border:1.5px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#F26B5B,#3289FF) border-box;white-space:nowrap}
+.fab-tips .tip:hover{background:linear-gradient(#F4F8FF,#F4F8FF) padding-box,linear-gradient(90deg,#F26B5B,#3289FF) border-box}
+.fab-tips .x{width:24px;height:24px;border-radius:50%;background:#C9CED8;color:#fff;display:grid;place-items:center;font-size:15px;line-height:1;cursor:pointer;margin-left:2px}
+.fab-tips.gone{display:none!important}
 
 .tabs .tab{white-space:nowrap;flex:none}
 .tabs.tight .tab{padding:0 11px;gap:6px}
@@ -808,6 +818,7 @@ ol.ans > li{margin-bottom:10px}
     <symbol id="i-spark2" viewBox="0 0 24 24"><path d="M10 4.5l1.9 6.6 6.6 1.9-6.6 1.9L10 21.5l-1.9-6.6-6.6-1.9 6.6-1.9z" fill="url(#sgrad)"/><path d="M19 1.5l.95 3.05L23 5.5l-3.05.95L19 9.5l-.95-3.05L15 5.5l3.05-.95z" fill="url(#sgrad)"/></symbol>
     <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
     <symbol id="i-chatplus" viewBox="0 0 24 24"><path d="M20 12.5a8 8 0 1 1-4.2-7.1M11.5 20.5L8 22v-3.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 2.5v6M16 5.5h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-uncollapse" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="3.5" y="3.5" width="5" height="17" rx="1" fill="currentColor"/><path d="M18 12h-6M14.5 9.5L12 12l2.5 2.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-collapse" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.5 3.5v17" stroke="currentColor" stroke-width="2"/><path d="M12 12h6M15.5 9.5L18 12l-2.5 2.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-dots" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.9" fill="currentColor"/><circle cx="12" cy="12" r="1.9" fill="currentColor"/><circle cx="12" cy="19" r="1.9" fill="currentColor"/></symbol>
     <symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 11L12 4l8.5 7v8.5a1 1 0 0 1-1 1H15v-6H9v6H4.5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
@@ -868,7 +879,7 @@ ol.ans > li{margin-bottom:10px}
       <button class="ch-proj" data-act="dd" data-dd="dd-proj"><svg><use href="#i-folder"/></svg>Projects</button>
       <span class="ch-sep"></span>
       <button class="ch-ic" data-act="newchat" title="New chat"><svg><use href="#i-chatplus"/></svg></button>
-      <button class="ch-ic" data-act="chatmin" title="Collapse chat"><svg><use href="#i-collapse"/></svg></button>
+      <button class="ch-ic" data-act="chatwide" title="Expand chat"><svg class="ic-a"><use href="#i-collapse"/></svg><svg class="ic-b"><use href="#i-uncollapse"/></svg></button>
       <button class="ch-ic" data-act="dd" data-dd="dd-more" title="More"><svg><use href="#i-dots"/></svg></button>
     </div>
     <div class="ch-ctx"><span class="dot"></span><span id="ctx-t">Context: review queue · 42 applications</span></div>
@@ -886,10 +897,11 @@ ol.ans > li{margin-bottom:10px}
     </div>
     <div class="dd" id="dd-more">
       <div class="it" data-act="newchat"><span class="ic"><svg><use href="#i-chatplus"/></svg></span><div><b>New conversation</b><small>Start a fresh thread</small></div></div>
-      <div class="it" data-act="chatmin"><span class="ic"><svg><use href="#i-collapse"/></svg></span><div><b>Collapse chat</b><small>Give the plans more room</small></div></div>
+      <div class="it" data-act="chatmin"><span class="ic"><svg><use href="#i-x"/></svg></span><div><b>Minimize chat</b><small>Give the plans the whole screen</small></div></div>
       <div class="it" data-act="restart"><span class="ic w"><svg><use href="#i-redo"/></svg></span><div><b>Restart demo</b><small>Start the review from the beginning</small></div></div>
     </div>
   </aside>
+  <div class="fab-tips" id="fab-tips"><span class="x" data-act="tipsx" title="Hide">×</span><span class="tip" data-act="chatmax">I’m here, your Permitting AI!</span><span class="tip" data-act="chatmax">Click to ask about your permits</span></div>
   <button class="chat-fab" data-act="chatmax" title="Open Permitting AI"><svg><use href="#i-spark2"/></svg></button>
 
   <!-- ===== REVIEW QUEUE ===== -->
@@ -1530,7 +1542,7 @@ const STEPS=[
  }},
  {id:'reasoning',label:'Reasoning and gap',run:async t=>{
     const src=$('#src'); if(ANIM){await point(src); await sleep(120); guard(t);}
-    src.classList.add('open'); document.body.classList.add('chat-wide'); const xp=$('#xp'); xp.classList.add('on'); if(ANIM){xp.classList.remove('rise');void xp.offsetWidth;xp.classList.add('rise');} expand(xp,620);
+    src.classList.add('open'); chatWide(true); const xp=$('#xp'); xp.classList.add('on'); if(ANIM){xp.classList.remove('rise');void xp.offsetWidth;xp.classList.add('rise');} expand(xp,620);
     setSheet('A-101'); markW3('gap'); hideCursor(); await sleep(ANIM?260:0); await scrollChat(xp,'top');
  }},
  {id:'citation',label:'Visual citation',run:async t=>{
@@ -1560,7 +1572,7 @@ const STEPS=[
     const nt=$('#notice-text'); nt.contentEditable=false; $('#edit-btn').disabled=true;
     b.classList.add('done'); b.innerHTML=ico('i-check')+'Sent'; b.disabled=true;
     $('#draft-pill').className='pill blue'; $('#draft-pill').textContent='Sent · Round 1';
-    setStatus('corr'); document.body.classList.remove('chat-wide'); if(ANIM) toast('Correction notice sent to the applicant · Round 1'); hideCursor();
+    setStatus('corr'); chatWide(false); if(ANIM) toast('Correction notice sent to the applicant · Round 1'); hideCursor();
     await sleep(700); guard(t);
     const m=add(`<div class="msg" id="waitmsg">${AV}<div class="body"><p>Sent. I’ll tell you as soon as the applicant resubmits, and I’ll check the new sheets before you open them.</p>
       <div class="nchips" style="margin-top:10px"><span class="nchip" id="skip" data-act="skip">${ico('i-ff')}Skip ahead to the resubmission</span></div>${now('9:42 AM')}</div></div>`);
@@ -1657,7 +1669,7 @@ function label(){ $('#lbl').textContent=`${cur+1} / ${STEPS.length} · ${STEPS[c
 function reset(){
   st=S0(); msgs.innerHTML=''; msgs.scrollTop=0; hideCursor(); closeModal(); closeAll(); $('#toast').classList.remove('on');
   drawPlan(0); schedW3(); markW3(false); $('#tab-code').style.display='none'; setSheet('APP'); applyZoom(); $('#doc-inner').style.transform='';
-  setStatus('review'); $('#cin').value=''; document.body.classList.remove('chat-min','chat-wide'); $('#spk').classList.remove('on'); $('#spk').innerHTML='<svg><use href="#i-spk-off"/></svg>'; $('#bell').classList.remove('has'); qAnswer(false); mapFilter=null;
+  setStatus('review'); $('#cin').value=''; document.body.classList.remove('chat-min','chat-wide'); chatWide(false); $('#fab-tips').classList.remove('gone'); $('#spk').classList.remove('on'); $('#spk').innerHTML='<svg><use href="#i-spk-off"/></svg>'; $('#bell').classList.remove('has'); qAnswer(false); mapFilter=null;
 }
 async function goTo(i){ const t=++TOKEN; ANIM=false; busy=false; advancing=false; freeBusy=false; document.body.classList.add('instant'); reset();
   for(let j=0;j<=i;j++) await STEPS[j].run(t);
@@ -1671,7 +1683,8 @@ async function play(){ if(playing) return; playing=true; AUTOPLAY=true; $('#b-pl
   while(playing&&cur<STEPS.length-1){ await next(); await realSleep(1400); }
   playing=false; AUTOPLAY=false; hideCursor(); $('#b-play').textContent='Play'; updateHint(); }
 const HINTS={0:'#row-04817',1:'#sg-main',4:'#src',5:'#lnk-code',6:'#genie-btn',7:'#chip-draft',8:'#approve',9:'#skip',10:'#chk-changed',11:'#chip-approve',12:'#m-approve',13:'#back-queue',14:'#restart'};
-function updateHint(){ renderSugg(); $$('.hint').forEach(e=>e.classList.remove('hint')); if(busy||playing||advancing) return; const sel=HINTS[cur]; const el=sel&&$(sel); if(el&&el.offsetParent) el.classList.add('hint'); }
+function chatWide(on){ const b=document.body; if(on===undefined) on=!b.classList.contains('chat-wide'); b.classList.toggle('chat-wide',on); const t=$('.ch-h [data-act=chatwide]'); if(t) t.title=on?'Restore chat':'Expand chat'; }
+function updateHint(){ renderSugg(); $$('.hint').forEach(e=>e.classList.remove('hint')); if(busy||playing||advancing) return; const sel=HINTS[cur]; const el=sel&&$(sel); if(el&&el.offsetParent) el.classList.add('hint'); else if(el&&document.body.classList.contains('chat-min')&&el.closest('#chatcol')) $('.chat-fab').classList.add('hint'); }
 
 /* ======================= queue ask ======================= */
 function qAnswer(on){ if(!$('#q-answer')) return;  $('#q-answer').classList.toggle('on',!!on); if(!on){ $('#q-ph').textContent='Ask about any permit, in plain language…'; $('#q-ph').classList.remove('typed'); } }
@@ -1746,8 +1759,10 @@ document.addEventListener('click',async e=>{
     case 'dl': toast('Downloads are turned off in this demo'); break;
     case 'sugg': { const k=el.dataset.k; if(k==='main'){ const m={0:'permit',1:'answer',6:'next',9:'resubmit',10:'recheck',11:'approve'}[cur]; if(m){ if(cur>0&&screen!=='permit') openPermit(); await advanceTo(m); } } else freeQA(k); break; }
     case 'newchat': { closeAll(); add(`<div class="divider">New conversation</div>`); const w=add(welcome()); scrollChat(w); break; }
-    case 'chatmin': closeAll(); if(document.body.classList.contains('chat-wide')) document.body.classList.remove('chat-wide'); else document.body.classList.add('chat-min'); break;
+    case 'chatwide': closeAll(); chatWide(); break;
+    case 'chatmin': closeAll(); document.body.classList.add('chat-min'); break;
     case 'chatmax': document.body.classList.remove('chat-min'); updateHint(); break;
+    case 'tipsx': $('#fab-tips').classList.add('gone'); break;
     case 'speaker': { const on=!el.classList.contains('on'); el.classList.toggle('on',on); el.innerHTML=`<svg><use href="#i-spk-${on?'on':'off'}"/></svg>`; toast(on?'Voice replies on':'Voice replies off'); break; }
     case 'mic': { if(el.classList.contains('on')) break; el.classList.add('on'); el.innerHTML='<svg><use href="#i-mic-on"/></svg>';
       const q=cur===1?QUESTION:cur===10?'What changed in the resubmission?':'Summarise this application', cin=$('#cin'); cin.value='';
