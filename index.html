@@ -663,6 +663,23 @@ ol.ans > li{margin-bottom:10px}
 .rpt-h .meta{margin-left:auto;font-size:13.5px;color:var(--ink3);font-weight:500}
 .rgrid{display:grid;grid-template-columns:1.25fr 1fr;gap:18px;margin-top:16px}
 .rbox{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+/* AI pre-check, running: the plans read and matched against the code (view-SCAN) */
+.scan{flex:1;min-height:0;overflow:hidden;background:#F7F8FB;padding:20px 22px;display:flex;flex-direction:column;gap:16px}
+.scan-sh{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.sh{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:9px}
+.sh .th{position:relative;height:150px;border:1px solid var(--line);border-radius:8px;background:#fff;overflow:hidden}
+.sh .th svg{position:absolute;inset:6px;width:calc(100% - 12px);height:calc(100% - 12px)}
+.sh .lb{display:flex;align-items:center;gap:8px;font-size:13.5px}
+.sh .lb b{color:var(--ink3);font-weight:600}.sh .lb span{font-weight:600;color:var(--ink)}
+.sh .lb em{margin-left:auto;font-style:normal;font-size:12px;font-weight:700;color:var(--ok);display:inline-flex;align-items:center;gap:4px}
+.sh .lb em svg{width:13px;height:13px}
+.sh .bar{height:4px;border-radius:2px;background:#E6EAF1;overflow:hidden}.sh .bar i{display:block;height:100%;width:100%;background:var(--blue)}
+.scan-st{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.ss{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px;display:flex;align-items:baseline;gap:10px}
+.ss b{font-size:30px;font-weight:700;letter-spacing:-.5px;color:var(--ink)}.ss span{font-size:14px;color:var(--ink2);font-weight:500}
+.ss.bad b{color:#C81E2A}
+.scan-rules{display:flex;flex-wrap:wrap;gap:8px}
+.rc{height:30px;padding:0 12px;border-radius:15px;background:#fff;border:1px solid var(--line);font-size:13px;font-weight:600;color:var(--ink2);display:inline-flex;align-items:center;gap:6px}.rc b{color:var(--blue-ink)}
 .rbox h3{font-size:15px;font-weight:700;display:flex;align-items:center;gap:9px}
 .rbox h3 svg{width:17px;height:17px;color:var(--blue-ink)}
 .rbox h3 .cnt{margin-left:auto;font-size:13px;font-weight:600;color:var(--ink3)}
@@ -1010,6 +1027,7 @@ ol.ans > li{margin-bottom:10px}
 
         <div class="view" id="view-CHECK"><div class="rpt" id="rpt-check"></div></div>
         <div class="view" id="view-TIME"><div class="rpt" id="rpt-time"></div></div>
+        <div class="view" id="view-SCAN"><div class="scan" id="scan"></div></div>
 
         <div class="view" id="view-code">
           <div class="code-wrap">
@@ -1420,8 +1438,16 @@ function renderImpact(){ const el=$('#dash-impact'); if(!el) return;
 
 /* ======================= permit view ======================= */
 function openPermit(){ show('permit'); }
-function setSheet(s){ st.sheet=s; if(s==='APP') st.zoom=st.zoom; $$('#tabs .tab').forEach(t=>t.classList.toggle('on',t.dataset.s===s));
-  $$('.work-l .view').forEach(v=>v.classList.toggle('on',v.id==='view-'+s)); if(s==='CHECK') renderCheck(); if(s==='TIME') renderTime(); applyZoom(); }
+const SCAN_SHEETS=[['plan','A-101','Site plan'],['sv-a102','A-102','Floor plan'],['sv-a201','A-201','Elevations'],['sv-a301','A-301','Wall section']];
+const SCAN_RULES=[['R302.1','Fire separation'],['R314.3','Smoke alarms'],['R319.1','Address numbers'],['R401.3','Drainage'],['R310.1','Emergency escape'],['R305.1','Ceiling height'],['R303.1','Light and ventilation'],['R311.7','Stairways']];
+function renderScan(){ const el=$('#scan'); if(!el) return; // the AI pre-check while it runs: every sheet read, every fact matched against the code
+  el.innerHTML=`<div class="rpt-h"><h2>AI pre-check</h2><span class="cdtag">Checking against IRC 2018</span></div>
+  <div class="scan-sh">${SCAN_SHEETS.map(([id,t,n],i)=>{ const sv=document.getElementById(id); return `<div class="sh" id="sh-${i}"><div class="th"><svg viewBox="${sv?sv.getAttribute('viewBox'):'0 0 1132 600'}" preserveAspectRatio="xMidYMid meet">${sv?sv.innerHTML:''}</svg></div>
+    <div class="lb"><b>${t}</b><span>${n}</span><em id="sh-ok-${i}">${ico('i-check')}Read</em></div><div class="bar"><i id="sh-bar-${i}"></i></div></div>`; }).join('')}</div>
+  <div class="scan-st"><div class="ss" id="ss-0"><b class="num" id="ss-n0">12</b><span>facts read from the drawings</span></div><div class="ss" id="ss-1"><b class="num" id="ss-n1">214</b><span>code rules matched</span></div><div class="ss bad" id="ss-2"><b class="num" id="ss-n2">10</b><span>issues found</span></div></div>
+  <div class="scan-rules" id="scan-rules">${SCAN_RULES.map(([c,n],i)=>`<span class="rc" id="rc-${i}"><b>${c}</b>${n}</span>`).join('')}</div>`; }
+function setSheet(s){ st.sheet=s; if(s==='APP') st.zoom=st.zoom; $$('#tabs .tab').forEach(t=>t.classList.toggle('on',t.dataset.s===s||(s==='SCAN'&&t.dataset.s==='CHECK')));
+  $$('.work-l .view').forEach(v=>v.classList.toggle('on',v.id==='view-'+s)); if(s==='CHECK') renderCheck(); if(s==='TIME') renderTime(); if(s==='SCAN') renderScan(); applyZoom(); }
 function applyZoom(){ $$('.sheet svg').forEach(sv=>sv.style.transform=`scale(${st.zoom})`); $('#zlbl').textContent=Math.round(st.zoom*100)+'%'; }
 function showCode(sec){ $('#tab-code').style.display='flex'; setSheet('code'); $$('.doc .sec,.ctab tr').forEach(p=>p.classList.remove('soft'));
   $('#doc-inner').style.transform=''; $$('#toc a').forEach(a=>a.classList.toggle('on',a.dataset.r==='R302'));
