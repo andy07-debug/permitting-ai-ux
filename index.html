@@ -790,6 +790,13 @@ ol.ans > li{margin-bottom:10px}
 .rt .rb span.n{color:var(--blue-ink)}
 .rleg{display:flex;gap:16px;margin-top:22px;font-size:12.5px;color:var(--ink3);font-weight:600}
 .rleg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.fuc{border:1.5px solid var(--blue-line);border-radius:14px;padding:12px 14px;background:#F7FAFF}
+.fuh{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:15px;color:var(--ink)}
+.fuh svg{width:18px;height:18px;color:var(--blue)}
+.futag{margin-left:auto;font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#A86200;background:#FFF5E5;border:1px solid #F6D9A8;border-radius:999px;padding:3px 9px}
+.fuwarn{display:inline-grid;place-items:center;color:#C27803}.fuwarn svg{width:18px;height:18px}
+.fucall{display:flex;gap:9px;align-items:flex-start;margin-top:10px;padding:10px 12px;border-radius:10px;background:#fff;border:1px solid var(--line);font-size:14px;line-height:1.45}
+.fucall svg{width:18px;height:18px;flex:none;color:var(--blue);margin-top:1px}
 </style>
 </head>
 <body>
@@ -1085,7 +1092,7 @@ ol.ans > li{margin-bottom:10px}
 <div id="hud">
   <span class="tt">Guided demo</span>
   <button id="b-prev" title="Previous step (←)">◀</button>
-  <span class="lbl" id="lbl">1 / 15</span>
+  <span class="lbl" id="lbl">1 / 16</span>
   <button id="b-next" title="Next step (→)">▶</button>
   <button id="b-play" title="Play the whole review (Space)">Play</button>
 </div>
@@ -1241,7 +1248,7 @@ function drawSheets(){
   for(let yy=wy+20;yy<wy+wh;yy+=26) g+=svgL(wx+28,yy,wx+124,yy+14,.8,'#C9A86A');
   g+=svgT(wx-8,wy-12,'EXTERIOR',10,700,'#5D677C','start')+svgT(lx-46,wy-12,'INTERIOR',10,700,'#5D677C','start');
   g+=`<g id="ratehl"><rect x="430" y="400" width="400" height="58" rx="8" fill="#FDECEE" stroke="#F5C2C7" stroke-width="1.5"/>`+svgT(446,424,'FIRE-RESISTANCE RATING: NONE',13,800,'#C81E2A','start','letter-spacing=".5"')+svgT(446,444,'Not detailed as a rated assembly (not tested both sides)',11.5,600,'#7A2730','start')+'</g>';
-  g+=titleBlock(890,22,556,'Wall section','A-301',false,['1. Standard plan wall type.','2. Applies to all four walls.','3. U-factor per energy form.']);
+  g+=titleBlock(890,22,556,'Wall section','A-301',false,['1. Standard plan wall type.','2. Applies to all four walls.','3. Solid blocking at all eaves.']);
   document.getElementById('sv-a301').innerHTML=g;
 }
 /* ======================= helpers ======================= */
@@ -1307,11 +1314,12 @@ function renderSugg(){ const box=$('#sugg'), atBottom=msgs.scrollHeight-msgs.scr
   else if(cur===1) s=[['main',QUESTION],['summary','Summarise this application'],['smoke','Are the smoke alarms in the right places?']];
   else if(cur>=4&&cur<=5) s=[['sizes','Show the two ways to fix it'],['house','Check the distance to the main house']];
   else if(cur===6) s=[['main','Show suggested next steps'],['sizes','Show the two ways to fix it']];
-  else if(cur===8) s=[['smoke','Are the smoke alarms in the right places?']];
-  else if(cur===9) s=[['main','Skip ahead to the resubmission'],['next9','What happens next?']];
-  else if(cur===10) s=[['main','What changed in the resubmission?'],['summary','Summarise this application']];
-  else if(cur===11) s=[['main','Approve this permit'],['checklist','Show all 18 checks']];
-  else if(cur>=13) s=[['recap','Summarise this review'],['due','Which permits are due this week?']];
+  else if(cur===8) s=[['main','Draft a correction notice'],['window','If they build a 1-hour wall, can the window stay?']];
+  else if(cur===9) s=[['smoke','Are the smoke alarms in the right places?']];
+  else if(cur===10) s=[['main','Skip ahead to the resubmission'],['next9','What happens next?']];
+  else if(cur===11) s=[['main','What changed in the resubmission?'],['summary','Summarise this application']];
+  else if(cur===12) s=[['main','Approve this permit'],['checklist','Show all 18 checks']];
+  else if(cur>=14) s=[['recap','Summarise this review'],['due','Which permits are due this week?']];
   box.innerHTML=s.map(([k,t])=>`<span class="sg" ${k==='main'?'id="sg-main"':''} data-act="sugg" data-k="${k}">${t}</span>`).join(''); if(atBottom && performance.now()-lastAim>1500) msgs.scrollTop=msgs.scrollHeight; }
 function closeAll(){ $$('.dd').forEach(d=>d.classList.remove('on')); closeDrawer(); $('#mpop').classList.remove('on'); }
 function mainPre(){ const m={review:['warn','i-alert','1 item to review'],corr:['grey','i-clock','Corrections requested'],resub:['blue','i-doc','Resubmitted'],ok:['ok','i-check','All checks passed'],issued:['ok','i-check','Approved · issued']}[st.status]; return `<span class="pc ${m[0]}">${ico(m[1])}${m[2]}</span>`; }
@@ -1554,12 +1562,30 @@ const STEPS=[
     if(ANIM&&!st.genie){ const g=$('#genie-btn'); await point(g); await sleep(120); guard(t); hideCursor(); openGenie(); await sleep(2800); guard(t); }
     closeModal(); showCode();
     const n=add(`<div class="msg" id="nextmsg">${AV}<div class="body next"><h6>Suggested next steps</h6><p style="margin:0 0 10px">Would you like to send this back to the applicant, or look further into the site plan first?</p>
-      <div class="nchips"><span class="nchip" id="chip-draft" data-act="draft">Draft a correction notice</span><span class="nchip" data-act="free" data-q="sizes">Show the two ways to fix it</span><span class="nchip" data-act="free" data-q="rooms">Check the bedroom escape windows</span><span class="nchip" data-act="free" data-q="house">Check the distance to the main house</span></div></div></div>`);
+      <div class="nchips"><span class="nchip" id="chip-eave" data-act="fucheck">Check the roof overhang before I decide</span><span class="nchip" id="chip-draft0" data-act="draft">Draft a correction notice</span><span class="nchip" data-act="free" data-q="sizes">Show the two ways to fix it</span><span class="nchip" data-act="free" data-q="rooms">Check the bedroom escape windows</span><span class="nchip" data-act="free" data-q="house">Check the distance to the main house</span></div></div></div>`);
     await scrollChat(n);
+ }},
+ {id:'followup',label:'Follow-up engineering check',run:async t=>{
+    const c=$('#chip-eave'); if(ANIM&&c){await point(c); await sleep(120); guard(t);} hideCursor();
+    if(c) c.classList.add('picked'); $$('#nextmsg .nchip:not(.picked)').forEach(x=>x.classList.add('dim'));
+    const u=add(`<div class="msg user"><div><div class="bubble">Before I decide: does the roof overhang on the south side change anything?</div>${now('9:42 AM')}</div></div>`); await scrollChat(u); await sleep(ANIM?400:0); guard(t);
+    setSheet('A-201');
+    await work(t,['Read the roof edge on A-201 · <b>1\'-0" eave on the south side</b>','Measured the eave to the lot line · <b>2\'-6" as drawn, 4\'-0" with the cottage at 5\'-0"</b>','Checked projections in Table R302.1(1) · <b>2 ft to under 5 ft needs a 1-hour underside</b>','Looked for the exception on A-301 · <b>solid blocking, top plate to roof sheathing</b>'],'2.6');
+    setSheet('A-301');
+    const a=add(`<div class="msg" id="fumsg">${AV}<div class="body"><div class="fuc"><div class="fuh">${ico('i-spark')}<b>Follow-Up Engineering Check</b><span class="futag">Edge case</span></div>
+      <p class="lead"><b>Good catch to check, and it’s covered.</b> The roof overhangs the south wall by 1'-0", so the eave sits closer to the lot line than the wall does. Eaves between 2 and 5 feet from a lot line need a 1-hour rated underside, unless the eave is blocked solid from the wall’s top plate to the roof sheathing.</p>
+      <table class="checks"><tr><th>Edge case</th><th>On the plan</th><th>Code</th><th></th></tr>
+        <tr><td>Eave to lot line, as drawn</td><td class="num">2'-6"</td><td class="num">2'-0" or more</td><td>${tick}</td></tr>
+        <tr><td>Eave to lot line, cottage moved to 5'-0"</td><td class="num">4'-0"</td><td class="num">under 5'-0": 1-hour underside</td><td><span class="fuwarn">${ico('i-alert')}</span></td></tr>
+        <tr><td>Exception: solid blocking at the eave</td><td class="num">A-301, note 3</td><td class="num">underside may be unrated</td><td>${tick}</td></tr></table>
+      <p>So the overhang doesn’t need its own correction with either fix. <span class="seclink" data-act="cite" data-c="r3101">Table R302.1(1), note a${ico('i-chev')}</span></p>
+      <div class="fucall">${ico('i-user')}<span><b>Your call.</b> I’d keep the notice to the south wall and add nothing for the eave. If you want, I’ll ask the applicant to keep the blocking note on the revised sheet.</span></div></div>
+      <div class="nchips" style="margin-top:12px"><span class="nchip" id="chip-draft" data-act="draft">Draft a correction notice</span><span class="nchip" data-act="free" data-q="window">If they build a 1-hour wall, can the window stay?</span><span class="nchip" data-act="free" data-q="sizes">Show the two ways to fix it</span></div>${now('9:42 AM')}</div></div>`);
+    await scrollChat(a,'top');
  }},
  {id:'decision',label:'Reviewer picks a step',run:async t=>{
     const chip=$('#chip-draft'); if(ANIM){await point(chip); await sleep(120); guard(t);}
-    chip.classList.add('picked'); $$('#nextmsg .nchip:not(.picked)').forEach(c=>c.classList.add('dim')); hideCursor();
+    chip.classList.add('picked'); $$('#fumsg .nchip:not(.picked)').forEach(c=>c.classList.add('dim')); hideCursor();
     await sleep(500); guard(t);
     const d=add(`<div class="msg" id="draft">${AV}<div class="body"><p>Here’s a draft for you to check. Nothing goes to the applicant until you approve it.</p>
       <div class="notice"><div class="nh">Correction notice · BLD-2026-04817 <span class="pill warn" id="draft-pill">Draft</span></div>
@@ -1641,6 +1667,7 @@ const FREE={
  summary:{q:'Summarise this application',a:()=>`<p>A new detached <b>two-bedroom backyard cottage (ADU)</b>, 695 sq ft, at 212 Linden Avenue, built from a pre-approved standard plan with no changes.</p><ul><li>5 sheets: site plan, floor plan, elevations and wall section, plus the application.</li><li>Lot coverage goes to 34% against a 40% maximum.</li><li>${st.rev?'All 18 site checks now pass.':'The pre-check flagged <b>1 item</b> on the site plan, sheet A-101.'}</li></ul>`},
  changed:{q:'What changed since the last submission?',a:()=>st.rev?`<p>Rev 1 changes one sheet, A-101: the cottage moved <b>1'-6" north</b>, so its south wall is now 5'-0" from the side lot line instead of 3'-6". Nothing else changed.</p>`:`<p>This is the <b>first submission</b>, so there’s nothing to compare yet. I’ll show the differences if the applicant sends a revision.</p>`},
  smoke:{q:'Are the smoke alarms in the right places?',a:()=>`<p><b>Yes.</b> Sheet A-102 shows a smoke alarm in each bedroom and in the living area, marked SA, which is what R314.3 asks for.</p>`},
+ window:{q:'If they build a 1-hour wall, can the window stay?',a:()=>`<p><b>Yes, both openings can stay.</b> With the wall at 3'-6", openings may take up to 25% of the wall; the door and window use about 14%. Two limits to keep in mind:</p><table class="mini"><tr><th>If the wall is…</th><th>Openings</th><th>Pipes and vents through it</th></tr><tr><td>3'-0" to under 5'-0"</td><td>Up to 25% of the wall</td><td>No special protection</td></tr><tr><td>Under 3'-0"</td><td>Not allowed</td><td>Sealed per R302.4</td></tr></table><p style="margin-top:8px">The rated wall also changes sheet A-301, so that sheet would need its own review instead of the standard-plan approval.</p>`},
  sizes:{q:'Show the two ways to fix it',a:()=>`<p>Either change closes the gap:</p><table class="mini"><tr><th>Option</th><th>What changes</th><th></th></tr><tr><td>Move the cottage north</td><td>South wall 5'-0" from the lot line, no rating needed</td><td class="r">${tick}</td></tr><tr><td>Rate the south wall</td><td>1-hour assembly tested from both sides, detailed on A-301</td><td class="r">${tick}</td></tr></table><p style="margin-top:8px">Moving it is usually simpler, because the standard plan stays unchanged.</p>`},
  rooms:{q:'Check the bedroom escape windows',a:()=>`<p><b>Both bedrooms are covered.</b> Each bedroom has an escape window on the standard plan, which was checked when the plan was pre-approved. Placing it on this lot doesn’t change that.</p>`},
  house:{q:'Check the distance to the main house',a:()=>`<p><b>Passes.</b> The cottage is 19'-10" from the main house on sheet A-101. Measured to the imaginary line between the two buildings, each wall is more than 5 feet away, so neither needs a fire rating.</p>`},
@@ -1682,7 +1709,7 @@ async function play(){ if(playing) return; playing=true; AUTOPLAY=true; $('#b-pl
   if(cur>=STEPS.length-1) await goTo(0);
   while(playing&&cur<STEPS.length-1){ await next(); await realSleep(1400); }
   playing=false; AUTOPLAY=false; hideCursor(); $('#b-play').textContent='Play'; updateHint(); }
-const HINTS={0:'#row-04817',1:'#sg-main',4:'#src',5:'#lnk-code',6:'#genie-btn',7:'#chip-draft',8:'#approve',9:'#skip',10:'#chk-changed',11:'#chip-approve',12:'#m-approve',13:'#back-queue',14:'#restart'};
+const HINTS={0:'#row-04817',1:'#sg-main',4:'#src',5:'#lnk-code',6:'#genie-btn',7:'#chip-eave',8:'#chip-draft',9:'#approve',10:'#skip',11:'#chk-changed',12:'#chip-approve',13:'#m-approve',14:'#back-queue',15:'#restart'};
 function chatWide(on){ const b=document.body; if(on===undefined) on=!b.classList.contains('chat-wide'); b.classList.toggle('chat-wide',on); const t=$('.ch-h [data-act=chatwide]'); if(t) t.title=on?'Restore chat':'Expand chat'; }
 function updateHint(){ renderSugg(); $$('.hint').forEach(e=>e.classList.remove('hint')); if(busy||playing||advancing) return; const sel=HINTS[cur]; const el=sel&&$(sel); if(el&&el.offsetParent) el.classList.add('hint'); else if(el&&document.body.classList.contains('chat-min')&&el.closest('#chatcol')) $('.chat-fab').classList.add('hint'); }
 
@@ -1703,7 +1730,7 @@ function renderSearch(q){ q=(q||'').toLowerCase();
     .filter(x=>!q||(x.t+' '+x.s).toLowerCase().includes(q)).slice(0,6);
   $('#sres').innerHTML=items.length?items.map(x=>`<div class="it" ${x.act}><span class="ic"><svg><use href="#i-doc"/></svg></span><div><b>${x.t}</b><small>${x.s}</small></div></div>`).join(''):`<div class="it" style="cursor:default;color:var(--ink3)">No matches</div>`; }
 function renderBell(){ const it=[];
-  if(cur===9) it.push(`<div class="it" data-act="skip"><span class="ic"><svg><use href="#i-doc"/></svg></span><div><b>Applicant resubmitted BLD-2026-04817</b><small>Revised site plan A-101 · Round 2 · just now</small></div></div>`);
+  if(cur===10) it.push(`<div class="it" data-act="skip"><span class="ic"><svg><use href="#i-doc"/></svg></span><div><b>Applicant resubmitted BLD-2026-04817</b><small>Revised site plan A-101 · Round 2 · just now</small></div></div>`);
   if(st.issued) it.push(`<div class="it" data-act="row" data-id="BLD-2026-04817"><span class="ic g"><svg><use href="#i-check"/></svg></span><div><b>Permit BP-2026-04817 issued</b><small>Applicant notified · final inspection pending</small></div></div>`);
   it.push(`<div class="it" data-act="nav" data-to="queue"><span class="ic w"><svg><use href="#i-clock"/></svg></span><div><b>6 permits are due this week</b><small>2 have items to review</small></div></div>`);
   it.push(`<div class="it" data-act="nav" data-to="dash"><span class="ic g"><svg><use href="#i-spark"/></svg></span><div><b>AI pre-check finished</b><small>All 42 new applications checked overnight</small></div></div>`);
@@ -1741,13 +1768,13 @@ document.addEventListener('click',async e=>{
       $('#c-ans').innerHTML=`<div class="sysc"><div class="sh">${ico('i-spark')}${map.length?map.length+' open permit'+(map.length===1?'':'s')+' use this code':'No open permits use this code'}</div><div class="sb" style="flex-wrap:wrap">${map.map(id=>`<button class="btn out sm" data-act="row" data-id="${id}">${id}</button>`).join('')||'<p>Nothing in the queue right now.</p>'}</div></div>`; break; }
     case 'open-r310': closeAll(); openPermit(); showCode(); break;
     case 'toc': $$('#toc a').forEach(x=>x.classList.toggle('on',x===el)); if(el.dataset.r!=='R302'){ toast(el.textContent+' · not needed for this permit'); } break;
-    case 'sheet': if(el.dataset.s==='code') showCode(); else setSheet(el.dataset.s); if(el.dataset.s==='A-101'&&cur>=5) markW3(st.rev?(cur>=11?'ok':false):'gap'); break;
+    case 'sheet': if(el.dataset.s==='code') showCode(); else setSheet(el.dataset.s); if(el.dataset.s==='A-101'&&cur>=5) markW3(st.rev?(cur>=12?'ok':false):'gap'); break;
     case 'zoom': { const z=+el.dataset.z; st.zoom=z===0?1:Math.min(2,Math.max(.6,+(st.zoom+z*.2).toFixed(1))); applyZoom(); break; }
     case 'send': { const v=$('#cin').value.trim();
       if(cur===1&&(!v||/lot line|setback|distance|cottage|fire|far enough/i.test(v))){ await advanceTo('answer'); }
-      else if(cur===10&&/chang|resubmi/i.test(v)){ $('#cin').value=''; await advanceTo('recheck'); }
-      else if(cur===11&&/approve/i.test(v)){ $('#cin').value=''; await advanceTo('approve'); }
-      else if(v){ $('#cin').value=''; const key=/smoke/i.test(v)?'smoke':/summar/i.test(v)?'summary':/chang/i.test(v)?'changed':/fix|comply/i.test(v)?'sizes':/house/i.test(v)?'house':/check/i.test(v)&&cur>=11?'checklist':null; freeQA(key,v); }
+      else if(cur===11&&/chang|resubmi/i.test(v)){ $('#cin').value=''; await advanceTo('recheck'); }
+      else if(cur===12&&/approve/i.test(v)){ $('#cin').value=''; await advanceTo('approve'); }
+      else if(v){ $('#cin').value=''; const key=/smoke/i.test(v)?'smoke':/summar/i.test(v)?'summary':/chang/i.test(v)?'changed':/fix|comply/i.test(v)?'sizes':/house/i.test(v)?'house':/check/i.test(v)&&cur>=12?'checklist':null; freeQA(key,v); }
       else $('#cin').focus();
       break; }
     case 'free': freeQA(el.dataset.q); break;
@@ -1757,7 +1784,7 @@ document.addEventListener('click',async e=>{
     case 'genie-doc': closeModal(); showCode(); if(cur===6) await advanceTo('next'); break;
     case 'wstep': el.classList.toggle('open'); break;
     case 'dl': toast('Downloads are turned off in this demo'); break;
-    case 'sugg': { const k=el.dataset.k; if(k==='main'){ const m={0:'permit',1:'answer',6:'next',9:'resubmit',10:'recheck',11:'approve'}[cur]; if(m){ if(cur>0&&screen!=='permit') openPermit(); await advanceTo(m); } } else freeQA(k); break; }
+    case 'sugg': { const k=el.dataset.k; if(k==='main'){ const m={0:'permit',1:'answer',6:'next',7:'followup',8:'decision',10:'resubmit',11:'recheck',12:'approve'}[cur]; if(m){ if(cur>0&&screen!=='permit') openPermit(); await advanceTo(m); } } else freeQA(k); break; }
     case 'newchat': { closeAll(); add(`<div class="divider">New conversation</div>`); const w=add(welcome()); scrollChat(w); break; }
     case 'chatwide': closeAll(); chatWide(); break;
     case 'chatmin': closeAll(); document.body.classList.add('chat-min'); break;
@@ -1765,7 +1792,7 @@ document.addEventListener('click',async e=>{
     case 'tipsx': $('#fab-tips').classList.add('gone'); break;
     case 'speaker': { const on=!el.classList.contains('on'); el.classList.toggle('on',on); el.innerHTML=`<svg><use href="#i-spk-${on?'on':'off'}"/></svg>`; toast(on?'Voice replies on':'Voice replies off'); break; }
     case 'mic': { if(el.classList.contains('on')) break; el.classList.add('on'); el.innerHTML='<svg><use href="#i-mic-on"/></svg>';
-      const q=cur===1?QUESTION:cur===10?'What changed in the resubmission?':'Summarise this application', cin=$('#cin'); cin.value='';
+      const q=cur===1?QUESTION:cur===11?'What changed in the resubmission?':'Summarise this application', cin=$('#cin'); cin.value='';
       for(let i=1;i<=q.length;i++){ cin.value=q.slice(0,i); await realSleep(22); }
       el.classList.remove('on'); el.innerHTML='<svg><use href="#i-mic-off"/></svg>'; cin.focus(); toast('Got it. Press send to ask.'); break; }
     case 'fullscreen': if(document.fullscreenElement) document.exitFullscreen().catch(()=>{}); else document.documentElement.requestFullscreen?.().catch(()=>toast('Full screen isn’t available here')); break;
@@ -1776,15 +1803,16 @@ document.addEventListener('click',async e=>{
       else if(c==='r3101') showCode('r3101');
       else if(c==='r3102') showCode('r3102');
       else { setSheet('A-101'); markW3(st.rev?'ok':'gap'); } break; }
-    case 'draft': if(cur===7) await advanceTo('decision'); else toast('The correction notice is already drafted'); break;
+    case 'fucheck': if(cur===7) await advanceTo('followup'); else toast('The overhang check is already done'); break;
+    case 'draft': if(cur===7||cur===8) await advanceTo('decision'); else toast('The correction notice is already drafted'); break;
     case 'edit': { const nt=$('#notice-text'); const on=nt.isContentEditable; nt.contentEditable=!on; el.textContent=on?'Edit':'Save'; if(on){ $('#edited').textContent='Edited by you'; toast('Correction notice updated'); } else nt.focus(); break; }
-    case 'send-notice': if(cur===8){ const nt=$('#notice-text'); if(nt.isContentEditable){ nt.contentEditable=false; $('#edit-btn').textContent='Edit'; } await advanceTo('sent'); } break;
-    case 'skip': closeAll(); if(cur===9){ if(screen!=='permit') openPermit(); await advanceTo('resubmit'); } break;
-    case 'recheck': if(cur===10) await advanceTo('recheck'); break;
-    case 'approve': if(cur===11) await advanceTo('approve'); else if(cur>=12) toast('This permit is already approved'); break;
-    case 'issue': if(cur===12) await advanceTo('issued'); break;
+    case 'send-notice': if(cur===9){ const nt=$('#notice-text'); if(nt.isContentEditable){ nt.contentEditable=false; $('#edit-btn').textContent='Edit'; } await advanceTo('sent'); } break;
+    case 'skip': closeAll(); if(cur===10){ if(screen!=='permit') openPermit(); await advanceTo('resubmit'); } break;
+    case 'recheck': if(cur===11) await advanceTo('recheck'); break;
+    case 'approve': if(cur===12) await advanceTo('approve'); else if(cur>=13) toast('This permit is already approved'); break;
+    case 'issue': if(cur===13) await advanceTo('issued'); break;
     case 'close-modal': closeModal(); updateHint(); break;
-    case 'back-queue': if(cur===13) await advanceTo('done'); else show('queue'); break;
+    case 'back-queue': if(cur===14) await advanceTo('done'); else show('queue'); break;
     case 'view-permit': modal(`<div class="cb"><div class="ct"><div><h2>Building permit</h2><small class="num">BP-2026-04817 · Issued Nov 12, 2026</small></div><div class="seal">APPROVED<br>SAMPLE<br>PERMIT</div></div>
         <div class="grid"><div><span>Project</span><b>Detached ADU, two-bedroom backyard cottage</b></div><div><span>Address</span><b>212 Linden Avenue</b></div><div><span>Work type</span><b>Building · Residential · New ADU</b></div><div><span>Code</span><b>IRC 2018</b></div><div><span>Approved plan set</span><b>5 sheets · A-101 Rev 1</b></div><div><span>Valid until</span><b>May 11, 2027</b></div></div>
         <div class="cond"><b>Conditions.</b> Keep the approved plans on site. The cottage must sit at least 5'-0" from the south side lot line, as shown on A-101 Rev 1. Final inspection is required before the cottage is occupied.</div></div>
@@ -1792,23 +1820,23 @@ document.addEventListener('click',async e=>{
     case 'resend': toast('Permit resent to the applicant'); break;
     case 'req-corr':
       if(cur<4) freeQA('corr0');
-      else if(cur<8) await advanceTo('decision');
-      else if(cur===8){ scrollChat($('#draft')); toast('The draft notice is ready below'); }
-      else if(cur<11) toast('A correction notice is already with the applicant');
+      else if(cur<9) await advanceTo('decision');
+      else if(cur===9){ scrollChat($('#draft')); toast('The draft notice is ready below'); }
+      else if(cur<12) toast('A correction notice is already with the applicant');
       else toast('All checks pass. Nothing to correct.');
       break;
     case 'approve-hdr':
-      if(cur===11) await advanceTo('approve');
-      else if(cur>=12) toast('This permit is already approved');
+      if(cur===12) await advanceTo('approve');
+      else if(cur>=13) toast('This permit is already approved');
       else modal(`<div class="mh"><span class="ic" style="background:var(--warn-soft);color:var(--warn)">${ico('i-alert')}</span><h3>Not ready to approve</h3></div>
-        <div class="mb">${cur<4?'Permitting AI hasn’t been asked to check this plan yet. Ask about the plan first, so nothing is missed.':cur<9?'This plan has <b>1 open gap</b>: the cottage’s south wall is 3\'-6" from the side lot line and is not fire-rated (R302.1).':'A correction notice is with the applicant. Wait for the resubmission, then approve.'}</div>
-        <div class="mf"><button class="btn out" data-act="close-modal">Close</button>${cur>=4&&cur<9?'<button class="btn pri" data-act="show-gap">Show me the gap</button>':cur>=9&&cur<11?'<button class="btn pri" data-act="skip-modal">Skip ahead to the resubmission</button>':''}</div>`);
+        <div class="mb">${cur<4?'Permitting AI hasn’t been asked to check this plan yet. Ask about the plan first, so nothing is missed.':cur<10?'This plan has <b>1 open gap</b>: the cottage’s south wall is 3\'-6" from the side lot line and is not fire-rated (R302.1).':'A correction notice is with the applicant. Wait for the resubmission, then approve.'}</div>
+        <div class="mf"><button class="btn out" data-act="close-modal">Close</button>${cur>=4&&cur<10?'<button class="btn pri" data-act="show-gap">Show me the gap</button>':cur>=10&&cur<12?'<button class="btn pri" data-act="skip-modal">Skip ahead to the resubmission</button>':''}</div>`);
       break;
-    case 'skip-modal': closeModal(); if(cur===9) await advanceTo('resubmit'); else if(cur===10) await advanceTo('recheck'); break;
+    case 'skip-modal': closeModal(); if(cur===10) await advanceTo('resubmit'); else if(cur===11) await advanceTo('recheck'); break;
     case 'show-gap': closeModal(); if(cur===4) await advanceTo('reasoning'); else { $('#src').classList.add('open'); $('#xp').classList.add('on'); scrollChat($('.gapsec')); setSheet('A-101'); markW3('gap'); } break;
   }
 });
-$('#modal-bg').addEventListener('click',async e=>{ if(e.target.id==='modal-bg'&&cur!==12){ closeModal(); updateHint(); if(cur===6) await advanceTo('next'); } });
+$('#modal-bg').addEventListener('click',async e=>{ if(e.target.id==='modal-bg'&&cur!==13){ closeModal(); updateHint(); if(cur===6) await advanceTo('next'); } });
 $('#sin').addEventListener('input',e=>renderSearch(e.target.value));
 $('#cin').addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); $('#send').click(); } });
 // the chat box grows with its text (wraps onto new lines instead of scrolling sideways)

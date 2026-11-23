@@ -6,7 +6,8 @@ A clickable prototype of **Permitting AI by Techolution**, an AI review assistan
 
 Follow one building permit from the review queue to an issued permit:
 the reviewer asks a question in plain language, the AI checks the plans against the code,
-shows its reasoning and the exact clause, drafts a correction notice, re-checks the
+shows its reasoning and the exact clause, answers a follow-up engineering check on an edge case
+(the roof overhang on the close side) before the reviewer decides, drafts a correction notice, re-checks the
 resubmission, and the reviewer approves and issues the permit.
 
 - Permitting AI sits in the chat column on the left; the permit, plans and code open on the right.
